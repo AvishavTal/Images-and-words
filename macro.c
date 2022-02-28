@@ -3,3 +3,7 @@
 //
 
 #include "macro.h"
+struct macro{
+    char *name;
+
+};

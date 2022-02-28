@@ -3,3 +3,11 @@
 //
 
 #include "symbool.h"
+#include "attribute.h"
+struct symbol{
+    char *name;
+    long value;
+    long base_address;
+    long offset;
+    attribute attribute;
+};
