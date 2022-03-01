@@ -26,31 +26,36 @@ typedef struct node{
 void push(node** head_ref, void *new_data, size_t data_size)
 {
     // Allocate memory for node
-    node* new_node = (node*)malloc(sizeof(node));
+    struct node* new_node = (node*)malloc(sizeof(struct node));
 
     // Allocate memory for data
-    new_node->data  = malloc(data_size);
+    new_node->data  = new_data;
+    //new_node->data  = malloc(data_size);
     new_node->next = (*head_ref);
 
     // Copy contents of new_data to newly allocated memory.
     // Assumption: char takes 1 byte.
-    int i;
-    for (i=0; i<data_size; i++)
-        *(char *)(new_node->data + i) = *(char *)(new_data + i);
+    //int i;
+    //for (i=0; i<data_size; i++)
+     //   *(char *)(new_node->data + i) = *(char *)(new_data + i);
 
     // Change head pointer as new node is added at the beginning
     (*head_ref)    = new_node;
 }
 
 int main() {
+    printf("1\n");
     struct node *start = NULL;
     symbol new_symbol = init_symbol();
     char *name1 = "sapir";
+    printf("2\n");
     update_symbol(new_symbol, name1, 5, 4, 3, NULL);
+    printf("3\n");
     push(&start, new_symbol, sizeof(symbol));
 
+    printf("4");
     //printf("start data = %s\n",start->data);
-    printf("name = %s\n", get_name(start->data));
+    //printf("name = %l\n", get_value(start->data));
 
     return 0;
 }

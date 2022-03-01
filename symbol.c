@@ -45,6 +45,7 @@ void set_name(symbol symbol , char *name){
 
 
 long get_value(symbol symbol){
+    printf("value %l", symbol->value);
     return symbol->value;
 }
 
