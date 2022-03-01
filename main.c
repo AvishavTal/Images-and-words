@@ -1,15 +1,8 @@
 #include <stdio.h>
-
+/*
 int main() {
-    printf("sapir!\n");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
-    printf("so cooooolllll!!");
+    printf("hello world!\n");
+
     return 0;
 }
+*/
