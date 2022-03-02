@@ -6,5 +6,6 @@
 #define EX14_MACRO_TABLE_H
 #include "macro.h"
 macro get_macro_by_name(char *name);
+void push_macro(macro new_macro);
 
 #endif //EX14_MACRO_TABLE_H

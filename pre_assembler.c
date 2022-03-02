@@ -24,23 +24,20 @@ void pre_assembler(FILE *src, FILE *dest){
         if(!macro_definition){
             if((temp_macro=get_macro_by_name(first_word_in_line))!=NULL){
                 write_macro_content(dest,temp_macro);
-            } else{
-                if(start_of_macro_definition(first_word_in_line)){
-                    char *name;
-                    macro_definition=1;
-                    name= strtok(temp_line," \t");
-                    set_macro_name(temp_macro, name);
-                }
-            }
+            } else if(start_of_macro_definition(first_word_in_line)){
+                char *name;
+                macro_definition=1;
+                name= strtok(temp_line," \t");
+                set_macro_name(temp_macro, name);
+            }//todo make writing here
         } else{
             if(end_of_macro_definition(first_word_in_line)){
-
+                push_macro(temp_macro);
                 macro_definition=0;
+            } else{
+                append_line(temp_macro,line);
             }
-
         }
-
-
     }
 }
 
