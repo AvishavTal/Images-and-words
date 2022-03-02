@@ -8,29 +8,30 @@
 #include "macro.h"
 #include "symbol.h"
 
-typedef union data{
-    macro macro;
-    symbol symbol;
-    char *line;
-}data;
-
 typedef struct node{
-    symbol data;// Any data type can be stored in this node
+    void *data;// Any data type can be stored in this node
     struct node *next;
 }node;
 
-
-/* Function to add a node at the beginning of Linked List.
-   This function expects a pointer to the data to be added
-   and size of the data type */
-void push(node** head_ref, symbol new_data)
+void push(node** head_ref, void *new_data, size_t data_size)
 {
     // Allocate memory for node
     struct node* new_node = (node*)malloc(sizeof(struct node));
-
     new_node->data  = new_data;
     new_node->next = (*head_ref);
-    (*head_ref) = new_node;
+    (*head_ref)    = new_node;
+}
+
+node* newNode(int data)
+{
+    // allocate a new node in a heap using `malloc()` and set its data
+    node* node = (node*)malloc(sizeof(node));
+    node->data = data;
+
+    // set the `.next` pointer of the new node to point to null
+    node->next = NULL;
+
+    return node;
 }
 
 int main() {
@@ -41,8 +42,12 @@ int main() {
     printf("2\n");
     update_symbol(new_symbol, name1, 5, 4, 3, NULL);
     printf("3\n");
-    push(&start, new_symbol);
-    printf("4\n");
+    //push(&start, new_symbol, sizeof(symbol));
+    node *new_int_node =  newNode(5) ;
+
+    printf("4");
+    //printf("start data = %s\n",start->data);
+    //printf("name = %l\n", get_value(start->data));
 
     return 0;
 }
