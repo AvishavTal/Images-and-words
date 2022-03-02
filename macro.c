@@ -11,7 +11,7 @@ struct macro{
 };
 
 macro init_macro(){
-    macro result=(macro)malloc(sizeof(macro));
+    macro result=(macro)malloc(sizeof(struct macro));
     result->name=NULL;
     return result;
 }

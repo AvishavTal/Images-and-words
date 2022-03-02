@@ -15,7 +15,7 @@ struct symbol{
 };
 
 symbol init_symbol(){
-    symbol new_symbol = (symbol)malloc(sizeof(symbol));
+    symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = NULL;
     new_symbol->value = 0;
     new_symbol->base_address = 0;
