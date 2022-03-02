@@ -16,15 +16,17 @@ macro init_macro(){
     return new_macro;
 }
 
+/*
+char *get_symbol_name(macro macro){
+    return macro->name;
+}
+void set_symbol_name(macro macro,char *name){
+    macro->name=name;
+}
+
 char **get_body(macro macro){
     return macro->body;
 }
-char *get_name(macro macro){
-    return macro->name;
-}
-void set_name(macro macro,char *name){
-    macro->name=name;
-}
 void set_body(macro macro,char **body){
     macro->body=body;
-}
+}*/

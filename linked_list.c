@@ -46,11 +46,11 @@ void print_names_in_symbols_list(node** head, node** tail){
         printf("this list is empty");
     }
     else if((*head) == (*tail)){
-        printf("name1 = %s\n",get_name(((*head)->data)));
+        printf("name1 = %s\n", get_symbol_name(((*head)->data)));
     }
     else{
         while(temp != NULL){
-            printf("name2 = %s\n",get_name(((temp)->data)));
+            printf("name2 = %s\n", get_symbol_name(((temp)->data)));
             temp=temp->next;
         }
     }
