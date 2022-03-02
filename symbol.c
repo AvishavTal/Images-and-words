@@ -33,47 +33,40 @@ void update_symbol(symbol symbol, char* name, long value, long base_address, lon
     symbol->attribute = attribute;
 }
 
-char* get_name(symbol symbol){
+char* get_symbol_name(symbol symbol){
     return symbol->name;
 }
 
-void set_name(symbol symbol , char *name){
+void set_symbol_name(symbol symbol , char *name){
     symbol->name = name;
 }
 
 
-long get_value(symbol symbol){
+long get_symbol_value(symbol symbol){
     printf("value %l", symbol->value);
     return symbol->value;
 }
-
-void set_value(symbol symbol , long value){
+void set_symbol_value(symbol symbol , long value){
     symbol->value = value;
 }
 
-
-long get_base_address(symbol symbol){
+long get_symbol_base_address(symbol symbol){
     return symbol->base_address;
 }
-
-void set_base_address(symbol symbol , long base_address){
+void set_symbol_base_address(symbol symbol , long base_address){
     symbol->base_address = base_address;
 }
 
-
-long get_offset(symbol symbol){
+long get_symbol_offset(symbol symbol){
     return symbol->offset;
 }
-
-void set_offset(symbol symbol , long offset){
+void set_symbol_offset(symbol symbol , long offset){
     symbol->offset = offset;
 }
 
-
-attribute get_attribute(symbol symbol){
+attribute get_symbol_attribute(symbol symbol){
     return symbol->attribute;
 }
-
-void set_attribute(symbol symbol , attribute attribute){
+void set_symbol_attribute(symbol symbol , attribute attribute){
     symbol->attribute = attribute;
 }
