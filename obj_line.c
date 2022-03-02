@@ -13,7 +13,7 @@ struct obj_line{
     unsigned int e :4;
 };
 ob_line init_lint(){
-    ob_line result=(ob_line)malloc(sizeof(ob_line));
+    ob_line result=(ob_line)malloc(sizeof(struct obj_line));
     if (result){
         result->address=0;
         result->a=0;
