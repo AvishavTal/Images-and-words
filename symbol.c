@@ -34,8 +34,6 @@ void update_symbol(symbol symbol, char* name, long value, long base_address, lon
 }
 
 char* get_name(symbol symbol){
-    printf("in\n");
-    printf("%s\n",symbol->name);
     return symbol->name;
 }
 

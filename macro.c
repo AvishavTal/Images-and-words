@@ -11,9 +11,9 @@ struct macro{
 };
 
 macro init_macro(){
-    macro result=(macro)malloc(sizeof(struct macro));
-    result->name=NULL;
-    return result;
+    macro new_macro = (macro)malloc(sizeof(struct macro));
+    new_macro->name = NULL;
+    return new_macro;
 }
 
 char **get_body(macro macro){
