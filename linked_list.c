@@ -13,8 +13,15 @@ struct node{
     struct node *next;
 };
 
+void* get_node_data(node node){
+    return node->data;
+}
 
-void add_to_tail(node** head, node** tail, void *new_data)
+void* get_node_next(node node){
+    return node->next;
+}
+
+void add_to_tail(struct node** head, struct node** tail, void *new_data)
 {
     // Allocate memory for node
     struct node *new_node = (struct node*)malloc(sizeof(struct node));
@@ -40,7 +47,8 @@ void add_to_tail(node** head, node** tail, void *new_data)
     }
 }
 
-void print_names_in_symbols_list(node** head, node** tail){
+
+void print_names_in_symbols_list(struct node** head, struct node** tail){
     struct node *temp = (*head);
     if(temp == NULL){
         printf("this list is empty");

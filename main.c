@@ -6,8 +6,9 @@ int main() {
 
     //list of symbols
 
-    struct node * head = NULL;
-    struct node * tail = NULL;
+    node head = NULL;
+    node tail = NULL;
+    node temp;
 
     symbol new_symbol = init_symbol();
     char *name1 = "Sapir";
@@ -19,7 +20,9 @@ int main() {
     update_symbol(new_symbol2, name2, 5, 4, 3, NULL);
     add_to_tail(&head, &tail, new_symbol2);
 
-     print_names_in_symbols_list(&head,&tail);
+    temp = get_node_next(&head);
+
+    print_names_in_symbols_list(&head,&tail);
 
     return 0;
 }
