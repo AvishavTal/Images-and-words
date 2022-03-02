@@ -29,7 +29,7 @@ void pre_assembler(FILE *src, FILE *dest){
                     char *name;
                     macro_definition=1;
                     name= strtok(temp_line," \t");
-                    set_name(temp_macro,name);
+                    set_macro_name(temp_macro, name);
                 }
             }
         } else{

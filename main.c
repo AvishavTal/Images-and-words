@@ -6,8 +6,8 @@ int main() {
 
     //list of symbols
 
-    struct node * head = NULL;
-    struct node * tail = NULL;
+     node *head = NULL;
+     node *tail = NULL;
 
     symbol new_symbol = init_symbol();
     char *name1 = "Sapir";
