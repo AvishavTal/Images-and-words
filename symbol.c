@@ -15,7 +15,7 @@ struct symbol{
 };
 
 symbol init_symbol(){
-    symbol new_symbol = (symbol)malloc(sizeof(symbol));
+    symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = NULL;
     new_symbol->value = 0;
     new_symbol->base_address = 0;
@@ -34,8 +34,6 @@ void update_symbol(symbol symbol, char* name, long value, long base_address, lon
 }
 
 char* get_name(symbol symbol){
-    printf("in\n");
-    printf("%s\n",symbol->name);
     return symbol->name;
 }
 
