@@ -13,6 +13,8 @@ int start_of_macro_definition(char *first_word);
 
 int end_of_macro_definition(char *line);
 
+void write_line(FILE *dest, char *line);
+
 void pre_assembler(FILE *src, FILE *dest){
     int macro_definition=0;
     char line[LINE_SIZE],temp_line[LINE_SIZE],*first_word_in_line;
@@ -22,14 +24,16 @@ void pre_assembler(FILE *src, FILE *dest){
         first_word_in_line= strtok(temp_line," \t");
         trim_whitespace(first_word_in_line);
         if(!macro_definition){
-            if((temp_macro=get_macro_by_name(first_word_in_line))!=NULL){
+            if((temp_macro=get_macro_by_name(first_word_in_line))!=NULL){/*macro call*/
                 write_macro_content(dest,temp_macro);
             } else if(start_of_macro_definition(first_word_in_line)){
                 char *name;
                 macro_definition=1;
                 name= strtok(temp_line," \t");
                 set_macro_name(temp_macro, name);
-            }//todo make writing here
+            } else{
+                write_line(dest,line);
+            }
         } else{
             if(end_of_macro_definition(first_word_in_line)){
                 push_macro(temp_macro);
@@ -39,6 +43,10 @@ void pre_assembler(FILE *src, FILE *dest){
             }
         }
     }
+}
+
+void write_line(FILE *dest, char *line) {
+
 }
 
 int end_of_macro_definition(char *line) {
