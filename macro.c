@@ -13,6 +13,7 @@ struct macro{
 macro init_macro(){
     macro new_macro = (macro)malloc(sizeof(struct macro));
     new_macro->name = NULL;
+    new_macro->body = NULL;
     return new_macro;
 }
 
@@ -35,5 +36,11 @@ void append_line(macro macro, char *line){
 
 char *next_line(macro macro){//todo
     return *macro->body;
+}
+
+void free_macro(macro macro){
+    free(macro->name);
+    free(macro->body);
+
 }
 

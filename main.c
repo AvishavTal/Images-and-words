@@ -47,43 +47,36 @@ file *init_files(file *files, int n_files, char **names) {
 void check_list_of_symbols(){//to delete later
     //list of symbols
 
-    node head = NULL;
-    node tail = NULL;
-    //node temp;
+    list symbol_list = create_empty_list();
 
     symbol new_symbol = init_symbol();
     char *name1 = "symbol1";
     update_symbol(new_symbol, name1, 5, 4, 3, NULL);
-    add_to_tail(&head, &tail, new_symbol);
+    add_to_tail(symbol_list, new_symbol);
 
     symbol new_symbol2 = init_symbol();
     char *name2 = "symbol2";
     update_symbol(new_symbol2, name2, 5, 4, 3, NULL);
+    add_to_tail(symbol_list, new_symbol2);
 
-    add_to_tail(&head, &tail, new_symbol2);
-    symbol symbol1= get_node_next((node )new_symbol);
-    char *name8=get_symbol_name(symbol1);
-    printf("name8: %s\n",name8);
-    print_names_in_symbols_list(&head,&tail);
+    print_names_in_symbols_list(symbol_list);
 }
 
 void check_list_of_macros(){//to delete later
     //list of symbols
 
-    node head = NULL;
-    node tail = NULL;
-    //node temp;
+    list macro_list = create_empty_list();
 
     macro new_macro = init_macro();
     char *name1 = "macro1";
     set_macro_name(new_macro, name1);
 
-    add_to_tail(&head, &tail, new_macro);
+    add_to_tail(macro_list, new_macro);
 
     macro new_macro2 = init_macro();
     char *name2 = "macro2";
     set_macro_name(new_macro2, name2);
 
-    add_to_tail(&head, &tail, new_macro2);
-    print_names_in_macros_list(&head,&tail);
+    add_to_tail(macro_list, new_macro2);
+    print_names_in_macros_list(macro_list);
 }
