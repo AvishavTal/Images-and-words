@@ -29,4 +29,11 @@ char **get_macro_body(macro macro){
 void set_macro_body(macro macro, char **body){
     macro->body=body;
 }
+void append_line(macro macro, char *line){
+
+}
+
+char *next_line(macro macro){//todo
+    return *macro->body;
+}
 

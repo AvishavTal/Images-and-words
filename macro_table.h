@@ -5,7 +5,10 @@
 #ifndef EX14_MACRO_TABLE_H
 #define EX14_MACRO_TABLE_H
 #include "macro.h"
-macro get_macro_by_name(char *name);
-void push_macro(macro new_macro);
+typedef struct macro_table *macro_table;
+macro_table init_macro_table();
+void delete_table();
+macro get_macro_by_name(macro_table table, char *name);
+void push_macro(macro_table table, macro new_macro);
 
 #endif //EX14_MACRO_TABLE_H
