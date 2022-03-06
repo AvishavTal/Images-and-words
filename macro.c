@@ -13,6 +13,7 @@ struct macro{
 macro init_macro(){
     macro new_macro = (macro)malloc(sizeof(struct macro));
     new_macro->name = NULL;
+    new_macro->body = NULL;
     return new_macro;
 }
 
@@ -28,5 +29,11 @@ char **get_macro_body(macro macro){
 }
 void set_macro_body(macro macro, char **body){
     macro->body=body;
+}
+
+void free_macro(macro macro){
+    free(macro->name);
+    free(macro->body);
+
 }
 

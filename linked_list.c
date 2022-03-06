@@ -5,8 +5,13 @@
 #include<stdlib.h>
 
 #include "linked_list.h"
-#include "macro.h"
-#include "symbol.h"
+#include "macro.h" //to delete later
+#include "symbol.h" //to delete later
+
+struct list{
+    struct node *head;
+    struct node *tail;
+};
 
 struct node{
     void *data;// Any data type can be stored in this node
@@ -21,8 +26,16 @@ void* get_node_next(node node){
     return node->next;
 }
 
-void add_to_tail(struct node** head, struct node** tail, void *new_data)
-{
+list create_empty_list(){
+    struct list *new_list = (struct list*)malloc(sizeof(struct list));
+    new_list->head = NULL;
+    new_list->tail = NULL;
+
+    return new_list;
+}
+
+void add_to_tail(struct list* list, void *new_data){
+
     // Allocate memory for node
     struct node *new_node = (struct node*)malloc(sizeof(struct node));
 
@@ -32,55 +45,62 @@ void add_to_tail(struct node** head, struct node** tail, void *new_data)
         exit(-1);
     }
 
-    //append the new node to the end of the list
+    //append the accepted data to the new node
     new_node->data = new_data;
     new_node->next = NULL;
 
     //if this node is the first node in the list
-    if ((*head) == NULL) {
-        (*head) = new_node;
-        (*tail) = new_node;
+    if(list->head == NULL){
+        list->head = new_node;
+        list->tail = new_node;
     }
-    else { // this node is NOT the first node in the list
-        (*tail)->next = new_node;
-        (*tail) = new_node;
+    else { // this node is NOT the first node in the list - add the new node to the end of the list
+        list->tail->next = new_node;
+        list->tail = new_node;
     }
 }
+/*
+void free_list(list list){
 
+    struct node *temp = list->head;
+    while(temp!=NULL){
 
-void print_names_in_symbols_list(struct node** head, struct node** tail){//to delete later
-    printf("print_names_in_symbols_list");
-
-    struct node *temp = (*head);
-    if(temp == NULL){
-        printf("this list is empty");
     }
-    else if((*head) == (*tail)){
-        printf("name1 = %s\n", get_symbol_name(((*head)->data)));
+}*/
+
+
+void print_names_in_symbols_list(struct list* list){//to delete later
+    printf("print_names_in_symbols_list\n");
+
+    struct node *temp = list->head;
+    if(temp == NULL){
+        printf("this list is empty\n");
+    }
+    else if(list->head == list->tail){
+        printf("name1 = %s\n", get_symbol_name(list->head->data));//((*head)->data)));
     }
     else{
         while(temp != NULL){
-            printf("name1 = %s\n", get_symbol_name(((temp)->data)));
+            printf("name1 = %s\n", get_symbol_name((temp->data)));
             temp=temp->next;
         }
     }
 }
 
-void print_names_in_macros_list(struct node** head, struct node** tail){//to delete later
-    printf("print_names_in_macros_list");
-    struct node *temp = (*head);
+void print_names_in_macros_list(struct list* list){//to delete later
+    printf("print_names_in_macros_list\n");
+
+    struct node *temp = list->head;
     if(temp == NULL){
-        printf("this list is empty");
+        printf("this list is empty\n");
     }
-    else if((*head) == (*tail)){
-        printf("name2 = %s\n", get_macro_name(((*head)->data)));
+    else if(list->head == list->tail){
+        printf("name2 = %s\n", get_macro_name(list->head->data));//((*head)->data)));
     }
     else{
         while(temp != NULL){
-            printf("name2 = %s\n", get_macro_name(((temp)->data)));
+            printf("name2 = %s\n", get_macro_name((temp->data)));
             temp=temp->next;
         }
     }
 }
-
-
