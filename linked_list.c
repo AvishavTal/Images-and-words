@@ -5,7 +5,7 @@
 #include<stdlib.h>
 
 #include "linked_list.h"
-//#include "macro.h"
+#include "macro.h"
 #include "symbol.h"
 
 struct node{
@@ -48,7 +48,9 @@ void add_to_tail(struct node** head, struct node** tail, void *new_data)
 }
 
 
-void print_names_in_symbols_list(struct node** head, struct node** tail){
+void print_names_in_symbols_list(struct node** head, struct node** tail){//to delete later
+    printf("print_names_in_symbols_list");
+
     struct node *temp = (*head);
     if(temp == NULL){
         printf("this list is empty");
@@ -58,8 +60,27 @@ void print_names_in_symbols_list(struct node** head, struct node** tail){
     }
     else{
         while(temp != NULL){
-            printf("name2 = %s\n", get_symbol_name(((temp)->data)));
+            printf("name1 = %s\n", get_symbol_name(((temp)->data)));
             temp=temp->next;
         }
     }
 }
+
+void print_names_in_macros_list(struct node** head, struct node** tail){//to delete later
+    printf("print_names_in_macros_list");
+    struct node *temp = (*head);
+    if(temp == NULL){
+        printf("this list is empty");
+    }
+    else if((*head) == (*tail)){
+        printf("name2 = %s\n", get_macro_name(((*head)->data)));
+    }
+    else{
+        while(temp != NULL){
+            printf("name2 = %s\n", get_macro_name(((temp)->data)));
+            temp=temp->next;
+        }
+    }
+}
+
+
