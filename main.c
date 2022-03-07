@@ -17,12 +17,9 @@ file *init_files(file *files, int n_files, char **names);
 void run_assembler(file *files, int n_files);
 
 int main(int argc, char **argv){
-    file *files=NULL;
-    files=init_files(files,--argc,++argv);
-    run_assembler(files,argc);
-    check_list_of_symbols();//to delete later
-    check_list_of_macros();//to delete later
-
+    FILE *ps= fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.in","r");
+    FILE *dest=fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.out","a");
+    pre_assembler(ps,dest);
     return 0;
 }
 

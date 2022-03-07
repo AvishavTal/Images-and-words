@@ -5,6 +5,9 @@
 #include <stdlib.h>
 struct file{
     char *name;
+    char *name_as;
+    char *name_am;
+    char *name_ob;
     unsigned int has_passed_pre_assembler :1;
     unsigned int has_passed_first_scan :1;
 };
