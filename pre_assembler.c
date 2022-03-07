@@ -44,7 +44,7 @@ void pre_assembler(file source) {
                 push_macro(table, temp_macro);
                 macro_definition=0;
             } else{
-                append_line(temp_macro,line);
+                //append_line(temp_macro,line);
             }
         }
     }

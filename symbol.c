@@ -14,6 +14,7 @@ struct symbol{
     attribute attribute;
 };
 
+/* create new symbol and reset all variables */
 symbol init_symbol(){
     symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = NULL;
@@ -25,6 +26,7 @@ symbol init_symbol(){
     return new_symbol;
 }
 
+/* update the variables of given symbol*/
 void update_symbol(symbol symbol, char* name, long value, long base_address, long offset, attribute attribute){
     symbol->name = name;
     symbol->value = value;
@@ -68,3 +70,5 @@ attribute get_symbol_attribute(symbol symbol){
 void set_symbol_attribute(symbol symbol , attribute attribute){
     symbol->attribute = attribute;
 }
+
+//todo free symbol

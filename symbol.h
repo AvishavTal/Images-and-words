@@ -1,5 +1,5 @@
 //
-// Created by avishav on 28.2.2022.
+// Created by Sapir on 28.2.2022.
 //
 
 #ifndef EX14_SYMBOL_H
@@ -20,7 +20,6 @@ long get_symbol_offset(symbol symbol);
 void set_symbol_offset(symbol symbol , long offset);
 attribute get_symbol_attribute(symbol symbol);
 void set_symbol_attribute(symbol symbol , attribute attribute);
-
 
 #endif //EX14_SYMBOL_H
 

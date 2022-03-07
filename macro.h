@@ -1,5 +1,5 @@
 //
-// Created by avishav on 28.2.2022.
+// Created by Sapir on 28.2.2022.
 //
 
 #ifndef EX14_MACRO_H
@@ -15,4 +15,5 @@ list get_macro_body(macro macro);
 void set_macro_body(macro macro, list body);
 void append_line(macro macro, char *line);
 char *next_line(macro macro);
+
 #endif //EX14_MACRO_H

@@ -5,17 +5,15 @@
 #include<stdlib.h>
 
 #include "linked_list.h"
-#include "macro.h" //to delete later
 #include "symbol.h" //to delete later
 
 struct list{
     struct node *head;
     struct node *tail;
-
 };
 
 struct node{
-    void *data;// Any data type can be stored in this node
+    void *data;/* Any data type can be stored in this node */
     struct node *next;
 };
 
@@ -40,26 +38,25 @@ list create_empty_list(){
 }
 
 void add_to_tail(struct list* list, void *new_data){
-
-    // Allocate memory for node
+    /* Allocate memory for node */
     struct node *new_node = (struct node*)malloc(sizeof(struct node));
 
-    //Check if the allocation failed
+    /* Check if the allocation failed */
     if(new_node == NULL){
         printf("Unable to allocate memory for new node\n");
         exit(-1);
     }
 
-    //append the accepted data to the new node
+    /* append the received data to the new node */
     new_node->data = new_data;
     new_node->next = NULL;
 
-    //if this node is the first node in the list
+    /* if this node is the first node in the list - add the node as head and tail */
     if(list->head == NULL){
         list->head = new_node;
         list->tail = new_node;
     }
-    else { // this node is NOT the first node in the list - add the new node to the end of the list
+    else { /* this node is NOT the first node in the list - add the new node to the end of the list */
         list->tail->next = new_node;
         list->tail = new_node;
     }

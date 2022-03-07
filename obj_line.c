@@ -6,11 +6,11 @@
 #include "obj_line.h"
 struct obj_line{
     long address;
-    unsigned int a :4;
-    unsigned int b :4;
-    unsigned int c :4;
-    unsigned int d :4;
-    unsigned int e :4;
+    unsigned int a :4; /*bits 16-19*/
+    unsigned int b :4; /*bits 12-15*/
+    unsigned int c :4; /*bits 8-11*/
+    unsigned int d :4; /*bits 4-7*/
+    unsigned int e :4; /*bits 0-3*/
 };
 ob_line init_lint(){
     ob_line result=(ob_line)malloc(sizeof(struct obj_line));
