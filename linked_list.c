@@ -11,6 +11,7 @@
 struct list{
     struct node *head;
     struct node *tail;
+
 };
 
 struct node{
@@ -18,11 +19,15 @@ struct node{
     struct node *next;
 };
 
+void* get_head(list list){
+    return list->head;
+}
+
 void* get_node_data(node node){
     return node->data;
 }
 
-void* get_node_next(node node){
+void* get_next_node(node node){
     return node->next;
 }
 
@@ -59,48 +64,13 @@ void add_to_tail(struct list* list, void *new_data){
         list->tail = new_node;
     }
 }
-/*
-void free_list(list list){
 
-    struct node *temp = list->head;
-    while(temp!=NULL){
+//todo - add free function for nodes and data - remember data in data (like body in macro)
 
-    }
-}*/
-
-
-void print_names_in_symbols_list(struct list* list){//to delete later
-    printf("print_names_in_symbols_list\n");
-
-    struct node *temp = list->head;
-    if(temp == NULL){
-        printf("this list is empty\n");
-    }
-    else if(list->head == list->tail){
-        printf("name1 = %s\n", get_symbol_name(list->head->data));//((*head)->data)));
-    }
-    else{
-        while(temp != NULL){
-            printf("name1 = %s\n", get_symbol_name((temp->data)));
-            temp=temp->next;
-        }
-    }
-}
-
-void print_names_in_macros_list(struct list* list){//to delete later
-    printf("print_names_in_macros_list\n");
-
-    struct node *temp = list->head;
-    if(temp == NULL){
-        printf("this list is empty\n");
-    }
-    else if(list->head == list->tail){
-        printf("name2 = %s\n", get_macro_name(list->head->data));//((*head)->data)));
-    }
-    else{
-        while(temp != NULL){
-            printf("name2 = %s\n", get_macro_name((temp->data)));
-            temp=temp->next;
-        }
+void print_list(list list) {//to delete later
+    node temp = list->head;
+    while (temp != NULL) {
+        printf("%s \n", get_symbol_name(get_node_data(temp)));
+        temp = get_next_node(temp);
     }
 }

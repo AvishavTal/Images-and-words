@@ -18,7 +18,6 @@ void check_list_of_symbols(){//to delete later
     //list of symbols
 
     list symbol_list = create_empty_list();
-
     symbol new_symbol = init_symbol();
     char *name1 = "symbol1";
     update_symbol(new_symbol, name1, 5, 4, 3, NULL);
@@ -29,7 +28,7 @@ void check_list_of_symbols(){//to delete later
     update_symbol(new_symbol2, name2, 5, 4, 3, NULL);
     add_to_tail(symbol_list, new_symbol2);
 
-    print_names_in_symbols_list(symbol_list);
+    print_list(symbol_list);
 }
 
 void check_list_of_macros(){//to delete later
@@ -48,5 +47,5 @@ void check_list_of_macros(){//to delete later
     set_macro_name(new_macro2, name2);
 
     add_to_tail(macro_list, new_macro2);
-    print_names_in_macros_list(macro_list);
+    print_list(macro_list);
 }
