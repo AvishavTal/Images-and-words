@@ -1,5 +1,5 @@
 //
-// Created by avishav on 28.2.2022.
+// Created by Sapir on 28.2.2022.
 //
 
 #include "macro.h"
@@ -8,7 +8,7 @@
 #define MEM_SIZE 8192
 struct macro{
     char *name;
-    list body;
+    list body; //maybe todo in array be define number
 };
 
 macro init_macro(){
@@ -31,17 +31,7 @@ list get_macro_body(macro macro){
 void set_macro_body(macro macro, list body){
     macro->body=body;
 }
-void append_line(macro macro, char *line){
 
-}
-/*
-char *next_line(macro macro){//todo
-    return *macro->body;
-}
-*/
-void free_macro(macro macro){
-    free(macro->name);
-    free(macro->body);
+//todo free macro
 
-}
 

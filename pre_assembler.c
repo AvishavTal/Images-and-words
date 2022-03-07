@@ -36,7 +36,7 @@ void pre_assembler(FILE *src, FILE *dest){
                 push_macro(NULL, temp_macro);
                 macro_definition=0;
             } else{
-                append_line(temp_macro,line);
+                //append_line(temp_macro,line);
             }
         }
     }

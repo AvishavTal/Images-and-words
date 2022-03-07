@@ -68,3 +68,5 @@ attribute get_symbol_attribute(symbol symbol){
 void set_symbol_attribute(symbol symbol , attribute attribute){
     symbol->attribute = attribute;
 }
+
+//todo free symbol
