@@ -36,11 +36,9 @@ void update_symbol(symbol symbol, char* name, long value, long base_address, lon
 char* get_symbol_name(symbol symbol){
     return symbol->name;
 }
-
 void set_symbol_name(symbol symbol , char *name){
     symbol->name = name;
 }
-
 
 long get_symbol_value(symbol symbol){
     printf("value %l", symbol->value);
