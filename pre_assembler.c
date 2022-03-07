@@ -25,7 +25,7 @@ void pre_assembler(file source) {
 
     while ((fgets(line,LINE_SIZE,src)!=NULL)){
         strcpy(temp_line,line);
-        first_word_in_line= strtok(temp_line," \t");
+        first_word_in_line= strtok(temp_line," \t");//todo \n
         trim_whitespace(first_word_in_line);
         if(!macro_definition){
             if((temp_macro= get_macro_by_name(table, first_word_in_line)) != NULL){/*macro call*/

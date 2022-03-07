@@ -10,7 +10,7 @@ void check_list_of_macros();//to delete later
 #include "file.h"
 #include "pre_assembler.h"
 #include "first_scan.h"
-#include "seconde_scan.h"
+#include "second_scan.h"
 
 file *init_files(file *files, int n_files, char **names);
 

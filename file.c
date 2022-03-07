@@ -3,6 +3,7 @@
 //
 #include "file.h"
 #include "macro_table.h"
+#include "symbol_table.h"
 #include <stdlib.h>
 #include <string.h>
 #define EXTENSION_LENGTH 5
@@ -15,7 +16,8 @@ struct file{
     char *name_ob;
     char *name_ent;
     char *name_ext;
-    macro_table table;
+    macro_table marco_table;
+    symbol_table symbl_table;
     unsigned int has_passed_pre_assembler :1;
     unsigned int has_passed_first_scan :1;
     unsigned int has_passed_second_scan :1;
@@ -41,7 +43,8 @@ file init_file(char *name){
     set_name_ob(result);
     set_name_ext(result);
     set_name_ent(result);
-    result->table=init_macro_table();
+    result->marco_table=init_macro_table();
+    result->symbl_table=init_symbol_table();
     result->has_passed_first_scan=1;/*if first scan failed wil be changed to 0*/
     result->has_passed_pre_assembler=1;/*if pre-assembler failed wil be changed to 0*/
     result->has_passed_second_scan=1;
@@ -94,7 +97,7 @@ void set_name_am(file file) {
 }
 
 macro_table get_macro_table(file file){
-    return file->table;
+    return file->marco_table;
 }
 
 char *get_name_as(file file){

@@ -9,7 +9,7 @@
  * @param opname
  * @param funct
  * @param opcode
- * @return 1 if the table is_legal_operand the opname, 0 otherwise
+ * @return 1 if the marco_table is_legal_operand the opname, 0 otherwise
  */
 int is_legal_operand(const char *opname, int *funct, int *opcode);
 #endif //EX14_OPERAND_TABLE_H
