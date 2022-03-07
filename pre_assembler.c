@@ -5,6 +5,8 @@
 #include <string.h>
 #include "string_manipulations.h"
 #include "macro_table.h"
+#include "file.h"
+
 #define LINE_SIZE 81
 
 void write_macro_content(FILE *dest, macro to_write);
@@ -12,11 +14,15 @@ int start_of_macro_definition(char *first_word);
 int end_of_macro_definition(char *line);
 void write_line(FILE *dest, char *line);
 
-void pre_assembler(FILE *src, FILE *dest){
+void pre_assembler(file source) {
+    FILE *src,*dest;
     int macro_definition=0;
     char line[LINE_SIZE],temp_line[LINE_SIZE],*first_word_in_line;
     macro temp_macro;
-    macro_table table=init_macro_table();
+    macro_table table= get_macro_table(source);
+    src= fopen(get_name_as(source),"r");//todo check if open file succeeded
+    dest= fopen(get_name_am(source),"a");
+
     while ((fgets(line,LINE_SIZE,src)!=NULL)){
         strcpy(temp_line,line);
         first_word_in_line= strtok(temp_line," \t");

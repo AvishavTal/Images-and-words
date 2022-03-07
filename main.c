@@ -17,9 +17,10 @@ file *init_files(file *files, int n_files, char **names);
 void run_assembler(file *files, int n_files);
 
 int main(int argc, char **argv){
-    FILE *ps= fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.in","r");
-    FILE *dest=fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.out","a");
-    pre_assembler(ps,dest);
+//    FILE *ps= fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.as","r");
+//    FILE *dest=fopen("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps.out","a");
+    file ps= init_file("/home/avishav/Documents/study/cPrograming/seconde_chance/ex14/ps");
+    pre_assembler(ps);
     return 0;
 }
 
