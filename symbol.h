@@ -21,7 +21,6 @@ void set_symbol_offset(symbol symbol , long offset);
 attribute get_symbol_attribute(symbol symbol);
 void set_symbol_attribute(symbol symbol , attribute attribute);
 
-
 #endif //EX14_SYMBOL_H
 
 
