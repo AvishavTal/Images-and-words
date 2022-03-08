@@ -14,6 +14,7 @@ struct symbol{
     attribute attribute;
 };
 
+
 /* create new symbol and reset all variables */
 symbol init_symbol(){
     symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
