@@ -28,6 +28,26 @@ struct operator{
         {"stop",0,15,0}
 };
 
+operator get_operator_by_mame(char *name){
+    int i=0;
+    operator result=NULL;
+    for ( ; i < TABLE_SIZE; ++i) {
+        if (!strcmp(name,operators[i].name)){
+            result = operators+i;
+        }
+    }
+    return result;
+}
+
+int get_opcode(operator op){
+    return op->opcode;
+}
+int get_funct(operator op){
+    return op->funct;
+}
+int get_n_operands(operator op){
+    return op->num_of_operands;
+}
 
 /**
  * check  opname is name of legal operand, if true then funct and opcode get the value of the opname
