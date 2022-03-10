@@ -15,6 +15,7 @@ typedef struct word *word;
 word init_word();
 void print_word(FILE *dest, word to_print);
 void set_address(word to_set,unsigned long new_address);
+unsigned long get_address(word word1);
 void delete_word(word to_delete);
 void set_are(word to_set, are new_are);
 void set_opcode(word to_set,int new_opcode);

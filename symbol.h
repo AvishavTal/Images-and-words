@@ -11,6 +11,7 @@ symbol init_symbol();
 void update_symbol(symbol symbol, char* name, long value, long base_address, long offset);
 char* get_symbol_name(symbol symbol);
 void set_symbol_name(symbol symbol , char *name);
+void delete_symbol(symbol to_delete);
 long get_symbol_value(symbol symbol);
 void set_symbol_value(symbol symbol , long value);
 long get_symbol_base_address(symbol symbol);

@@ -9,8 +9,8 @@
 struct macro_table{
     list table;
 };
-macro get_macro_by_name(macro_table table, char *name) {
-    node current_node= get_head(table->table);
+macro get_macro_by_name(macro_table macros, char *name) {
+    node current_node= get_head(macros->table);
     macro current_macro;
     while (current_node){
         current_macro= get_node_data(current_node);
@@ -29,7 +29,7 @@ macro_table init_macro_table(){
     result->table=create_empty_list();
     return result;
 }
-void delete_table(macro_table to_delete) {
+void delete_macro_table(macro_table to_delete) {
     node current;
     current = get_head(to_delete->table);
     while (current){
