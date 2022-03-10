@@ -56,7 +56,7 @@ char *next_line(macro macro){
 */
 
 //Consider whether or not to delete - by the allocation type - if not delete change the function
-void free_macro(macro macro){
+void delete_macro(macro macro){
     free(macro->name);
     delete_body(macro->body);
 }

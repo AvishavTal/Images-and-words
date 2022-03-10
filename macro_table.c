@@ -29,6 +29,11 @@ macro_table init_macro_table(){
     result->table=create_empty_list();
     return result;
 }
-void delete_table(){
-
+void delete_table(macro_table to_delete) {
+    node current;
+    current = get_head(to_delete->table);
+    while (current){
+        delete_macro((macro)get_node_data(current));
+        current=get_next_node(current);
+    }
 }

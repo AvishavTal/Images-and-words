@@ -18,5 +18,6 @@ void macro_call(FILE *dest,macro to_print);
 void set_macro_body(macro macro, macro_body body);
 void append_line(macro macro, char *line);
 char *next_line(macro macro);
+void delete_macro(macro macro);
 
 #endif //EX14_MACRO_H
