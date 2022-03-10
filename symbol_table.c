@@ -91,6 +91,7 @@ void print_externals(FILE *dest,symbol_table to_print){
 }
 void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
                                                     int is_entry,int is_extern,int is_data,int is_code,error *error1){
+    //todo label size check
     if (!is_legal_name(name)){
         *error1=ILLEGAL_SYMBOL_NAME;
     } else if(double_definition(table, name, is_extern, error1)){
