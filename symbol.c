@@ -56,6 +56,7 @@ void update_symbol(symbol symbol, char* name, long value, long base_address, lon
     set_symbol_offset(symbol,offset);
 }
 
+
 char* get_symbol_name(symbol symbol){
     return symbol->name;
 }
