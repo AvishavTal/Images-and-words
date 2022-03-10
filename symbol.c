@@ -3,6 +3,7 @@
 //
 #include <stdlib.h>
 #include<stdio.h>
+#include <string.h>
 
 #include "symbol.h"
 
@@ -35,17 +36,19 @@ symbol init_symbol(){
 
 /* update the variables of given symbol*/
 void update_symbol(symbol symbol, char* name, long value, long base_address, long offset){
-    symbol->name = name;
-    symbol->value = value;
-    symbol->base_address = base_address;
-    symbol->offset = offset;
-//    symbol->attribute = attribute;
+    set_symbol_name(symbol,name);
+    set_symbol_value(symbol,value);
+    set_symbol_base_address(symbol,base_address);
+    set_symbol_offset(symbol,offset);
 }
 
 char* get_symbol_name(symbol symbol){
     return symbol->name;
 }
 void set_symbol_name(symbol symbol , char *name){
+    char *new_name;
+    new_name=(char *) malloc(strlen(name)+1);
+    strcpy(new_name,name);
     symbol->name = name;
 }
 
@@ -102,4 +105,7 @@ void set_symbol_attribute(symbol symbol , attribute attribute){
     symbol->attribute = attribute;
 }
 */
-//todo free symbol
+void delete_symbol(symbol to_delete){
+    free(to_delete->name);
+    free(to_delete);
+}

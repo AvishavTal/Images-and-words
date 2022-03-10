@@ -2,10 +2,81 @@
 // Created by avishav on 7.3.2022.
 //
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "symbol_table.h"
+#include "linked_list.h"
+
+
+struct symbol_table{
+    list table;
+};
 symbol_table init_symbol_table(){
+    symbol_table result;
+    result=(symbol_table)malloc(sizeof(struct symbol_table));
+    result->table=create_empty_list();
+    return result;
+}
+symbol get_symbol_by_name(symbol_table symbols, char *symbol_name) {
+    node current_node=NULL;
+    current_node= get_head(symbols->table);
+    while (current_node){
+        symbol current_symbol=get_node_data(current_node);
+        if(!strcmp(symbol_name, get_symbol_name(current_symbol))){
+            return current_symbol;
+        }
+        current_node= get_next_node(current_node);
+    }
     return NULL;
 }
-symbol get_symbol_by_name(char *symbol_name){
-    return NULL;
+
+void push_symbol(symbol_table to_update,symbol to_push){
+    add_to_tail(to_update->table,to_push);
+}
+
+
+void delete_symbol_table(symbol_table to_delete){
+    node current;
+    current = get_head(to_delete->table);
+    while (current){
+        delete_symbol((symbol)get_node_data(current));
+        current=get_next_node(current);
+    }
+}
+
+void print_entries(FILE *dest,symbol_table to_print){
+    node current_node;
+    symbol current_symbol=NULL;
+    current_node= get_head(to_print->table);
+    while (current_node){
+        current_symbol=get_node_data(current_node);
+        if (is_entry_symbol(current_symbol)){
+            char *name;
+            long address,offset;
+            name= get_symbol_name(current_symbol);
+            address= get_symbol_base_address(current_symbol);
+            offset= get_symbol_offset(current_symbol);
+            fprintf(dest,"%s,%04ld,%04ld\n",name,address,offset);
+        }
+        current_node=get_next_node(current_node);
+    }
+}
+
+void print_externals(FILE *dest,symbol_table to_print){
+    node current_node;
+    symbol current_symbol=NULL;
+    current_node= get_head(to_print->table);
+    while (current_node){
+        current_symbol=get_node_data(current_node);
+        if (is_extern_symbol(current_symbol)){
+            char *name;
+            long address,offset;
+            name= get_symbol_name(current_symbol);
+            address= get_symbol_base_address(current_symbol);
+            offset= get_symbol_offset(current_symbol);
+            fprintf(dest,"%s %04ld\n",name,address);
+            fprintf(dest,"%s %04ld\n",name,offset);
+        }
+        current_node=get_next_node(current_node);
+    }
 }

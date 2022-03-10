@@ -36,7 +36,7 @@ void second_scan(file source){
                 char *symbol_name;
                 symbol to_update;
                 symbol_name= strtok(NULL," \t");
-                to_update= get_symbol_by_name(symbol_name);
+                to_update= get_symbol_by_name(NULL, symbol_name);
                 if (to_update!=NULL){
                     mark_entry(to_update);
                 } else{
