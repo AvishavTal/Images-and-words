@@ -11,6 +11,7 @@
 
 struct file{
     char *name;
+
     /*the names of the output files with the proper extension*/
     char *name_as;
     char *name_am;

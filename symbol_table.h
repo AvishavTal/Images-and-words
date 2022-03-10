@@ -5,10 +5,12 @@
 #ifndef EX14_SYMBOL_TABLE_H
 #define EX14_SYMBOL_TABLE_H
 #include "symbol.h"
+#include "errors.h"
 #include <stdio.h>
 typedef struct symbol_table *symbol_table;
 symbol_table init_symbol_table();
 symbol get_symbol_by_name(symbol_table symbols, char *symbol_name);
+void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,int is_entry,int is_extern,int is_data,int is_code,error *error1);
 void delete_symbol_table(symbol_table to_delete);
 void push_symbol(symbol_table to_update,symbol to_push);
 void print_entries(FILE *dest,symbol_table to_print);

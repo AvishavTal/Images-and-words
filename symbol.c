@@ -34,6 +34,20 @@ symbol init_symbol(){
     return new_symbol;
 }
 
+symbol init_symbol_with_values(char *name,long value,long base_address,long offset,int is_entry,int is_extern,int is_data,int is_code){
+    symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
+    new_symbol->name = name;
+    new_symbol->value = value;
+    new_symbol->base_address = base_address;
+    new_symbol->offset = offset;
+    new_symbol->attribute.is_extern=is_extern;
+    new_symbol->attribute.is_entry=is_entry;
+    new_symbol->attribute.is_data=is_data;
+    new_symbol->attribute.is_code=is_code;
+    return new_symbol;
+}
+
+
 /* update the variables of given symbol*/
 void update_symbol(symbol symbol, char* name, long value, long base_address, long offset){
     set_symbol_name(symbol,name);
