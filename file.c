@@ -6,6 +6,7 @@
 #include "symbol_table.h"
 #include <stdlib.h>
 #include <string.h>
+#include "data_image.h"
 #define EXTENSION_LENGTH 5
 
 struct file{
@@ -16,8 +17,13 @@ struct file{
     char *name_ob;
     char *name_ent;
     char *name_ext;
-    macro_table marco_table;
-    symbol_table symbl_table;
+
+    /*tables*/
+    macro_table marcos;
+    symbol_table symbols;
+    data_image image;
+
+    /*flags*/
     unsigned int has_passed_pre_assembler :1;
     unsigned int has_passed_first_scan :1;
     unsigned int has_passed_second_scan :1;
@@ -43,8 +49,9 @@ file init_file(char *name){
     set_name_ob(result);
     set_name_ext(result);
     set_name_ent(result);
-    result->marco_table=init_macro_table();
-    result->symbl_table=init_symbol_table();
+    result->marcos=init_macro_table();
+    result->symbols=init_symbol_table();
+    result->image=init_data_image();
     result->has_passed_first_scan=1;/*if first scan failed wil be changed to 0*/
     result->has_passed_pre_assembler=1;/*if pre-assembler failed wil be changed to 0*/
     result->has_passed_second_scan=1;
@@ -97,7 +104,7 @@ void set_name_am(file file) {
 }
 
 macro_table get_macro_table(file file){
-    return file->marco_table;
+    return file->marcos;
 }
 
 char *get_name_as(file file){
@@ -131,5 +138,5 @@ void mark_first_scan_failed(file file){
     file->has_passed_first_scan=0;
 }
 symbol_table get_symbol_table(file file){
-    return file->symbl_table;
+    return file->symbols;
 }

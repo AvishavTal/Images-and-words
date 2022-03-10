@@ -14,7 +14,7 @@ int get_n_operands(operator op);
  * @param opname
  * @param funct
  * @param opcode
- * @return 1 if the marco_table is_legal_operator the opname, 0 otherwise
+ * @return 1 if the marcos is_legal_operator the opname, 0 otherwise
  */
 
 int is_legal_operator(const char *opname, int *funct, int *opcode);
