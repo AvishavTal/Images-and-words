@@ -42,7 +42,7 @@ void second_scan(file source){
                 }
             } else{
                 instruction temp_instruction;
-                temp_instruction= init_instruction(line, table, &ic);
+                temp_instruction= init_instruction(line, table, &ic, NULL, DOUBLE_DEFINITION_OF_LABEL);
                 print_instruction(dest,temp_instruction);//todo error check
             }
         }

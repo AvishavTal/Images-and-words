@@ -16,6 +16,6 @@ void print_instruction(FILE *dest,instruction to_print){
     }
 }
 
-instruction init_instruction(char *line, symbol_table symbols, unsigned long *ic){
+instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, int *n_words, error err) {
     return NULL;
 }
