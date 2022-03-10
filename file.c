@@ -30,6 +30,11 @@ struct file{
     unsigned int has_passed_second_scan :1;
 };
 
+data_image get_data_image(file file1){
+    return file1->image;
+}
+
+
 
 void set_name_am(file file);
 

@@ -6,6 +6,7 @@
 #define EX14_FILE_H
 #include "macro_table.h"
 #include "symbol_table.h"
+#include "data_image.h"
 
 typedef struct file *file;
 file init_file(char *name);
@@ -21,4 +22,5 @@ void mark_pre_assembler_failed(file file);
 void mark_first_scan_failed(file file);
 macro_table get_macro_table(file file);
 symbol_table get_symbol_table(file file);
+data_image get_data_image(file file1);
 #endif //EX14_FILE_H
