@@ -48,12 +48,12 @@ void check_list_of_symbols(){//to delete later
     list symbol_list = create_empty_list();
     symbol new_symbol = init_symbol();
     char *name1 = "symbol1";
-    update_symbol(new_symbol, name1, 5, 4, 3, NULL);
+    update_symbol(new_symbol, name1, 5, 4, 3);
     add_to_tail(symbol_list, new_symbol);
 
     symbol new_symbol2 = init_symbol();
     char *name2 = "symbol2";
-    update_symbol(new_symbol2, name2, 5, 4, 3, NULL);
+    update_symbol(new_symbol2, name2, 5, 4, 3);
     add_to_tail(symbol_list, new_symbol2);
 
     print_list(symbol_list);

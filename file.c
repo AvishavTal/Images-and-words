@@ -130,3 +130,6 @@ void mark_pre_assembler_failed(file file){
 void mark_first_scan_failed(file file){
     file->has_passed_first_scan=0;
 }
+symbol_table get_symbol_table(file file){
+    return file->symbl_table;
+}
