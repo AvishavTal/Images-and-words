@@ -10,7 +10,7 @@
 #include "errors.h"
 
 typedef struct instruction *instruction;
-instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, int *n_words, error err);
+instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, int *n_words, error *err);
 void print_instruction(FILE *dest,instruction to_print);
 void delete_instruction(instruction to_delete);
 #endif //EX14_INSTRUCTION_H
