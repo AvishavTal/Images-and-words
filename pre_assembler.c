@@ -25,11 +25,11 @@ void pre_assembler(file source) {
 
     while ((fgets(line,LINE_SIZE,src)!=NULL)){
         strcpy(temp_line,line);
-        first_word_in_line= strtok(temp_line," \t");//todo \n
+        first_word_in_line= strtok(temp_line," \t");
         trim_whitespace(first_word_in_line);
         if(!macro_definition){
             if((temp_macro= get_macro_by_name(table, first_word_in_line)) != NULL){/*macro call*/
-                write_macro_content(dest,temp_macro);
+                macro_call(dest,temp_macro);
             } else if(start_of_macro_definition(first_word_in_line)){
                 char *name;
                 temp_macro=init_macro();
@@ -44,7 +44,7 @@ void pre_assembler(file source) {
                 push_macro(table, temp_macro);
                 macro_definition=0;
             } else{
-                //append_line(temp_macro,line);
+                append_line(temp_macro,line);
             }
         }
     }
@@ -61,11 +61,11 @@ int end_of_macro_definition(char *line) {
 int start_of_macro_definition(char *first_word) {
     return !strcmp(first_word,"macro");
 }
-
-void write_macro_content(FILE *dest, macro to_write) {
-    node current= get_head(get_macro_body(to_write));
-    while (current){
-        fprintf(dest,"%s", (char *)get_node_data(current));
-        current= get_next_node(current);
-    }
-}
+//
+//void write_macro_content(FILE *dest, macro to_write) {
+//    node current= get_head(get_macro_body(to_write));
+//    while (current){
+//        fprintf(dest,"%s", (char *)get_node_data(current));
+//        current= get_next_node(current);
+//    }
+//}
