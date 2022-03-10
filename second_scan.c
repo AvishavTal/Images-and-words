@@ -9,11 +9,8 @@
 #include "symbol.h"
 #include "instruction.h"
 #include "parser.h"
+#include "first_and_second_scan_constants.h"
 
-#define LINE_LENGTH 81
-
-
-#define MIN_IC 100
 
 void second_scan(file source){
     symbol_table table;

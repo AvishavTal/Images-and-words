@@ -4,6 +4,9 @@
 #include "symbol.h"
 #include "macro.h"
 
+#define LINE_LENGTH 81
+
+
 void check_list_of_symbols();//to delete later
 void check_list_of_macros();//to delete later
 
