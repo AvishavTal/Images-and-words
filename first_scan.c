@@ -17,11 +17,11 @@
 #define false 0;
 #define COMMENT_DELIMITERS ";"
 
-int check_if_label(char *first_word_in_line);
+int check_if_label(char *first_word_in_line);//todo exist in parser.h (is_symbol_def)
 char* get_next_word_in_line(char *line, char* delim){
     char *result;
 
-    result = strtok(line,delim);
+    result = strtok(line,delim);//todo always return the first word in line
     trim_whitespace(result);
 
     return result;

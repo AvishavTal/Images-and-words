@@ -3,3 +3,10 @@
 //
 
 #include "errors.h"
+void print_error(error to_print){
+    switch (to_print) {
+        case UNDEFINED_OPERATOR:
+
+
+    }
+}
