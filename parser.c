@@ -25,7 +25,7 @@ int is_extern_def(char *str) {
     return !strcmp(str,".extern");
 }
 
-int is_symbol_def(char *str) {
+int is_symbol_def(char *str) { //todo get the whole line and return if this line start with label (check up to :)
     char last_char=*(str+ strlen(str)-1);
     return last_char==END_OF_LABLE_SIGN;
 }
@@ -34,3 +34,5 @@ int is_comment(char *line){
     trim_whitespace(line);
     return *line==START_OF_COMMENT;
 }
+
+//todo is empty

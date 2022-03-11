@@ -28,6 +28,9 @@ struct file{
     unsigned int has_passed_pre_assembler :1;
     unsigned int has_passed_first_scan :1;
     unsigned int has_passed_second_scan :1;
+
+    long ICF;//todo add getters and setters
+    long DCF;//todo add getters and setters
 };
 
 data_image get_data_image(file file1){

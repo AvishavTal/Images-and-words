@@ -116,3 +116,5 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
 int is_legal_name(char *name) {
     return !is_reserved_word(name);
 }
+
+//todo update table (data and string to the end of the table)
