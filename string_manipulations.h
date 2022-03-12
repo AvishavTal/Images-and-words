@@ -36,4 +36,10 @@ int str_to_double(char *str, double *dest);
  */
 char is_zero(char *str);
 
+/**
+* return the first word in string without whitespaces
+* @param str
+* @return the first word in str without whitespaces
+*/
+char* get_first_word_in_line(char *str);
 #endif //EX14_STRING_MANIPULATIONS_H
