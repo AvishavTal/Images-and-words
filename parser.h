@@ -18,6 +18,8 @@ int is_entry_def(char *str);
 
 int is_comment(char *line);
 
+int is_empty(char *line);
+
 int is_reserved_word(char *word);
 
 #endif //EX14_PARSER_H

@@ -35,4 +35,14 @@ int is_comment(char *line){
     return *line==START_OF_COMMENT;
 }
 
-//todo is empty
+int is_empty(char *line){
+    unsigned long len;
+    len= strlen(line);
+    while (len>0){
+        if (!isspace(line[--len])){
+            return 0;
+        }
+    }
+    return 1;
+}
+
