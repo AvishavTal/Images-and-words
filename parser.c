@@ -25,10 +25,24 @@ int is_string_def(char *str) {
 int is_extern_def(char *str) {
     return !strcmp(str,".extern");
 }
-
-int is_symbol_def(char *str) { //todo get the whole line and return if this line start with label (check up to :)
-    char last_char=*(str+ strlen(str)-1);
-    return last_char==END_OF_LABLE_SIGN;
+/**
+ * get line and check if start with a label definition
+ * @param str line to check
+ * @return length of label if exist, -1 otherwise
+ */
+int is_symbol_def(char *str) {
+    int symbol_length=0,is_symbol=0,result=-1;
+    while (*str!='\0'&&!is_symbol){
+        if(*str==END_OF_LABLE_SIGN){
+            is_symbol=1;
+        }
+        symbol_length++;
+        str++;
+    }
+    if(is_symbol){
+        result=symbol_length;
+    }
+    return result;
 }
 
 int is_comment(char *line){
