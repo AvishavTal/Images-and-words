@@ -11,6 +11,8 @@ int is_extern_def(char *str);
 
 int is_string_def(char *str);
 
+int is_string(char *line);
+
 
 int is_data_def(char *str);
 

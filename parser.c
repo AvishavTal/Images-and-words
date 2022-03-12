@@ -8,6 +8,7 @@
 
 #define END_OF_LABLE_SIGN ':'
 #define START_OF_COMMENT ';'
+#define STRING_BOUNDARY '\"'
 
 int is_entry_def(char *str) {
     return !strcmp(str,".entry");
@@ -45,4 +46,11 @@ int is_empty(char *line){
     }
     return 1;
 }
+
+int is_string(char *line){
+    unsigned long len;
+    len= strlen(line);
+    return line[0]==STRING_BOUNDARY&&line[len-1]==STRING_BOUNDARY;
+}
+
 
