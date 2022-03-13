@@ -13,19 +13,12 @@
 #include "first_and_second_scan_constants.h"
 
 #define MIN_DC 0
-#define true 1;
-#define false 0;
-#define COMMENT_DELIMITERS ";"
+#define true 1
+#define false 0
+#define  NOT_SYMBOL -1
 
 int check_if_label(char *first_word_in_line);//todo exist in parser.h (is_symbol_def)
-char* get_next_word_in_line(char *line, char* delim){
-    char *result;
 
-    result = strtok(line,delim);//todo always return the first word in line
-    trim_whitespace(result);
-
-    return result;
-}
 int get_base_address(int address){
 
 }
@@ -43,29 +36,65 @@ int add_data_or_string_to_data_image(data_image data_image, /*......*/ ){
 void first_scan(file source) {
     symbol_table symbols;
     data_image image;
-    char line[LINE_LENGTH], *first_word_in_line, *second_word_in_line;
+    char line[LINE_LENGTH];
+    char *first_word_in_line  = get_first_word_in_line(line);
+    char *second_word_in_line = get_first_word_in_line(line + (strlen(first_word_in_line)));
     FILE *src, *dest;
     int IC = MIN_IC, DC = MIN_DC;
     int is_there_error = false;
-    int is_label = false;
+    int is_symbol;
     char *label_name;
+    int chars_num; /* num of chars with whitespaces up to the end of the word */
+
+    first_word_in_line  = trim_whitespace(first_word_in_line);
+    second_word_in_line = trim_whitespace(second_word_in_line);
 
     symbols = get_symbol_table(source);
-    image = init_data_image();
-
-    first_word_in_line = get_next_word_in_line(line, " \t");// todo add to the function - return the length of the word with the whitespace, get first word in line, to put in string manipulation
-    second_word_in_line = get_next_word_in_line(line + strlen(strtok(line," \t")), " \t");
+    image = init_data_image(); /* data image */
 
     src= fopen(get_name_am(source),"r");//todo add open file check
     dest= fopen(get_name_ob(source),"a");
 
-
     while ((fgets(line,LINE_LENGTH,src))!=NULL){
+        if(!(is_comment(line) || is_empty(line))){ /* if this line is not a blank line or a comment line */
+            if(is_syntax_correct) {//todo add the function that check if the commas correct - if everything ok continue
+                if(!(is_entry_def(line))){/* if this line is not an entry line */
+                    if(is_symbol_def(line) != NOT_SYMBOL){ /* if this line starts with symbol */
+                        is_symbol = true;
+                    }
+                    if((is_symbol) && (is_data_def(second_word_in_line))){ /* if this line is both symbol and data */
 
+                    }
+                    else if((!is_symbol) && (first_word_in_line)) { /* if this line is data only */
+
+                    }
+
+                    if(is_string_def(line)) {//todo
+
+                    }
+                    if(is_extern_def(line)) {//todo
+
+                    }
+                    if(is_code_symbol(line)) {
+
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+        //* todo not ignor from entry and hen check comma - if not error check entry *//
         /* If this line is a blank line or a comment line or entry*/
-        if(!(first_word_in_line == NULL || first_word_in_line == COMMENT_DELIMITERS || is_entry_def(first_word_in_line)){ //todo use parser functions
-            if(check_if_label(first_word_in_line)){//todo -use function in parser
-                is_label = true;
+        //if(!(first_word_in_line == NULL || first_word_in_line == COMMENT_DELIMITERS || is_entry_def(first_word_in_line)){ //todo use parser functions
+            //if(check_if_label(first_word_in_line)){//todo -use function in parser
+               // is_label = true;
                 strcpy(label_name, strtok(first_word_in_line,":")); /* label_name will be the name witout the : */ // todo put in string manipulation
 
                 /* if both label and data */

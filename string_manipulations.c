@@ -25,7 +25,7 @@ char *trim_whitespace(char *str){
 /**
  * split the given string to several strings
  * @param src the string to split
- * @param dest 2D array to hold the otput strings
+ * @param dest 2D array to hold the output strings
  * @param delimiter
  * @return the number of strings
  */
@@ -91,4 +91,24 @@ int str_to_double(char *str, double *dest) {
         }
     }
     return result;
+}
+
+/**
+* return the first word in string with whitespaces
+* @param str string to manipulate
+* @return the first word in str with whitespaces
+*/
+char* get_first_word_in_line(char *str){
+    char *first_word = (char*)calloc(1,sizeof(str)+1);
+    int str_index=0;
+
+    while(isspace(str[str_index])) {
+        first_word[str_index] = str[str_index];
+        str_index++;
+    }
+    while(!(isspace(str[str_index]))) {
+        first_word[str_index] = str[str_index];
+        str_index++;
+    }
+    return first_word;
 }
