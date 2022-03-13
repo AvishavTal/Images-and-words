@@ -1,23 +1,12 @@
 //
 // Created by Sapir on 10.3.2022.
 //
-#include <stdio.h>
-#include <string.h>
 #include "first_scan.h"
-#include "symbol_table.h"
-#include "string_manipulations.h"
-#include "symbol.h"
-#include "file.h"
-#include "instruction.h"
-#include "parser.h"
-#include "first_and_second_scan_constants.h"
 
 #define MIN_DC 0
 #define true 1
 #define false 0
 #define  NOT_SYMBOL -1
-
-char* pull_symbol_name(char *str);
 
 void first_scan(file source) {
     symbol_table symbols;
