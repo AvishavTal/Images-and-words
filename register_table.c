@@ -9,23 +9,24 @@
 struct reg {
     char *name;
     int regcode;
+    unsigned int valid_index :1; /*1 if this register can be index, 0 otherwise*/
 }registers[]={
-        {"r0",0},
-        {"r1",1},
-        {"r2",2},
-        {"r3",3},
-        {"r4",4},
-        {"r5",5},
-        {"r6",6},
-        {"r7",7},
-        {"r8",8},
-        {"r9",9},
-        {"r10",10},
-        {"r11",11},
-        {"r12",12},
-        {"r13",13},
-        {"r14",14},
-        {"r15",15}
+        {"r0",0,0},
+        {"r1",1,0},
+        {"r2",2,0},
+        {"r3",3,0},
+        {"r4",4,0},
+        {"r5",5,0},
+        {"r6",6,0},
+        {"r7",7,0},
+        {"r8",8,0},
+        {"r9",9,0},
+        {"r10",10,1},
+        {"r11",11,1},
+        {"r12",12,1},
+        {"r13",13,1},
+        {"r14",14,1},
+        {"r15",15,1}
 };
 regyster get_register_by_name(char *name){
     int i=0;
@@ -39,4 +40,8 @@ regyster get_register_by_name(char *name){
 
 int get_regcode(regyster register1){
     return register1->regcode;
+}
+
+int is_valid_index(regyster index){
+    return index->valid_index;
 }
