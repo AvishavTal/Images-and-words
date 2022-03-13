@@ -11,4 +11,5 @@ void add_data(data_image image, long address, long new_data);
 void print_data(FILE *dest,data_image image);
 void delete_data(data_image to_delete);
 void update_addresses(data_image image,long final_ic);
+void add_string(data_image image, long address, long new_string, int *words_num);
 #endif //EX14_DATA_IMAGE_H

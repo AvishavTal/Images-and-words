@@ -20,7 +20,7 @@ data_image init_data_image(){
 }
 
 
-void add_data(data_image image, long address, long new_data){
+1/void add_data(data_image image, long address, long new_data){ // todo add int *words_num to return the num of the needed data
     word new_word;
     new_word=init_word();
     set_address(new_word,address);
@@ -60,3 +60,5 @@ void update_addresses(data_image image,long final_ic){
         current_node=get_next_node(current_node);
     }
 }
+
+void add_string(data_image image, long address, long new_string, int *words_num);//todo

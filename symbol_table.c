@@ -39,7 +39,7 @@ symbol get_symbol_by_name(symbol_table symbols, char *symbol_name) {
     return NULL;
 }
 
-void push_symbol(symbol_table to_update,symbol to_push){
+void push_symbol(symbol_table to_update,symbol to_push){//?? what this function for
     add_to_tail(to_update->table,to_push);
 }
 
@@ -90,7 +90,7 @@ void print_externals(FILE *dest,symbol_table to_print){
     }
 }
 void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
-                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){
+                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){//todo i dont need to get the base adredd and the offset - need to calculat inside
     //todo label size check
     if (!is_legal_name(name)){
         *error1=ILLEGAL_SYMBOL_NAME;
