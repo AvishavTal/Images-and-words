@@ -99,7 +99,7 @@ int str_to_double(char *str, double *dest) {
 * @return the first word in str with whitespaces
 */
 char* get_first_word_in_line(char *str){
-    char *first_word = (char*)calloc(1,sizeof(str)+1);
+    char *first_word = (char*)calloc(1,strlen(str)+1);
     int str_index=0;
 
     while(isspace(str[str_index])) {
