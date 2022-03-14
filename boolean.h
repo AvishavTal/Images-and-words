@@ -6,7 +6,6 @@
 #define EX14_BOOLEAN_H
 
 #include<stdio.h>
-
 typedef enum {false,true}boolean;
 
 #endif //EX14_BOOLEAN_H
