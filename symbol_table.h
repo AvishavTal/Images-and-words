@@ -10,6 +10,7 @@
 typedef struct symbol_table *symbol_table;
 symbol_table init_symbol_table();
 symbol get_symbol_by_name(symbol_table symbols, char *symbol_name);
+//todo check if address and offset in range
 void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,int is_entry,int is_extern,int is_data,int is_code,error *error1);
 void add_symbol_seggestion(symbol_table table, char *name,long value, int is_entry, int is_extern, int is_data, int is_code, error *error1);//todo
 void delete_symbol_table(symbol_table to_delete);

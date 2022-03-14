@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "register_table.h"
+#include "string_manipulations.h"
 #define REG_TABLE_SIZE 16
 
 struct reg {
@@ -30,6 +31,7 @@ struct reg {
 };
 regyster get_register_by_name(char *name){
     int i=0;
+    name= trim_whitespace(name);
     for (;i  < REG_TABLE_SIZE; ++i) {
         if(!strcmp(registers[i].name,name)){
             return registers+i;

@@ -8,6 +8,8 @@
 #include "ARE.h"
 #include "addressing_mode.h"
 
+
+//todo change all to unsigned
 /**
  * representation of machine word
  */
@@ -24,5 +26,6 @@ void set_dest_register(word to_set,int reg_num);
 void set_dest_addressing(word to_set, addressing_mode dest_addressing);
 void set_src_register(word to_set,int reg_num);
 void set_src_addressing(word to_set, addressing_mode src_addressing);
+void set_immediate(word to_set,int immediate);
 void set_data(word to_set,long new_data);
 #endif //EX14_WORD_H
