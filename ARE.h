@@ -4,5 +4,5 @@
 
 #ifndef EX14_ARE_H
 #define EX14_ARE_H
-typedef enum {A=4,R=2,E=1}are;
+typedef enum {ABSOLUTE=4,RELOCATABLE=2,EXTERNAL=1}are;
 #endif //EX14_ARE_H

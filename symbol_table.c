@@ -39,7 +39,7 @@ symbol get_symbol_by_name(symbol_table symbols, char *symbol_name) {
     return NULL;
 }
 
-void push_symbol(symbol_table to_update,symbol to_push){//?? what this function for
+void push_symbol(symbol_table to_update,symbol to_push){
     add_to_tail(to_update->table,to_push);
 }
 
@@ -90,8 +90,7 @@ void print_externals(FILE *dest,symbol_table to_print){
     }
 }
 void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
-                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){//todo i dont need to get the base adredd and the offset - need to calculat inside
-    //todo label size check
+                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){
     if (!is_legal_name(name)){
         *error1=ILLEGAL_SYMBOL_NAME;
     } else if(double_definition(table, name, is_extern, error1)){
@@ -114,6 +113,8 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
 }
 
 int is_legal_name(char *name) {
+    //todo chek size
+    //todo check all chars alphanumeric
     return !is_reserved_word(name);
 }
 

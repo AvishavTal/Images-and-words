@@ -7,4 +7,5 @@
 typedef struct reg *regyster;
 regyster get_register_by_name(char *name);
 int get_regcode(regyster register1);
+int is_valid_index(regyster index);
 #endif //EX14_REGISTER_TABLE_H

@@ -2,30 +2,45 @@
 #include <stdio.h>
 #include <string.h>
 #include "operator_table.h"
+#include "addressing_mode.h"
 #define TABLE_SIZE 16
+#define NUMBER_OF_ADDRESSING_METHODS 4
+struct allowed_addressing{
+    unsigned int immediate :1;
+    unsigned int direct :1;
+    unsigned int index :1;
+    unsigned int register_direct :1;
+};
+
 struct operator{
     char *name;
     int funct;
     int opcode;
     int num_of_operands;
+    struct allowed_addressing source;
+    struct allowed_addressing dest;
+
+    /*addressing modes allowd fo each argument*/
+//    addressing_mode source_addressing[NUMBER_OF_ADDRESSING_METHODS];
+//    addressing_mode dest_addressing[NUMBER_OF_ADDRESSING_METHODS];
 
 }operators[]={
-        {"mov",0,0,2},
-        {"cmp",0,1,2},
-        {"add",10,2,2},
-        {"sub",11,2,2},
-        {"lea",0,4,2},
-        {"clr",10,5,1},
-        {"not",11,5,1},
-        {"inc",12,5,1},
-        {"dec",13,5,1},
-        {"jmp",10,9,1},
-        {"bne",11,9,1},
-        {"jsr",12,9,1},
-        {"red",0,12,1},
-        {"prn",0,13,1},
-        {"rts",0,14,0},
-        {"stop",0,15,0}
+        {"mov",0,0,2,{1,1,1,1},{0,1,1,1}},//source allowed methods{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT},dest allowed methods{DIRECT,INDEX,REGISTER_DIRECT}
+        {"cmp",0,1,2,{1,1,1,1},{1,1,1,1}},//{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT},{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT}
+        {"add",10,2,2,{1,1,1,1},{0,1,1,1}},//{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT},{DIRECT,INDEX,REGISTER_DIRECT}
+        {"sub",11,2,2,{1,1,1,1},{0,1,1,1}},//{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT},{DIRECT,INDEX,REGISTER_DIRECT}
+        {"lea",0,4,2,{0,1,1,0},{0,1,1,1}},//{DIRECT,INDEX},{DIRECT,INDEX,REGISTER_DIRECT}
+        {"clr",10,5,1,{0,0,0,0},{0,1,1,1}},//{DIRECT,INDEX,REGISTER_DIRECT}
+        {"not",11,5,1,{0,0,0,0},{0,1,1,1}},//{DIRECT,INDEX,REGISTER_DIRECT}
+        {"inc",12,5,1,{0,0,0,0},{0,1,1,1}},//{DIRECT,INDEX,REGISTER_DIRECT}
+        {"dec",13,5,1,{0,0,0,0},{0,1,1,1}},//{DIRECT,INDEX,REGISTER_DIRECT}
+        {"jmp",10,9,1,{0,0,0,0},{0,1,1,0}},//{DIRECT,INDEX}
+        {"bne",11,9,1,{0,0,0,0},{0,1,1,0}},//{DIRECT,INDEX}
+        {"jsr",12,9,1,{0,0,0,0},{0,1,1,0}},//{DIRECT,INDEX}
+        {"red",0,12,1,{0,0,0,0},{0,1,1,1}},//{DIRECT,INDEX,REGISTER_DIRECT}
+        {"prn",0,13,1,{0,0,0,0},{1,1,1,1}},//{IMMEDIATE,DIRECT,INDEX,REGISTER_DIRECT}
+        {"rts",0,14,0,{0,0,0,0},{0,0,0,0}},
+        {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
 };
 
 operator get_operator_by_mame(char *name){

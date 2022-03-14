@@ -74,15 +74,15 @@
 //    printf("\ntesting set_are:\n");
 //    word test_word;
 //    test_word=init_word();
-//    set_are(test_word,A);
+//    set_are(test_word,ABSOLUTE);
 //    print_word(stdout,test_word);
 //
 //    set_data(test_word,0);
-//    set_are(test_word,E);
+//    set_are(test_word,EXTERNAL);
 //    print_word(stdout,test_word);
 //
 //    set_data(test_word,0);
-//    set_are(test_word,R);
+//    set_are(test_word,RELOCATABLE);
 //    print_word(stdout,test_word);
 //
 //}
