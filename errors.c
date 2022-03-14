@@ -31,7 +31,7 @@ void print_error(error to_print){
             printf("The number must be integer.\n");
             break;
         case NOT_IN_RANGE_IMMEDIATE:
-            //printf("The number must be integer.\n");
+            printf("Not in range for immediate addressing.\n");
             break;
         case UNDEFINED_SYMBOL:
             printf("Undefined symbol.\n");
