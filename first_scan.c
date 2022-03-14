@@ -9,24 +9,26 @@
 #define  NOT_SYMBOL -1
 
 void first_scan(file source) {
+    /* variables declaration */
     symbol_table symbols;
     data_image image;
-    FILE *src, *dest;
-    error err = NOT_ERROR;
-    long IC = MIN_IC, DC = MIN_DC;
+    FILE *src;
+    error err;
+    long IC, DC;
     int is_there_error, is_symbol, words_num, line_num;
     char line[LINE_LENGTH], *first_word_in_line, *second_word_in_line, *symbol_name;
 
-    first_word_in_line = get_first_word_in_line(line);
-    second_word_in_line = get_first_word_in_line(line + (strlen(first_word_in_line)));
+    /* reset variables */
+    err = NOT_ERROR;
+    IC = MIN_IC;
+    DC = MIN_DC;
     line_num = 0;
-    is_there_error = false;
-
+    is_there_error = false;// todo mat=ybe need to be share with the second scan
     symbols = get_symbol_table(source);
     image = init_data_image(); /* data image */
-
+    first_word_in_line = get_first_word_in_line(line);
+    second_word_in_line = get_first_word_in_line(line + (strlen(first_word_in_line)));
     src = fopen(get_name_am(source), "r");//todo add open file check
-    dest = fopen(get_name_ob(source), "a");
 
     while ((fgets(line, LINE_LENGTH, src)) != NULL) {
         if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
@@ -44,14 +46,14 @@ void first_scan(file source) {
                     }
                     /* if this line is data only */
                     else if ((!is_symbol) && (is_data_def(first_word_in_line))) {
-                        add_data(image, DC, line + strlen(first_word_in_line), &words_num);
+                        add_data(image, DC, line + strlen(first_word_in_line), &words_num);//todo maybe to add err
                         DC += words_num;
                     }
                     /* if this line is both symbol and string */
                     else if ((is_symbol) && (is_string_def(second_word_in_line))) {
                         add_symbol_seggestion(symbols, symbol_name, DC, false, false, true, false,&err);//todo error maybe error*
                         add_string(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),
-                                   &words_num);
+                                   &words_num);//todo maybe to add err
                         DC += words_num;
                     }
                     /* if this line is string only */
