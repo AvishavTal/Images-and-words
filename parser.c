@@ -52,7 +52,7 @@ boolean is_empty(char *line){
 
 boolean is_string(char *line){
     unsigned long len;
-    line=trim_whitespace(line); // todo think if need to remove spaces from the end of the line
+    line=trim_whitespace(line);
     len= strlen(line);
     return line[0]==STRING_BOUNDARY&&line[len-1]==STRING_BOUNDARY;
 }
