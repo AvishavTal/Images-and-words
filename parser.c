@@ -5,12 +5,11 @@
 #include "parser.h"
 #include "string_manipulations.h"
 #include <string.h>
+#include "boolean.h"
 
 #define END_OF_LABLE_SIGN ':'
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
-#define true 1 // double decleration
-#define false 0 // double decleration
 
 int is_entry_def(char *str) {
     return !strcmp(str,".entry");
@@ -20,7 +19,6 @@ int is_data_def(char *str) {
     return !strcmp(str,".data");
 }
 
-/* check if this word define string */
 int is_string_def(char *str) {
     return !strcmp(str,".string");
 }
@@ -28,12 +26,8 @@ int is_string_def(char *str) {
 int is_extern_def(char *str) {
     return !strcmp(str,".extern");
 }
-/**
- * get line and check if start with a label definition - not check errors here
- * @param str line to check
- * @param chars_num number to update - How many characters are there from the beginning of the line to the colon(:) including
- * @return true if exist, -1 otherwise
- */
+
+
 int is_symbol_def(char *line) {
     int result = -1;
     char *first_word_in_line = get_first_word_in_line(line);
