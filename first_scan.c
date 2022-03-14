@@ -84,7 +84,7 @@ void first_scan(file source) {
         /* if error was found */
         if(err != NOT_ERROR){
             is_there_error = true;
-            print_error(line_num, err);
+            print_error(0, line_num);
         }
         line_num ++;
     }
