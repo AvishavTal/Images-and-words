@@ -35,9 +35,8 @@ boolean is_symbol_def(char *str) {
 }
 
 boolean is_comment(char *line){
-    char *temp;
-    temp=trim_whitespace(line);
-    return *temp==START_OF_COMMENT;
+    line=trim_whitespace(line);
+    return *line==START_OF_COMMENT;
 }
 
 boolean is_empty(char *line){
@@ -52,10 +51,9 @@ boolean is_empty(char *line){
 }
 
 boolean is_string(char *line){
-    char *temp;
     unsigned long len;
-    temp=trim_whitespace(line); // todo think if need to remove spaces from the end of the line
-    len= strlen(temp);
+    line=trim_whitespace(line); // todo think if need to remove spaces from the end of the line
+    len= strlen(line);
     return line[0]==STRING_BOUNDARY&&line[len-1]==STRING_BOUNDARY;
 }
 
