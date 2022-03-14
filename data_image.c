@@ -20,7 +20,7 @@ data_image init_data_image(){
 }
 
 
-1/void add_data(data_image image, long address, long new_data){ // todo add int *words_num to return the num of the needed data
+void add_data(data_image image, long address, long new_data){ // todo add int *words_num to return the num of the needed data
     word new_word;
     new_word=init_word();
     set_address(new_word,address);

@@ -27,6 +27,7 @@
 #define DEST_ARG_INDEX 1
 #define SOURCE_ARG_INDEX 0
 
+
 /*number of arguments required*/
 #define REQUIRED_TWO 2
 #define REQUIRED_ONE 1
@@ -38,6 +39,10 @@
 
 #define LEFT_BRAKET '['
 #define RIGHT_BRAKET ']'
+
+
+#define MAX_IMMEDIATE 0
+#define MIN_IMMEDIATE 0
 
 
 struct instruction{
@@ -72,6 +77,25 @@ int is_index(char *operand);
 
 int is_register_direct(char *operand);
 
+void build_source(instruction to_set, symbol_table symbols, char *source, unsigned long *ic, error *err);
+
+void build_dest(instruction to_set, symbol_table symbols, char *dest, unsigned long *ic, error *err);
+
+
+void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err);
+
+void
+build_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err);
+
+void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, unsigned long *ic, error *err);
+
+void
+set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err);
+
+void set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err);
+
+int in_range(int immediate);
+
 void print_instruction(FILE *dest, instruction to_print){
     int i=0;
     for (; i<to_print->n_words ; ++i) {
@@ -92,7 +116,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
         unsigned long op_len,arguments_len;
         op_len= strlen(opname);
         arguments=(char **) malloc(sizeof(char *));
-        arguments_len= split(line+op_len+1,arguments,", \t");
+        arguments_len= split(line+op_len+1,arguments,",");//todo delimeter :", \t"?
         set_args(result, symbols, arguments, arguments_len, &ic, err);
     }
     return result;
@@ -104,29 +128,163 @@ void set_args(instruction to_set, symbol_table symbols, char **arguments_list, u
     required_number_of_operands= get_n_operands(to_set->op);
     if(n_args>required_number_of_operands){
         *err=TOO_MANY_ARGS;
-    } else if (n_args<required_number_of_operands){
-        *err=TOO_FEW_ARGS;
-    } else{
-        switch (required_number_of_operands) {
-            case REQUIRED_ONE:
-                set_one_arg(to_set,symbols,*arguments_list,ic,err);
+    } else if (n_args<required_number_of_operands) {
+        *err = TOO_FEW_ARGS;
+    } else {
+        char *source=NULL,*dest=NULL;
+
+        if (required_number_of_operands==REQUIRED_ONE){
+            dest=*arguments_list;
+        } else if(required_number_of_operands==REQUIRED_TWO){
+            source=*arguments_list;
+            dest=*(arguments_list+1);
+        }
+        set_addressing_modes(to_set,source,dest,err);
+        build_second_word(to_set,symbols,source,dest,ic,err);
+        build_operand(to_set,symbols,source,0,ic,err);
+        build_operand(to_set,symbols,dest,1,ic,err);
+//        build_source(to_set,symbols,source,ic,err);
+//        build_dest(to_set,symbols,dest,ic,err);
+        }
+
+
+    }
+
+void
+build_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
+    if (operand_str){
+        addressing_mode mode;
+        mode=to_set->source_addressing;
+        if(is_dest){
+            mode=to_set->dest_addressing;
+        }
+        switch (mode) {
+            case IMMEDIATE:
+                set_immediate_operand(to_set, operand_str, is_dest, ic, err);
                 break;
-            case REQUIRED_TWO:
-                set_two_args(to_set,symbols,arguments_list[SOURCE_ARG_INDEX],arguments_list[DEST_ARG_INDEX],ic,err);
+            case DIRECT:
+                set_direct_operand(to_set, symbols, operand_str, is_dest, ic, err);
                 break;
-            case NO_ARGS_REQUIRED:
+            case INDEX:
+                set_index_operand(to_set, symbols, operand_str, is_dest, ic, err);
                 break;
-            default:
-                fprintf(stderr,"we have a problem");
+            case REGISTER_DIRECT:
+                set_register_direct_operand(to_set, operand_str, is_dest, err);
+                break;
         }
     }
 }
+
+void
+set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
+
+}
+
+void
+set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
+    if(symbols){
+        symbol symbol_operand;
+        symbol_operand= get_symbol_by_name(symbols,operand_str);
+        if(!symbol_operand){
+            *err=UNDEFINED_SYMBOL;
+        }
+    }
+
+}
+
+void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, unsigned long *ic, error *err) {
+    int immediate;
+    operand_str= trim_whitespace(operand_str);
+    operand_str++; /*delete the # sign*/
+    if (!str_to_int(operand_str,&immediate)){
+        *err=NOT_INT;
+    } else if(!in_range(immediate)){
+        *err=NOT_IN_RANGE_IMMEDIATE;
+    } else{
+        word immediate_word;
+        immediate_word=init_word();
+        set_immediate(immediate_word,immediate);
+        set_are(immediate_word,ABSOLUTE);
+        (*ic)++;
+        if(is_dest){
+            to_set->words[DEST_ADDRESS_WORD_INDEX]=immediate_word;
+        } else{
+            to_set->words[SOURCE_ADDRESS_WORD_INDEX]=immediate_word;
+        }
+    }
+}
+
+int in_range(int immediate) {
+    return (immediate>MIN_IMMEDIATE)&&(immediate<MAX_IMMEDIATE);
+}
+//
+//void build_dest(instruction to_set, symbol_table symbols, char *dest, unsigned long *ic, error *err) {
+//    if (dest){
+//        switch (to_set->dest_addressing) {
+//            case IMMEDIATE:
+//                set_immediate_operand(to_set->words[DEST_ADDRESS_WORD_INDEX],dest,ic,err);
+//                break;
+//            case DIRECT:
+//                set_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[DEST_ADDRESS_WORD_INDEX],
+//                           to_set->words[DEST_OFFSET_WORD_INDEX],symbols,dest,ic,err);
+//                break;
+//            case INDEX:
+//                set_index_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[DEST_ADDRESS_WORD_INDEX],
+//                          to_set->words[DEST_OFFSET_WORD_INDEX],symbols,dest,1,ic,err);
+//                break;
+//            case REGISTER_DIRECT:
+//                set_register_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX], dest, 1, err);
+//                break;
+//        }
+//    }
+//}
+//
+//void build_source(instruction to_set, symbol_table symbols, char *source, unsigned long *ic, error *err) {
+//    if (source){
+//        switch (to_set->dest_addressing) {
+//            case IMMEDIATE:
+//                set_immediate_operand(to_set->words[SOURCE_ADDRESS_WORD_INDEX],source,ic,err);
+//                break;
+//            case DIRECT:
+//                set_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[SOURCE_ADDRESS_WORD_INDEX],
+//                           to_set->words[SOURCE_OFFSET_WORD_INDEX],symbols,source,ic,err);
+//                break;
+//            case INDEX:
+//                set_index_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[SOURCE_ADDRESS_WORD_INDEX],
+//                          to_set->words[SOURCE_OFFSET_WORD_INDEX],symbols,source,0,ic,err);
+//                break;
+//            case REGISTER_DIRECT:
+//                set_register_direct_operand(to_set, source, 0, err);
+//                break;
+//        }
+//    }
+//}
+
+void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err) {
+    regyster reg;
+    reg= get_register_by_name(operand);
+    if (reg==NULL){
+        *err=INVALID_REGISTER_NAME;
+    } else{
+        int register_code;
+        register_code=get_regcode(reg);
+        if (is_dest){
+            set_dest_register(to_set->words[OPERANDS_INFO_WORD_INDEX], register_code);
+        } else{
+            set_src_register(to_set->words[OPERANDS_INFO_WORD_INDEX], register_code);
+        }
+    }
+}
+
+
 
 void
 build_second_word(instruction to_set, symbol_table symbols, char *source, char *dest, unsigned long *ic, error *err) {
     set_addressing_modes(to_set,source,dest,err);
     if(*err==NOT_ERROR){
         int funct;
+        to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
+        to_set->n_words++;
         funct= get_funct(to_set->op);
         set_address(to_set->words[OPERANDS_INFO_WORD_INDEX],*ic);
         (*ic)++;
@@ -143,7 +301,7 @@ void set_addressing_modes(instruction to_set, char *source, char *dest, error *e
     to_set->dest_addressing = recognize_addressing_mode(dest);
     to_set->source_addressing = recognize_addressing_mode(source);
     if(!is_legal_dest_addressing_mode(to_set->op,to_set->dest_addressing) ||
-                            ((source!=NULL)&&(!is_legal_source_addressing_mode(to_set->op,to_set->source_addressing)))){
+       ((source!=NULL)&&(!is_legal_source_addressing_mode(to_set->op,to_set->source_addressing)))){
         *err=ILLEGAL_ADDRESSING;
     }
 }
@@ -190,21 +348,14 @@ int is_immediate(char *operand) {
     return *operand==IMMEDIATE_SIGN;
 }
 
-void set_one_arg(instruction to_set, symbol_table symbols, char *dest_arg, unsigned long *ic, error *err) {
-
-}
-
-void set_two_args(instruction to_set, symbol_table symbols, char *source_arg, char *dest_arg, unsigned long *ic,
-                  error *err) {
-
-}
-
 void set_operator(instruction to_set, char *name, unsigned long *ic, error *err) {
     to_set->op= get_operator_by_mame(name);
     if(to_set->op==NULL){
         *err=UNDEFINED_OPERATOR;
     } else{
         int opcode;
+        to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
+        to_set->n_words++;
         opcode= get_opcode(to_set->op);
         set_address(to_set->words[OP_WORD_INDEX], *ic);
         (*ic)++;
