@@ -34,7 +34,7 @@ void first_scan(file source) {
         if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
             if (is_syntax_correct) {//todo add the function that check if the commas correct - if everything ok continue
                 if (!(is_entry_def(line))) {/* if this line is not an entry line */
-                    if (is_symbol_def(line) != NOT_SYMBOL) { /* if this line starts with symbol */
+                    if (is_symbol_def(first_word_in_line) != NOT_SYMBOL) { /* if this line starts with symbol */
                         is_symbol = true;
                         symbol_name = pull_symbol_name(first_word_in_line);
                     }

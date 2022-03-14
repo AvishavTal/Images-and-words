@@ -11,53 +11,48 @@
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
 
-int is_entry_def(char *str) {
+boolean is_entry_def(char *str) {
     return !strcmp(str,".entry");
 }
 
-int is_data_def(char *str) {
+boolean is_data_def(char *str) {
     return !strcmp(str,".data");
 }
 
-int is_string_def(char *str) {
+boolean is_string_def(char *str) {
     return !strcmp(str,".string");
 }
 
-int is_extern_def(char *str) {
+boolean is_extern_def(char *str) {
     return !strcmp(str,".extern");
 }
 
-
-int is_symbol_def(char *line) {
-    int result = -1;
-    char *first_word_in_line = get_first_word_in_line(line);
-    if(first_word_in_line[strlen(first_word_in_line)-1] == ':'){
-        result = true;
-    }
-    return result;
+boolean is_symbol_def(char *str) {
+    char last_char=*(str+ strlen(str)-1);
+    return last_char==END_OF_LABLE_SIGN;
 }
 
-int is_comment(char *line){
-    trim_whitespace(line);
-    return *line==START_OF_COMMENT;
+boolean is_comment(char *line){
+    char *temp;
+    temp=trim_whitespace(line);
+    return *temp==START_OF_COMMENT;
 }
 
-int is_empty(char *line){
+boolean is_empty(char *line){
     unsigned long len;
     len= strlen(line);
-    while (len>0){
-        if (!isspace(line[--len])){
-            return 0;
+    while (len>0) {
+        if (!isspace(line[--len])) {
+            return false;
         }
     }
-    return 1;
+    return true;
 }
 
-/* if this str is string - i.e start and end with quotation marks "" */
-int is_string(char *line){
+boolean is_string(char *line){
+    char *temp;
     unsigned long len;
-    len= strlen(line);
+    temp=trim_whitespace(line); // todo think if need to remove spaces from the end of the line
+    len= strlen(temp);
     return line[0]==STRING_BOUNDARY&&line[len-1]==STRING_BOUNDARY;
 }
-
-

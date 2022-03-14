@@ -19,7 +19,7 @@ char *trim_whitespace(char *str){
     while(end > str && isspace((unsigned char)*end))
         end--;
     end[1] = '\0';
-    return str;
+    return str; // do not change! it need to return other string!!
 }
 
 /**
