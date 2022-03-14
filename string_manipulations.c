@@ -81,7 +81,7 @@ char is_zero(char *str) {
 */
 int str_to_double(char *str, double *dest) {
     int result=1;
-    trim_whitespace(str);
+    str=trim_whitespace(str);
     if(is_zero(str)){
         *dest= 0;
     } else{
@@ -92,6 +92,27 @@ int str_to_double(char *str, double *dest) {
     }
     return result;
 }
+
+/**
+ * convert string to int
+ * @param str string to convert
+ * @return 0 iff the string contains non numeric chars
+ */
+int str_to_int(char *str,int *dest){
+    int result=1;
+    str= trim_whitespace(str);
+    if(is_zero(str)){
+        *dest=0;
+    } else{
+        char *end;
+        *dest= strtol(str,&end,10);
+        if(*end || !*dest){
+            result=0;
+        }
+    }
+    return result;
+}
+
 
 /**
 * return the first word in string with whitespaces
