@@ -1,60 +1,62 @@
 //
-// Created by Sapir on 14.3.2022.
+// Created by Avishav & Sapir on March 14,2022
 //
 
 #include "errors.h"
-void print_error(error to_print){
+#include<stdio.h>
+
+void print_error(int line_number,error to_print){
     switch (to_print) {
         case UNDEFINED_OPERATOR:
-            printf("This operator not exist.\n");
+            printf("%d\t This operator not exist.\n", line_number);
             break;
         case DOUBLE_DEFINITION_OF_LABEL:
-            printf("This label is already exist.\n");
+            printf("%d\t This label is already exist.\n", line_number);
             break;
         case ILLEGAL_SYMBOL_NAME:
-            printf("Illegal symbol name.\n");
+            printf("%d\t Illegal symbol name.\n", line_number);
             break;
         case TOO_MANY_ARGS:
-            printf("Too many operands.\n");
+            printf("%d\t Too many operands.\n", line_number);
             break;
         case TOO_FEW_ARGS:
-            printf("Too few operands.\n");
+            printf("%d\t Too few operands.\n", line_number);
             break;
         case ILLEGAL_ADDRESSING:
-            printf("Illegal addressing.\n");
+            printf("%d\t Illegal addressing.\n", line_number);
             break;
         case INVALID_REGISTER_NAME:
-            printf("Invalid register name.\n");
+            printf("%d\t Invalid register name.\n", line_number);
             break;
         case NOT_INT:
-            printf("The number must be integer.\n");
+            printf("%d\t The number must be integer.\n", line_number);
             break;
         case NOT_IN_RANGE_IMMEDIATE:
-            printf("Not in range for immediate addressing.\n");
+            printf("%d\t Not in range for immediate addressing.\n", line_number);
             break;
         case UNDEFINED_SYMBOL:
-            printf("Undefined symbol.\n");
+            printf("%d\t Undefined symbol.\n", line_number);
             break;
         case TOO_MANY_CHARS:
-            printf("Too many chars in line.\n");
+            printf("%d\t Too many chars in line.\n", line_number);
             break;
         case ILLEGAL_DATA:
-            printf("Illegal data.\n");
+            printf("%d\t Illegal data.\n", line_number);
             break;
         case ILLEGAL_STRING:
-            printf("Illegal string.\n");
+            printf("%d\t Illegal string.\n", line_number);
             break;
         case SYNTAX_ERROR:
-            printf("Illegal data.\n");
+            printf("%d\t Illegal data.\n", line_number);
             break;
         case INVALID_REGISTER_FOR_INDEX:
-            printf("Invalid register for index.\n");
+            printf("%d\t Invalid register for index.\n", line_number);
             break;
         case ILLEGAL_OPERAND:
-            printf("Illegal operand.\n");
+            printf("%d\t Illegal operand.\n", line_number);
             break;
         default:
-            printf("Im in the default case - we have a problem.\n");
+            printf("%d\t Im in the default case - we have a problem.\n", line_number);
             break;
     }
 }
