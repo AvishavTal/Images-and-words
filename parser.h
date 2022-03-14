@@ -55,7 +55,11 @@ boolean is_empty(char *line);
  * @return true if string, -1 otherwise
  */
 boolean is_string(char *line);
-
-int is_reserved_word(char *word);//todo
+/**
+ * gets word and check if equal to reserved word (as macro, endm, register name, operator name etc.)
+ * @param word word to check
+ * @return true if reserved word, false otherwise
+ */
+boolean is_reserved_word(char *word);//todo
 
 #endif //EX14_PARSER_H
