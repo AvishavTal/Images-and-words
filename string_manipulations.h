@@ -22,12 +22,20 @@ char *trim_whitespace(char *str);
  */
 int split(char *src, char **dest, const char *delimiter);
 
+
 /**
  * convert string to a floating point number
  * @param str string to convert
  * @return 0 iff the string contains non numeric chars
  */
 int str_to_double(char *str, double *dest);
+
+/**
+ * convert string to int
+ * @param str string to convert
+ * @return 0 iff the string contains non numeric chars
+ */
+int str_to_int(char *str,int *dest);
 
 /**
  * check if given string represent the number zero.
