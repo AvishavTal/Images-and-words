@@ -1,12 +1,15 @@
 //
-// Created by avishav on 4.3.2022.
+// Created by Avishav & Sapir on 4.3.2022.
 //
+
 #include "file.h"
 #include "macro_table.h"
 #include "symbol_table.h"
+#include "data_image.h"
+#include "boolean.h"
 #include <stdlib.h>
 #include <string.h>
-#include "data_image.h"
+
 #define EXTENSION_LENGTH 5
 
 struct file{
@@ -25,12 +28,13 @@ struct file{
     data_image image;
 
     /*flags*/
-    unsigned int has_passed_pre_assembler :1;
-    unsigned int has_passed_first_scan :1;
-    unsigned int has_passed_second_scan :1;
+    boolean is_ob_file_exist;
+    boolean has_passed_pre_assembler;
+    boolean has_passed_first_scan;
+    boolean has_passed_second_scan;
 
-    long ICF;//todo add getters and setters
-    long DCF;//todo add getters and setters
+    long ICF;
+    long DCF;
 };
 
 file init_file(char *name){
@@ -45,12 +49,11 @@ file init_file(char *name){
     result->marcos=init_macro_table();
     result->symbols=init_symbol_table();
     result->image=init_data_image();
-    result->has_passed_first_scan=1;/*if first scan failed wil be changed to 0*/
-    result->has_passed_pre_assembler=1;/*if pre-assembler failed wil be changed to 0*/
-    result->has_passed_second_scan=1;
+    result->has_passed_first_scan=true;/*if first scan failed wil be changed to false*/
+    result->has_passed_pre_assembler=true;/*if pre-assembler failed wil be changed to false*/
+    result->has_passed_second_scan=true;
     return result;
 }
-
 char *get_name(file file){
     return file->name;
 }
@@ -118,17 +121,32 @@ symbol_table get_symbol_table(file file){
 data_image get_data_image(file file1){
     return file1->image;
 }
-int has_passed_pre_assembler(file file){
+boolean is_ob_file_exist(file file){
+    return file->is_ob_file_exist;
+}
+void mark_ob_file_exist(file file){
+    file->is_ob_file_exist=true;
+}
+void mark_ob_file_not_exist(file file){
+    file->is_ob_file_exist=false;
+}
+boolean has_passed_pre_assembler(file file){
     return file->has_passed_pre_assembler;
 }
 void mark_pre_assembler_failed(file file){
-    file->has_passed_pre_assembler=0;
+    file->has_passed_pre_assembler=false;
 }
-int has_passed_first_scan(file file){
+boolean has_passed_first_scan(file file){
     return file->has_passed_first_scan;
 }
 void mark_first_scan_failed(file file){
-    file->has_passed_first_scan=0;
+    file->has_passed_first_scan=false;
+}
+boolean has_passed_second_scan(file file){
+    return file->has_passed_second_scan;
+}
+void mark_second_scan_failed(file file){
+    file->has_passed_second_scan=false;
 }
 long get_final_ic(file file){
     return file->ICF;
