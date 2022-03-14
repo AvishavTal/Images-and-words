@@ -1,7 +1,6 @@
 //
-// Created by avishav on 10.3.2022.
+// Created by Sapir on 14.3.2022.
 //
-void print_error(error to_print){
 
 #include "errors.h"
 void print_error(error to_print){
@@ -54,8 +53,8 @@ void print_error(error to_print){
         case ILLEGAL_OPERAND:
             printf("Illegal operand.\n");
             break;
-
         default:
+            printf("Im in the default case - we have a problem.\n");
             break;
     }
 }
