@@ -117,6 +117,16 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     *n_words=result->n_words;
     return result;
 }
+void delete_instruction(instruction to_delete){
+    int i=0;
+    for ( ; i <MAX_N_WORDS ;i++) {
+        if(to_delete->words[i]){
+            delete_word(to_delete->words[i]);
+        }
+    }
+    free(to_delete);
+}
+
 
 void set_args(instruction to_set, symbol_table symbols, char **arguments_list, unsigned long n_args, unsigned long *ic,
               error *err) {
@@ -260,48 +270,7 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
 int in_range(int immediate) {//todo calculate min and max values
     return (immediate>MIN_IMMEDIATE)&&(immediate<MAX_IMMEDIATE);
 }
-//
-//void build_dest(instruction to_set, symbol_table symbols, char *dest, unsigned long *ic, error *err) {
-//    if (dest){
-//        switch (to_set->dest_addressing) {
-//            case IMMEDIATE:
-//                set_immediate_operand(to_set->words[DEST_ADDRESS_WORD_INDEX],dest,ic,err);
-//                break;
-//            case DIRECT:
-//                set_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[DEST_ADDRESS_WORD_INDEX],
-//                           to_set->words[DEST_OFFSET_WORD_INDEX],symbols,dest,ic,err);
-//                break;
-//            case INDEX:
-//                set_index_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[DEST_ADDRESS_WORD_INDEX],
-//                          to_set->words[DEST_OFFSET_WORD_INDEX],symbols,dest,1,ic,err);
-//                break;
-//            case REGISTER_DIRECT:
-//                set_register_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX], dest, 1, err);
-//                break;
-//        }
-//    }
-//}
-//
-//void build_source(instruction to_set, symbol_table symbols, char *source, unsigned long *ic, error *err) {
-//    if (source){
-//        switch (to_set->dest_addressing) {
-//            case IMMEDIATE:
-//                set_immediate_operand(to_set->words[SOURCE_ADDRESS_WORD_INDEX],source,ic,err);
-//                break;
-//            case DIRECT:
-//                set_direct_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[SOURCE_ADDRESS_WORD_INDEX],
-//                           to_set->words[SOURCE_OFFSET_WORD_INDEX],symbols,source,ic,err);
-//                break;
-//            case INDEX:
-//                set_index_operand(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->words[SOURCE_ADDRESS_WORD_INDEX],
-//                          to_set->words[SOURCE_OFFSET_WORD_INDEX],symbols,source,0,ic,err);
-//                break;
-//            case REGISTER_DIRECT:
-//                set_register_direct_operand(to_set, source, 0, err);
-//                break;
-//        }
-//    }
-//}
+
 
 void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err) {
     regyster reg;

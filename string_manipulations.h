@@ -35,7 +35,7 @@ int str_to_double(char *str, double *dest);
  * @param str string to convert
  * @return 0 iff the string contains non numeric chars
  */
-int str_to_int(char *str,int *dest);
+int str_to_int(char *str,int *dest);//todo implement
 
 /**
  * check if given string represent the number zero.
