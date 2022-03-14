@@ -187,9 +187,24 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
         symbol_operand= get_symbol_by_name(symbols,operand_str);
         if(!symbol_operand){
             *err=UNDEFINED_SYMBOL;
+        } else{
+            word address_word,offset_word;
+            unsigned long symbol_address,symbol_offset;
+            address_word=init_word();
+            offset_word=init_word();
+            symbol_address= get_symbol_base_address(symbol_operand);
+            symbol_offset= get_symbol_offset(symbol_operand);
+            set_immediate(address_word,symbol_address);
+            set_immediate(offset_word,symbol_offset);
+            if(is_dest){
+                to_set->words[DEST_ADDRESS_WORD_INDEX]=address_word;
+                to_set->words[DEST_OFFSET_WORD_INDEX]=offset_word;
+            } else{
+                to_set->words[SOURCE_ADDRESS_WORD_INDEX]=address_word;
+                to_set->words[SOURCE_OFFSET_WORD_INDEX]=offset_word;
+            }
         }
     }
-
 }
 
 void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, unsigned long *ic, error *err) {
@@ -214,7 +229,7 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
     }
 }
 
-int in_range(int immediate) {
+int in_range(int immediate) {//todo calculate min and max values
     return (immediate>MIN_IMMEDIATE)&&(immediate<MAX_IMMEDIATE);
 }
 //

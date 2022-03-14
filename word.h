@@ -8,6 +8,8 @@
 #include "ARE.h"
 #include "addressing_mode.h"
 
+
+//todo change all to unsigned
 /**
  * representation of machine word
  */
