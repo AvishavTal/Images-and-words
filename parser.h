@@ -56,6 +56,6 @@ boolean is_empty(char *line);
  */
 boolean is_string(char *line);
 
-int is_reserved_word(char *word);//todo
+boolean is_reserved_word(char *word);//todo
 
 #endif //EX14_PARSER_H

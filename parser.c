@@ -6,6 +6,8 @@
 #include "string_manipulations.h"
 #include <string.h>
 #include "boolean.h"
+#include "operator_table.h"
+#include "register_table.h"
 
 #define END_OF_LABLE_SIGN ':'
 #define START_OF_COMMENT ';'
@@ -55,4 +57,10 @@ boolean is_string(char *line){
     temp=trim_whitespace(line); // todo think if need to remove spaces from the end of the line
     len= strlen(temp);
     return line[0]==STRING_BOUNDARY&&line[len-1]==STRING_BOUNDARY;
+}
+
+boolean is_reserved_word(char *word){
+    word= trim_whitespace(word);
+    return ((get_register_by_name(word)!=NULL)||(get_operator_by_mame(word)!=NULL)|| is_entry_def(word)||
+    is_data_def(word)||is_extern_def(word)||is_string_def(word));
 }
