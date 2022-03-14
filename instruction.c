@@ -41,8 +41,8 @@
 #define RIGHT_BRAKET ']'
 
 
-#define MAX_IMMEDIATE 0
-#define MIN_IMMEDIATE 0
+#define MAX_IMMEDIATE 32767
+#define MIN_IMMEDIATE -32768
 
 
 struct instruction{
@@ -189,6 +189,7 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             *err=UNDEFINED_SYMBOL;
         } else{
             word address_word,offset_word;
+            are are1;
             unsigned long symbol_address,symbol_offset;
             address_word=init_word();
             offset_word=init_word();
@@ -196,6 +197,16 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             symbol_offset= get_symbol_offset(symbol_operand);
             set_immediate(address_word,symbol_address);
             set_immediate(offset_word,symbol_offset);
+            are1=RELOCATABLE;
+            if (is_extern_symbol(symbol_operand)){
+                are1=EXTERNAL;
+            }
+            set_are(address_word,are1);
+            set_are(offset_word,are1);
+            set_address(address_word,*ic);
+            (*ic)++;
+            set_address(offset_word,*ic);
+            (*ic)++;
             if(is_dest){
                 to_set->words[DEST_ADDRESS_WORD_INDEX]=address_word;
                 to_set->words[DEST_OFFSET_WORD_INDEX]=offset_word;
