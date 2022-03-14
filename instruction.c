@@ -60,11 +60,6 @@ void set_args(instruction to_set, symbol_table symbols, char **arguments_list, u
               error *err);
 
 void
-set_two_args(instruction to_set, symbol_table symbols, char *source_arg, char *dest_arg, unsigned long *ic, error *err);
-
-void set_one_arg(instruction to_set, symbol_table symbols, char *dest_arg, unsigned long *ic, error *err);
-
-void
 build_second_word(instruction to_set, symbol_table symbols, char *source, char *dest, unsigned long *ic, error *err);
 
 addressing_mode recognize_addressing_mode(char *operand);
@@ -76,10 +71,6 @@ int is_immediate(char *operand);
 int is_index(char *operand);
 
 int is_register_direct(char *operand);
-
-void build_source(instruction to_set, symbol_table symbols, char *source, unsigned long *ic, error *err);
-
-void build_dest(instruction to_set, symbol_table symbols, char *dest, unsigned long *ic, error *err);
 
 
 void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err);
@@ -100,8 +91,10 @@ void break_to_label_and_reg(char *operan_str, char *label, char *reg_name, error
 
 void print_instruction(FILE *dest, instruction to_print){
     int i=0;
-    for (; i<to_print->n_words ; ++i) {
-        print_word(dest,to_print->words[i]);
+    for (; i<MAX_N_WORDS ; ++i) {
+        if(to_print->words[i]){
+            print_word(dest,to_print->words[i]);
+        }
     }
 }
 
@@ -121,6 +114,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
         arguments_len= split(line+op_len+1,arguments,", \t");
         set_args(result, symbols, arguments, arguments_len, &ic, err);
     }
+    *n_words=result->n_words;
     return result;
 }
 
@@ -229,6 +223,7 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             (*ic)++;
             set_address(offset_word,*ic);
             (*ic)++;
+            to_set->n_words+=2;
             if(is_dest){
                 to_set->words[DEST_ADDRESS_WORD_INDEX]=address_word;
                 to_set->words[DEST_OFFSET_WORD_INDEX]=offset_word;
