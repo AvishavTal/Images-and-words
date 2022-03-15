@@ -1,14 +1,15 @@
-//
-// Created by Avishav & Sapir on March 4,2022
-//
+/*
+* Created by Avishav & Sapir on March 4,2022
+*/
 
+#include <stdlib.h>
+#include <string.h>
 #include "file.h"
 #include "macro_table.h"
 #include "symbol_table.h"
 #include "data_image.h"
 #include "boolean.h"
-#include <stdlib.h>
-#include <string.h>
+#include "system_errors.h"
 
 #define EXTENSION_LENGTH 5
 
@@ -39,7 +40,7 @@ struct file{
 
 file init_file(char *name){
     file result;
-    result=(file)malloc(sizeof(struct file));
+    result=(file)calloc(1,sizeof(struct file));
     result->name=name;
     set_name_as(result);
     set_name_am(result);
@@ -64,9 +65,11 @@ void set_name_as(file file) {
     unsigned long len;
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
-    file->name_as=(char *) malloc(len);
-    strcpy(file->name_as,file->name);
-    strcat(file->name_as,".as");
+    file->name_as=(char *)calloc(1,len);
+    if(is_allocation_succeeded(file->name_as)) {
+        strcpy(file->name_as, file->name);
+        strcat(file->name_as, ".as");
+    }
 }
 char *get_name_am(file file){
     return file->name_am;
@@ -75,9 +78,11 @@ void set_name_am(file file) {
     unsigned long len;
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
-    file->name_am=(char *) malloc(len);
-    strcpy(file->name_am,file->name);
-    strcat(file->name_am,".am");
+    file->name_am=(char *)calloc(1,len);
+    if(is_allocation_succeeded(file->name_am)) {
+        strcpy(file->name_am, file->name);
+        strcat(file->name_am, ".am");
+    }
 }
 char *get_name_ob(file file){
     return file->name_ob;
@@ -86,9 +91,11 @@ void set_name_ob(file file) {
     unsigned long len;
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
-    file->name_ob=(char *) malloc(len);
-    strcpy(file->name_ob,file->name);
-    strcat(file->name_ob,".ob");
+    file->name_ob=(char *)calloc(1,len);
+    if(is_allocation_succeeded(file->name_ob)) {
+        strcpy(file->name_ob, file->name);
+        strcat(file->name_ob, ".ob");
+    }
 }
 char *get_name_ent(file file){
     return file->name_ent;
@@ -97,9 +104,11 @@ void set_name_ent(file file) {
     unsigned long len;
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
-    file->name_ent=(char *) malloc(len);
-    strcpy(file->name_ent,file->name);
-    strcat(file->name_ent,".ent");
+    file->name_ent=(char *)calloc(1,len);
+    if(is_allocation_succeeded(file->name_ent)) {
+        strcpy(file->name_ent, file->name);
+        strcat(file->name_ent, ".ent");
+    }
 }
 char *get_name_ext(file file){
     return file->name_ext;
@@ -108,9 +117,11 @@ void set_name_ext(file file) {
     unsigned long len;
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
-    file->name_ext=(char *) malloc(len);
-    strcpy(file->name_ext,file->name);
-    strcat(file->name_ext,".ext");
+    file->name_ext=(char *)calloc(1,len);
+    if(is_allocation_succeeded(file->name_ext)) {
+        strcpy(file->name_ext, file->name);
+        strcat(file->name_ext, ".ext");
+    }
 }
 macro_table get_macro_table(file file){
     return file->marcos;
