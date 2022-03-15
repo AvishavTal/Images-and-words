@@ -2,6 +2,7 @@
 * Created by Avishav & Sapir on March 10,2022
 */
 
+#include <ctype.h>
 #include <string.h>
 #include "parser.h"
 #include "string_manipulations.h"
