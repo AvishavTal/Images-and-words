@@ -131,7 +131,7 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
 
 int is_legal_name(char *name) {
     boolean result=true;
-    if(is_reserved_word(name)|| (strlen(name)>MAX_NAME_LENGTH)||!is_alpha_numeric_word(name)){
+    if(is_reserved_word(name)|| (strlen(name)>MAX_NAME_LENGTH)||!isalpha(*name)||!is_alpha_numeric_word(name)){
         result=false;
     }
     return result;
