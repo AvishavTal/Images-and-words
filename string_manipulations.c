@@ -1,14 +1,14 @@
-//
-// Created by avishav on 2.3.2022.
-//
+/*
+* Created by Avishav & Sapir on March 2,2022
+*/
 
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 #include "string_manipulations.h"
+#include "system_errors.h"
+#include "parser.h"
 
-/**
- * trim the whitespaces from the edges of the given string
- * @param str
- * @return
- */
 char *trim_whitespace(char *str){
     char *end;
     while(isspace((unsigned char)*str))
@@ -19,17 +19,10 @@ char *trim_whitespace(char *str){
     while(end > str && isspace((unsigned char)*end))
         end--;
     end[1] = '\0';
-    return str; // do not change! it need to return other string!!
+    return str;
 }
 
-/**
- * split the given string to several strings
- * @param src the string to split
- * @param dest 2D array to hold the output strings
- * @param delimiter
- * @return the number of strings
- */
-int split(char *src, char **dest, const char *delimiter) {
+int split(char *src, char **dest, const char *delimiter){
     int i;
     char *temp;
     i=0;
@@ -40,51 +33,39 @@ int split(char *src, char **dest, const char *delimiter) {
         temp=strtok(NULL,delimiter);
         i++;
     }
-
     return i;
 }
 
-/**
- * check if given string represent the number zero.
- * @param str
- * @return 0 iff str is not representation of 0.
- */
-char is_zero(char *str) {
-    char result=1;
+boolean is_zero(char *str){
+    boolean result=true;
     int i=1;
-    char point_flag=0;
+    char point_flag=false;
     if(*str != '0' && *str !='-' && *str !='+' && *str !='.'){
-        result=0;
+        result=false;
     }
     if (*str=='.'){
-        point_flag=1;
+        point_flag=true;
     }
     while (result&&i< strlen(str)){
         if (str[i]=='.'){
             if (point_flag){
-                result=0;
+                result=false;
             }
-            point_flag=1;
-        } else if (str[i]){
-            result=0;
+            point_flag=true;
+        }else if (str[i]){
+            result=false;
         }
         ++i;
     }
     return result;
 }
 
-
-/**
-* convert string to a floating point number
-* @param str string to convert
-* @return 0 iff the string contains non numeric chars
-*/
-int str_to_double(char *str, double *dest) {
+int str_to_double(char *str, double *dest){
     int result=1;
     str=trim_whitespace(str);
     if(is_zero(str)){
         *dest= 0;
-    } else{
+    }else{
         *dest= atof(str);
         if (!(*dest)){
             result=0;
@@ -93,17 +74,12 @@ int str_to_double(char *str, double *dest) {
     return result;
 }
 
-/**
- * convert string to int
- * @param str string to convert
- * @return 0 iff the string contains non numeric chars
- */
 int str_to_int(char *str,int *dest){
     int result=1;
-    str= trim_whitespace(str);
+    str=trim_whitespace(str);
     if(is_zero(str)){
         *dest=0;
-    } else{
+    }else{
         char *end;
         *dest= strtol(str,&end,10);
         if(*end || !*dest){
@@ -113,30 +89,32 @@ int str_to_int(char *str,int *dest){
     return result;
 }
 
-
-/**
-* return the first word in string with whitespaces
-* @param str string to manipulate
-* @return the first word in str with whitespaces
-*/
 char* get_first_word_in_line(char *str){
-    char *first_word = (char*)calloc(1,strlen(str)+1);
-    int str_index=0;
+    char *first_word;
+    int str_index;
 
-    while(isspace(str[str_index])) {
-        first_word[str_index] = str[str_index];
-        str_index++;
-    }
-    while(!(isspace(str[str_index]))) {
-        first_word[str_index] = str[str_index];
-        str_index++;
+    if(is_empty(str))
+        return NULL;
+
+    str_index=0;
+    first_word=(char*)calloc(1,strlen(str)+1);
+    if(is_allocation_succeeded(first_word)) {
+        while (isspace(str[str_index])) {
+            first_word[str_index] = str[str_index];
+            str_index++;
+        }
+        while (!(isspace(str[str_index]))) {
+            first_word[str_index] = str[str_index];
+            str_index++;
+        }
     }
     return first_word;
 }
 
 boolean is_alpha_numeric_word(char *word){
     unsigned long len;
-    boolean result=true;
+    boolean result;
+    result=true;
     len= strlen(word);
     while (len){
         --len;
@@ -145,5 +123,4 @@ boolean is_alpha_numeric_word(char *word){
         }
     }
     return result;
-
 }
