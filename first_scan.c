@@ -54,12 +54,12 @@ void first_scan(file source) {
                     else if ((is_symbol) && (is_string_def(second_word_in_line))) {
                         add_symbol(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
                         add_string(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),
-                                   &words_num);//todo maybe to add err
+                                   &words_num, NULL);//todo maybe to add err
                         DC += words_num;
                     }
                     /* if this line is string only */
                     else if ((!is_symbol) && (is_string_def(first_word_in_line))) {
-                        add_string(image, DC, line + strlen(first_word_in_line), &words_num);
+                        add_string(image, DC, line + strlen(first_word_in_line), &words_num, NULL);
                         DC += words_num;
                     }
                     /* if this line is external line */
@@ -93,7 +93,7 @@ void first_scan(file source) {
     if(!is_there_error){ // check + print if there is errors - if not continue - exist in file
         ICF = IC;
         DCF = DC;
-        update_symbol_table(symbols, ICF, DCF);//todo - im not sure what else is needed
+        update_addresses_of_data_symbols(ICF);
         update_addresses(image, ICF);
     }
 }

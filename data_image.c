@@ -74,14 +74,15 @@ void add_string(data_image image, unsigned long address, char *new_string, int *
         for (; i <*n_words ; i++) {
             if (isprint(new_string[i])){
                 add_data(image,address,new_string[i]);
+                address++;
             } else{
                 *err=ILLEGAL_STRING;
             }
-
         }
     }
 }
 
 void add_data_line(data_image image, unsigned long address, char *line, int *n_words, error *err) {
+
 
 }
