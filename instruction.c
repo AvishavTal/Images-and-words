@@ -149,8 +149,6 @@ void set_args(instruction to_set, symbol_table symbols, char **arguments_list, u
         build_second_word(to_set,symbols,source,dest,ic,err);
         build_operand(to_set,symbols,source,0,ic,err);
         build_operand(to_set,symbols,dest,1,ic,err);
-//        build_source(to_set,symbols,source,ic,err);
-//        build_dest(to_set,symbols,dest,ic,err);
         }
 
 
@@ -267,7 +265,7 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
     }
 }
 
-int in_range(int immediate) {//todo calculate min and max values
+int in_range(int immediate) {
     return (immediate>MIN_IMMEDIATE)&&(immediate<MAX_IMMEDIATE);
 }
 
@@ -305,8 +303,6 @@ build_second_word(instruction to_set, symbol_table symbols, char *source, char *
         set_src_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->source_addressing);
         set_dest_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->dest_addressing);
     }
-
-
 }
 
 void set_addressing_modes(instruction to_set, char *source, char *dest, error *err) {

@@ -14,5 +14,5 @@
 #include "first_and_second_scan_constants.h"
 
 char* pull_symbol_name(char *str);
-
+void first_scan(file source);
 #endif //EX14_FIRST_SCAN_H
