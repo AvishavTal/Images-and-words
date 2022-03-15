@@ -9,6 +9,8 @@
 #include "parser.h"
 
 
+#define BASE 16
+
 struct symbol_table{
     list table;
 };
@@ -25,6 +27,19 @@ symbol_table init_symbol_table(){
     return result;
 }
 
+void add_symbol(symbol_table symbols, char *symbol_name, unsigned long address, int is_entry,
+                int is_extern, int is_data, int is_code, error *error1){
+    if (!is_legal_name(symbol_name)){
+        *error1=ILLEGAL_SYMBOL_NAME;
+    } else if(double_definition(symbols, symbol_name, is_extern, error1)){
+        symbol new_symbol;
+        unsigned long base_address,offset;
+        base_address=address/BASE;
+        offset=address%BASE;
+        new_symbol= init_symbol_with_values(symbol_name,address,base_address,offset,is_entry,is_extern,is_data,is_code);
+        push_symbol(symbols,new_symbol);
+    }
+}
 
 symbol get_symbol_by_name(symbol_table symbols, char *symbol_name) {
     node current_node=NULL;
@@ -61,7 +76,7 @@ void print_entries(FILE *dest,symbol_table to_print){
         current_symbol=get_node_data(current_node);
         if (is_entry_symbol(current_symbol)){
             char *name;
-            long address,offset;
+            unsigned long address,offset;
             name= get_symbol_name(current_symbol);
             address= get_symbol_base_address(current_symbol);
             offset= get_symbol_offset(current_symbol);
@@ -79,7 +94,7 @@ void print_externals(FILE *dest,symbol_table to_print){
         current_symbol=get_node_data(current_node);
         if (is_extern_symbol(current_symbol)){
             char *name;
-            long address,offset;
+            unsigned long address,offset;
             name= get_symbol_name(current_symbol);
             address= get_symbol_base_address(current_symbol);
             offset= get_symbol_offset(current_symbol);
@@ -89,16 +104,16 @@ void print_externals(FILE *dest,symbol_table to_print){
         current_node=get_next_node(current_node);
     }
 }
-void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
-                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){
-    if (!is_legal_name(name)){
-        *error1=ILLEGAL_SYMBOL_NAME;
-    } else if(double_definition(table, name, is_extern, error1)){
-        symbol new_symbol;
-        new_symbol= init_symbol_with_values(name,value,base_address,offset,is_entry,is_extern,is_data,is_code);
-        push_symbol(table,new_symbol);
-    }
-}
+//void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
+//                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){
+//    if (!is_legal_name(name)){
+//        *error1=ILLEGAL_SYMBOL_NAME;
+//    } else if(double_definition(table, name, is_extern, error1)){
+//        symbol new_symbol;
+//        new_symbol= init_symbol_with_values(name,value,base_address,offset,is_entry,is_extern,is_data,is_code);
+//        push_symbol(table,new_symbol);
+//    }
+//}
 
 int double_definition(symbol_table symbols, char *name, int is_extern, error *error1) {
     symbol old_symbol;
