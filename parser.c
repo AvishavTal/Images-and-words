@@ -2,40 +2,40 @@
 * Created by Avishav & Sapir on March 10,2022
 */
 
+#include <string.h>
 #include "parser.h"
 #include "string_manipulations.h"
-#include <string.h>
 #include "boolean.h"
 #include "operator_table.h"
 #include "register_table.h"
 
-#define END_OF_LABLE_SIGN ':'
+#define END_OF_SYMBOL_SIGN ':'
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
 
-boolean is_entry_def(char *str) {
-    str=trim_whitespace(str);
-    return !strcmp(str,".entry");
+boolean is_entry_def(char *word) {
+    word=trim_whitespace(word);
+    return !strcmp(word,".entry");
 }
 
-boolean is_data_def(char *str) {
-    str=trim_whitespace(str);
-    return !strcmp(str,".data");
+boolean is_data_def(char *word) {
+    word=trim_whitespace(word);
+    return !strcmp(word,".data");
 }
 
-boolean is_string_def(char *str) {
-    str=trim_whitespace(str);
-    return !strcmp(str,".string");
+boolean is_string_def(char *word) {
+    word=trim_whitespace(word);
+    return !strcmp(word,".string");
 }
 
-boolean is_extern_def(char *str) {
-    str=trim_whitespace(str);
-    return !strcmp(str,".extern");
+boolean is_extern_def(char *word) {
+    word=trim_whitespace(word);
+    return !strcmp(word,".extern");
 }
 
-boolean is_symbol_def(char *str) {
-    str=trim_whitespace(str);
-    return *(str+ strlen(str)-1)==END_OF_LABLE_SIGN;
+boolean is_symbol_def(char *word) {
+    word=trim_whitespace(word);
+    return *(word+ strlen(word)-1) == END_OF_SYMBOL_SIGN;
 }
 
 boolean is_comment(char *line){
