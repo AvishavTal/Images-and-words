@@ -66,6 +66,11 @@ void set_address(word to_set,unsigned long new_address){
     to_set->address=new_address;
 }
 
+unsigned long get_address(word word1){
+    return word1->address;
+}
+
+
 void delete_word(word to_delete){
     free(to_delete);
 }
