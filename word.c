@@ -48,7 +48,7 @@ word init_word(){
 }
 
 void print_word(FILE *dest, word to_print){
-    int a=0,b=0,c=0,d=0,e=0; /*the groups of bits in the special base*/
+    unsigned int a=0,b=0,c=0,d=0,e=0; /*the groups of bits in the special base*/
     a=to_print->the_actual_word>>A_SHIFT;
     b=to_print->the_actual_word>>B_SHIFT;
     c=to_print->the_actual_word>>C_SHIFT;
