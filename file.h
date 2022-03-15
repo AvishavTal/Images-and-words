@@ -1,6 +1,6 @@
-//
-// Created by Avishav & Sapir on March 4,2022
-//
+/*
+** Created by Avishav & Sapir on March 4,2022
+*/
 
 #ifndef EX14_FILE_H
 #define EX14_FILE_H
@@ -198,4 +198,4 @@ long get_final_dc(file file);
  */
 void set_final_dc(file file, long final_dc);
 
-#endif //EX14_FILE_H
+#endif /*EX14_FILE_H*/
