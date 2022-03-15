@@ -11,6 +11,9 @@
 
 #define BASE 16
 
+#define MAX_NAME_LENGTH 31
+
+
 struct symbol_table{
     list table;
 };
@@ -128,9 +131,11 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
 }
 
 int is_legal_name(char *name) {
-    //todo chek size
-    //todo check all chars alphanumeric
-    return !is_reserved_word(name);
+    boolean result=true;
+    if(is_reserved_word(name)|| (strlen(name)>MAX_NAME_LENGTH)||!alpha_numeric_word(name)){
+        result=false;
+    }
+    return result;
 }
 
 //todo update table (data and string to the end of the table)

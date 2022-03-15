@@ -133,3 +133,17 @@ char* get_first_word_in_line(char *str){
     }
     return first_word;
 }
+
+boolean is_alpha_numeric_word(char *word){
+    unsigned long len;
+    boolean result=true;
+    len= strlen(word);
+    while (len){
+        --len;
+        if(!isalnum(word[len])){
+            result=false;
+        }
+    }
+    return result;
+
+}
