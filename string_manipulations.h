@@ -7,6 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include "boolean.h"
 /**
  * trim the whitespaces from the edges of the given string
  * @param str
@@ -50,4 +51,5 @@ char is_zero(char *str);
 * @return the first word in str without whitespaces
 */
 char* get_first_word_in_line(char *str);
+boolean is_alpha_numeric_word(char *word);
 #endif //EX14_STRING_MANIPULATIONS_H
