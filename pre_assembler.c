@@ -11,8 +11,7 @@
 #define LINE_SIZE 81
 
 void write_macro_content(FILE *dest, macro to_write);
-int start_of_macro_definition(char *first_word);
-int end_of_macro_definition(char *line);
+
 void write_line(FILE *dest, char *line);
 
 void pre_assembler(file source) {
