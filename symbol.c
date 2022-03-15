@@ -7,11 +7,11 @@
 
 #include "symbol.h"
 
+#define BASE 16
+
 struct symbol{
     char *name;
     unsigned long value;
-    unsigned long base_address;
-    unsigned long offset;
     struct attr{
         unsigned int is_entry :1;
         unsigned int is_extern :1;
@@ -25,8 +25,6 @@ symbol init_symbol(){
     symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = NULL;
     new_symbol->value = 0;
-    new_symbol->base_address = 0;
-    new_symbol->offset = 0;
     new_symbol->attribute.is_extern=0;
     new_symbol->attribute.is_entry=0;
     new_symbol->attribute.is_data=0;
@@ -34,12 +32,11 @@ symbol init_symbol(){
     return new_symbol;
 }
 
-symbol init_symbol_with_values(char *name, unsigned long value, unsigned long base_address, unsigned long offset, int is_entry, int is_extern, int is_data, int is_code){
+symbol
+init_symbol_with_values(char *name, unsigned long value, int is_entry, int is_extern, int is_data, int is_code) {
     symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = name;
     new_symbol->value = value;
-    new_symbol->base_address = base_address;
-    new_symbol->offset = offset;
     new_symbol->attribute.is_extern=is_extern;
     new_symbol->attribute.is_entry=is_entry;
     new_symbol->attribute.is_data=is_data;
@@ -75,18 +72,13 @@ void set_symbol_value(symbol symbol , unsigned long value){
 }
 
 unsigned long get_symbol_base_address(symbol symbol){
-    return symbol->base_address;
-}
-void set_symbol_base_address(symbol symbol , unsigned long base_address){
-    symbol->base_address = base_address;
+    return symbol->value/BASE;
 }
 
 unsigned long get_symbol_offset(symbol symbol){
-    return symbol->offset;
+    return symbol->value%BASE;
 }
-void set_symbol_offset(symbol symbol , unsigned long offset){
-    symbol->offset = offset;
-}
+
 void mark_entry(symbol to_mark){
     to_mark->attribute.is_entry=1;
 }
@@ -111,14 +103,6 @@ int is_code_symbol(symbol symba){
 int is_data_symbol(symbol symba){
     return symba->attribute.is_data;
 }
-/*
-attribute get_symbol_attribute(symbol symbol){
-    return symbol->attribute;
-}
-void set_symbol_attribute(symbol symbol , attribute attribute){
-    symbol->attribute = attribute;
-}
-*/
 void delete_symbol(symbol to_delete){
     free(to_delete->name);
     free(to_delete);
