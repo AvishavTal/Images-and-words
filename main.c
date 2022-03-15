@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linked_list.h"
-#include "symbol.h"
-#include "macro.h"
-#include "symbol_table.h"
 
 #define LINE_LENGTH 81
 

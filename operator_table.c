@@ -21,6 +21,8 @@ struct operator{
     struct allowed_addressing dest;
 };
 
+unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode);
+
 operator get_operator_by_name(char *name){
     int i=0;
     operator result=NULL;
@@ -59,4 +61,30 @@ int get_funct(operator op){
 }
 int get_n_operands(operator op){
     return op->num_of_operands;
+}
+
+unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode) {
+    int result=0;
+    switch (mode) {
+        case IMMEDIATE:
+            result=allowed.immediate;
+            break;
+        case DIRECT:
+            result=allowed.direct;
+            break;
+        case REGISTER_DIRECT:
+            result=allowed.register_direct;
+            break;
+        case INDEX:
+            result=allowed.index;
+    }
+    return result;
+}
+
+int is_legal_dest_addressing_mode(operator op,addressing_mode mode){
+    return is_allowed_addressing(op->dest,mode);
+}
+
+int is_legal_source_addressing_mode(operator op,addressing_mode mode){
+    return is_allowed_addressing(op->source,mode);
 }
