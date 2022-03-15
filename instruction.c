@@ -357,7 +357,7 @@ int is_immediate(char *operand) {
 }
 
 void set_operator(instruction to_set, char *name, unsigned long *ic, error *err) {
-    to_set->op= get_operator_by_mame(name);
+    to_set->op= get_operator_by_name(name);
     if(to_set->op==NULL){
         *err=UNDEFINED_OPERATOR;
     } else{

@@ -21,7 +21,7 @@ struct operator{
     struct allowed_addressing dest;
 };
 
-operator get_operator_by_mame(char *name){
+operator get_operator_by_name(char *name){
     int i=0;
     operator result=NULL;
     static struct operator operators[]={

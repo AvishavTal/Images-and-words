@@ -59,6 +59,6 @@ boolean is_string(char *line){
 
 boolean is_reserved_word(char *word){
     word= trim_whitespace(word);
-    return ((get_register_by_name(word)!=NULL)||(get_operator_by_mame(word)!=NULL)|| is_entry_def(word)||
-    is_data_def(word)||is_extern_def(word)||is_string_def(word));
+    return ((get_register_by_name(word)!=NULL) || (get_operator_by_name(word) != NULL) || is_entry_def(word) ||
+            is_data_def(word) || is_extern_def(word) || is_string_def(word));
 }

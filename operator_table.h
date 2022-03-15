@@ -6,7 +6,7 @@
 #define EX14_OPERATOR_TABLE_H
 #include "addressing_mode.h"
 typedef struct operator *operator;
-operator get_operator_by_mame(char *name);
+operator get_operator_by_name(char *name);
 int get_opcode(operator op);
 int get_funct(operator op);
 int get_n_operands(operator op);
