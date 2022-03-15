@@ -15,7 +15,8 @@ void first_scan(file source) {
     FILE *src;
     error err;
     long IC, DC;
-    int is_there_error, is_symbol, words_num, line_num;
+    unsigned long line_num;
+    int is_there_error, is_symbol, words_num;
     char line[LINE_LENGTH], *first_word_in_line, *second_word_in_line, *symbol_name;
 
     /* reset variables */
@@ -84,7 +85,7 @@ void first_scan(file source) {
         /* if error was found */
         if(err != NOT_ERROR){
             is_there_error = true;
-            print_error(0, line_num);
+            print_error(line_num, err);
         }
         line_num ++;
     }

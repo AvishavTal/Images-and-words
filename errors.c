@@ -1,12 +1,12 @@
-//
-// Created by Avishav & Sapir on March 14,2022
-//
+/*
+* Created by Avishav & Sapir on March 14,2022
+*/
 
 #include "errors.h"
 #include<stdio.h>
 
-void print_error(int line_number,error to_print){
-    switch (to_print) {
+void print_error(unsigned long line_number,error err_code){
+    switch (err_code) {
         case UNDEFINED_OPERATOR:
             printf("%d\t This operator not exist.\n", line_number);
             break;
