@@ -13,7 +13,7 @@ int get_n_operands(operator op);
 int is_legal_dest_addressing_mode(operator op,addressing_mode mode);
 int is_legal_source_addressing_mode(operator op,addressing_mode mode);
 /**
- * check  opname is name of legal operand, if true then funct and opcode get the value of the opname
+ * check  opname is name of legal operand, if true then funct and opcode get the address of the opname
  * @param opname
  * @param funct
  * @param opcode
