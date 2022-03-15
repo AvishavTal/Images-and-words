@@ -2,8 +2,8 @@
 * Created by Avishav & Sapir on March 14,2022
 */
 
-#include "errors.h"
 #include<stdio.h>
+#include "errors.h"
 
 void print_error(unsigned long line_number,error err_code){
     switch (err_code) {
