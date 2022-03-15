@@ -22,32 +22,3 @@ boolean is_allocation_succeeded(void* pointer);
 boolean is_open_file_succeeded(file* curr_file);
 
 #endif /* EX14_SYSTEM_ERRORS_H */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
