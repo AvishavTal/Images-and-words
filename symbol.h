@@ -8,7 +8,8 @@
 
 typedef struct symbol *symbol;
 symbol init_symbol();
-symbol init_symbol_with_values(char *name, unsigned long value, unsigned long base_address, unsigned long offset, int is_entry, int is_extern, int is_data, int is_code);
+symbol
+init_symbol_with_values(char *name, unsigned long value, int is_entry, int is_extern, int is_data, int is_code);
 void update_symbol(symbol symbol, char* name, unsigned long value, unsigned long base_address, unsigned long offset);
 char* get_symbol_name(symbol symbol);
 void set_symbol_name(symbol symbol , char *name);
