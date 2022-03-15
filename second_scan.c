@@ -23,9 +23,13 @@ void second_scan(file source){
     FILE *src,*dest;
     error error1=NOT_ERROR;
     symbols= get_symbol_table(source);
-    src= fopen(get_name_am(source),"r");//todo add open file check
+    src= fopen(get_name_am(source),"r");
     dest= fopen(get_name_ob(source),"a");
-
+    if(dest==NULL){
+        fprintf(stderr,"problem with opening output file");
+        exit(1);
+    }
+    mark_ob_file_exist(source);
     while ((fgets(line,LINE_LENGTH,src))!=NULL){
         line_number++;
         first_word_in_line=strtok(line," \t");
@@ -43,21 +47,37 @@ void second_scan(file source){
                 if (to_update!=NULL){
                     mark_entry(to_update);
                 } else{
-                    print_error(line_number,UNDEFINED_SYMBOL);
-                    clean_up(source);
+                    error1=UNDEFINED_SYMBOL;
                 }
             } else{
                 int n_words=0;
                 instruction temp_instruction;
                 temp_instruction= init_instruction(line, symbols, ic, &n_words, &error1);
                 ic+=n_words;
-                print_instruction(dest,temp_instruction);//todo error check
+                if(is_ob_file_exist(source)){
+                    print_instruction(dest,temp_instruction);
+                }
             }
+            if (error1!=NOT_ERROR){
+                print_error(line_number,error1);
+                mark_second_scan_failed(source);
+                clean_up(source);
+            }
+
         }
+    }
+    print_data(dest,get_data_image(source));
+    fclose(src);
+    if (is_ob_file_exist(source)){
+        fclose(dest);
     }
 }
 
 void clean_up(file to_clean) {
+    if (is_ob_file_exist(to_clean)){
+        remove(get_name_ob(to_clean));
+        mark_ob_file_not_exist(to_clean);
+    }
 
 }
 
