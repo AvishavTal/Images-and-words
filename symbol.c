@@ -1,108 +1,120 @@
-//
-// Created by Sapir on 28.2.2022.
-//
-#include <stdlib.h>
-#include<stdio.h>
-#include <string.h>
+/*
+** Created by Avishav & Sapir on March 1,2022
+*/
 
+#include <stdlib.h>
+#include <string.h>
 #include "symbol.h"
+#include "boolean.h"
+#include "system_errors.h"
 
 #define BASE 16
 
 struct symbol{
     char *name;
-    unsigned long value;
+    unsigned long address;
     struct attr{
-        unsigned int is_entry :1;
-        unsigned int is_extern :1;
-        unsigned int is_data :1;
-        unsigned int is_code :1;
+        boolean is_entry :1;
+        boolean is_extern :1;
+        boolean is_data :1;
+        boolean is_code :1;
     }attribute;
 };
 
-/* create new symbol and reset all variables */
 symbol init_symbol(){
-    symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
-    new_symbol->name = NULL;
-    new_symbol->value = 0;
-    new_symbol->attribute.is_extern=0;
-    new_symbol->attribute.is_entry=0;
-    new_symbol->attribute.is_data=0;
-    new_symbol->attribute.is_code=0;
+    symbol new_symbol;
+    new_symbol=(symbol)calloc(1,sizeof(struct symbol));
+    if(is_allocation_succeeded(new_symbol)) {
+        new_symbol->name = NULL;
+        new_symbol->address = 0;
+        new_symbol->attribute.is_entry = false;
+        new_symbol->attribute.is_extern = false;
+        new_symbol->attribute.is_data = false;
+        new_symbol->attribute.is_code = false;
+    }
     return new_symbol;
 }
 
-symbol
-init_symbol_with_values(char *name, unsigned long value, int is_entry, int is_extern, int is_data, int is_code) {
-    symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
-    new_symbol->name = name;
-    new_symbol->value = value;
-    new_symbol->attribute.is_extern=is_extern;
-    new_symbol->attribute.is_entry=is_entry;
-    new_symbol->attribute.is_data=is_data;
-    new_symbol->attribute.is_code=is_code;
+symbol init_symbol_with_values(char *name, unsigned long address, boolean is_entry, boolean is_extern, boolean is_data, boolean is_code){
+    symbol new_symbol;
+    new_symbol=(symbol)calloc(1,sizeof(struct symbol));
+    if(is_allocation_succeeded(new_symbol)) {
+        new_symbol->name = name;
+        new_symbol->address = address;
+        new_symbol->attribute.is_entry = is_entry;
+        new_symbol->attribute.is_extern = is_extern;
+        new_symbol->attribute.is_data = is_data;
+        new_symbol->attribute.is_code = is_code;
+    }
     return new_symbol;
 }
 
-
-/* update the variables of given symbol*/
-void update_symbol(symbol symbol, char* name, unsigned long value, unsigned long base_address, unsigned long offset){
-    set_symbol_name(symbol,name);
-    set_symbol_value(symbol,value);
-    set_symbol_base_address(symbol,base_address);
-    set_symbol_offset(symbol,offset);
+void update_symbol(symbol curr_symbol, char* name, unsigned long address){
+    set_symbol_name(curr_symbol,name);
+    set_symbol_address(curr_symbol, address);
 }
 
-
-char* get_symbol_name(symbol symbol){
-    return symbol->name;
+char* get_symbol_name(symbol curr_symbol){
+    return curr_symbol->name;
 }
-void set_symbol_name(symbol symbol , char *name){
+
+void set_symbol_name(symbol curr_symbol , char *name){
     char *new_name;
-    new_name=(char *) malloc(strlen(name)+1);
-    strcpy(new_name,name);
-    symbol->name = name;
+    new_name=(char *)calloc(1,strlen(name)+1);
+    if(is_allocation_succeeded(new_name)) {
+        strcpy(new_name, name);
+        curr_symbol->name = name;
+    }
 }
 
-unsigned long get_symbol_value(symbol symbol){
-    return symbol->value;
-}
-void set_symbol_value(symbol symbol , unsigned long value){
-    symbol->value = value;
+unsigned long get_symbol_address(symbol curr_symbol){
+    return curr_symbol->address;
 }
 
-unsigned long get_symbol_base_address(symbol symbol){
-    return symbol->value/BASE;
+void set_symbol_address(symbol curr_symbol , unsigned long address){
+    curr_symbol->address=address;
 }
 
-unsigned long get_symbol_offset(symbol symbol){
-    return symbol->value%BASE;
+unsigned long get_symbol_base_address(symbol curr_symbol){
+    return curr_symbol->address / BASE;
+}
+
+unsigned long get_symbol_offset(symbol curr_symbol){
+    return curr_symbol->address % BASE;
 }
 
 void mark_entry(symbol to_mark){
-    to_mark->attribute.is_entry=1;
+    to_mark->attribute.is_entry = true;
 }
+
 void mark_extern(symbol to_mark){
-    to_mark->attribute.is_extern=1;
+    to_mark->attribute.is_extern = true;
 }
+
 void mark_code(symbol to_mark){
-    to_mark->attribute.is_code=1;
+    to_mark->attribute.is_code = true;
 }
+
 void mark_data(symbol to_mark){
-    to_mark->attribute.is_data=1;
+    to_mark->attribute.is_data = true;
 }
-int is_entry_symbol(symbol symba){
-    return symba->attribute.is_entry;
+
+boolean get_is_entry_symbol(symbol curr_symbol){
+    return curr_symbol->attribute.is_entry;
 }
-int is_extern_symbol(symbol symba){
-    return symba->attribute.is_extern;
+
+boolean get_is_extern_symbol(symbol curr_symbol){
+    return curr_symbol->attribute.is_extern;
 }
-int is_code_symbol(symbol symba){
-    return symba->attribute.is_code;
+
+boolean get_is_code_symbol(symbol curr_symbol){
+    return curr_symbol->attribute.is_code;
 }
-int is_data_symbol(symbol symba){
-    return symba->attribute.is_data;
+
+boolean get_is_data_symbol(symbol curr_symbol){
+    return curr_symbol->attribute.is_data;
 }
+
 void delete_symbol(symbol to_delete){
     free(to_delete->name);
     free(to_delete);

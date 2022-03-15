@@ -65,7 +65,7 @@ int get_n_operands(operator op){
 }
 
 /**
- * check  opname is name of legal operand, if true then funct and opcode get the value of the opname
+ * check  opname is name of legal operand, if true then funct and opcode get the address of the opname
  * @param opname
  * @param funct
  * @param opcode
