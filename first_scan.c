@@ -41,7 +41,7 @@ void first_scan(file source) {
                     }
                     /* if this line is both symbol and data */
                     if ((is_symbol) && (is_data_def(second_word_in_line))) {
-                        add_symbol_seggestion(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
+                        add_symbol(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
                         add_data(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),&words_num);
                         DC += words_num;
                     }
@@ -52,7 +52,7 @@ void first_scan(file source) {
                     }
                     /* if this line is both symbol and string */
                     else if ((is_symbol) && (is_string_def(second_word_in_line))) {
-                        add_symbol_seggestion(symbols, symbol_name, DC, false, false, true, false,&err);//todo error maybe error*
+                        add_symbol(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
                         add_string(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),
                                    &words_num);//todo maybe to add err
                         DC += words_num;
@@ -64,13 +64,13 @@ void first_scan(file source) {
                     }
                     /* if this line is external line */
                     else if (is_extern_def(first_word_in_line)) {
-                        add_symbol_seggestion(symbols, line + strlen(first_word_in_line), 0, false, true, false, false,
-                                              &err);
+                        add_symbol(symbols, line + strlen(first_word_in_line), 0, false, true, false, false,
+                                   &err);
                     }
                     /* if this line is both symbol and code */
                     else if (is_symbol) {
-                        add_symbol_seggestion(symbols, symbol_name, IC, false, false, false, true,
-                                              &err);
+                        add_symbol(symbols, symbol_name, IC, false, false, false, true,
+                                   &err);
                         init_instruction(line + strlen(first_word_in_line), symbols, IC, &words_num, &err);
                         IC += words_num;
                     }

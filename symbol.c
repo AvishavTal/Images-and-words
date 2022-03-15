@@ -9,9 +9,9 @@
 
 struct symbol{
     char *name;
-    long value;
-    long base_address;
-    long offset;
+    unsigned long value;
+    unsigned long base_address;
+    unsigned long offset;
     struct attr{
         unsigned int is_entry :1;
         unsigned int is_extern :1;
@@ -34,7 +34,7 @@ symbol init_symbol(){
     return new_symbol;
 }
 
-symbol init_symbol_with_values(char *name,long value,long base_address,long offset,int is_entry,int is_extern,int is_data,int is_code){
+symbol init_symbol_with_values(char *name, unsigned long value, unsigned long base_address, unsigned long offset, int is_entry, int is_extern, int is_data, int is_code){
     symbol new_symbol = (symbol)malloc(sizeof(struct symbol));
     new_symbol->name = name;
     new_symbol->value = value;
@@ -49,7 +49,7 @@ symbol init_symbol_with_values(char *name,long value,long base_address,long offs
 
 
 /* update the variables of given symbol*/
-void update_symbol(symbol symbol, char* name, long value, long base_address, long offset){
+void update_symbol(symbol symbol, char* name, unsigned long value, unsigned long base_address, unsigned long offset){
     set_symbol_name(symbol,name);
     set_symbol_value(symbol,value);
     set_symbol_base_address(symbol,base_address);
@@ -67,25 +67,24 @@ void set_symbol_name(symbol symbol , char *name){
     symbol->name = name;
 }
 
-long get_symbol_value(symbol symbol){
-    printf("value %l", symbol->value);//todo ???
+unsigned long get_symbol_value(symbol symbol){
     return symbol->value;
 }
-void set_symbol_value(symbol symbol , long value){
+void set_symbol_value(symbol symbol , unsigned long value){
     symbol->value = value;
 }
 
-long get_symbol_base_address(symbol symbol){
+unsigned long get_symbol_base_address(symbol symbol){
     return symbol->base_address;
 }
-void set_symbol_base_address(symbol symbol , long base_address){
+void set_symbol_base_address(symbol symbol , unsigned long base_address){
     symbol->base_address = base_address;
 }
 
-long get_symbol_offset(symbol symbol){
+unsigned long get_symbol_offset(symbol symbol){
     return symbol->offset;
 }
-void set_symbol_offset(symbol symbol , long offset){
+void set_symbol_offset(symbol symbol , unsigned long offset){
     symbol->offset = offset;
 }
 void mark_entry(symbol to_mark){
