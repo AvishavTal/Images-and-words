@@ -6,6 +6,9 @@
 #include "data_image.h"
 #include "word.h"
 #include "linked_list.h"
+#include "parser.h"
+#include <ctype.h>
+#include "string_manipulations.h"
 
 struct image{
     list words;
@@ -20,7 +23,7 @@ data_image init_data_image(){
 }
 
 
-void add_data(data_image image, long address, long new_data){ // todo add int *words_num to return the num of the needed data
+void add_data(data_image image, unsigned long address, unsigned long new_data){
     word new_word;
     new_word=init_word();
     set_address(new_word,address);
@@ -61,4 +64,24 @@ void update_addresses(data_image image,long final_ic){
     }
 }
 
-void add_string(data_image image, long address, long new_string, int *words_num);//todo
+void add_string(data_image image, unsigned long address, char *new_string, int *n_words, error *err) {
+    int i=0;
+    new_string= trim_whitespace(new_string);
+    *n_words= strlen(new_string)-1;
+    if(!is_string(new_string)){
+        *err=ILLEGAL_STRING_SYNTAX;
+    } else{
+        for (; i <*n_words ; i++) {
+            if (isprint(new_string[i])){
+                add_data(image,address,new_string[i]);
+            } else{
+                *err=ILLEGAL_STRING;
+            }
+
+        }
+    }
+}
+
+void add_data_line(data_image image, unsigned long address, char *line, int *n_words, error *err) {
+
+}

@@ -30,11 +30,13 @@
 #define SRC_ADDRESSING_MASK 0300
 #define SRC_REG_MASK 07400
 #define FUNCT_MASK 0170000
+#define IMMEDIATE_MASK 0xffff
+
 #include <stdlib.h>
 
 struct word{
     unsigned long address;
-    long the_actual_word;//todo find appropriate name
+    unsigned long the_actual_word;//todo find appropriate name
 };
 
 word init_word(){
@@ -69,44 +71,51 @@ void delete_word(word to_delete){
 }
 
 void set_are(word to_set, are new_are){
-    new_are <<= ARE_SHIFT;
-    to_set->the_actual_word |= new_are;
+    unsigned int temp;
+    temp=new_are;
+    temp <<= ARE_SHIFT;
+    to_set->the_actual_word |= temp;
 }
 
-void set_opcode(word to_set,int new_opcode){
+void set_opcode(word to_set, unsigned int new_opcode){
     new_opcode=1<<new_opcode;
     to_set->the_actual_word |= new_opcode;
 }
 
-void set_funct(word to_set,int new_funct){
+void set_funct(word to_set, unsigned int new_funct){
     new_funct<<=FUNCT_SHIFT;
     to_set->the_actual_word|=new_funct;
 }
 
-void set_dest_register(word to_set,int reg_num){
+void set_dest_register(word to_set, unsigned int reg_num){
     reg_num<<=DEST_REG_SHIFT;
     to_set->the_actual_word|=reg_num;
 }
 
 void set_dest_addressing(word to_set, addressing_mode dest_addressing){
-    dest_addressing<<=DEST_ADDRESSING_SHIFT;
-    to_set->the_actual_word|=dest_addressing;
+    unsigned long temp;
+    temp=dest_addressing;
+    temp<<=DEST_ADDRESSING_SHIFT;
+    to_set->the_actual_word|=temp;
 }
 
-void set_src_register(word to_set,int reg_num){
+void set_src_register(word to_set, unsigned int reg_num){
     reg_num<<=SRC_REG_SHIFT;
     to_set->the_actual_word|=reg_num;
 }
 
 void set_src_addressing(word to_set, addressing_mode src_addressing){
-    src_addressing<<=SRC_ADDRESSING_SHIFT;
-    to_set->the_actual_word|=src_addressing;
+    unsigned long temp;
+    temp=src_addressing;
+    temp<<=SRC_ADDRESSING_SHIFT;
+    to_set->the_actual_word|=temp;
 }
-void set_immediate(word to_set,int immediate){
+void set_immediate(word to_set, unsigned int immediate){
+    immediate&=IMMEDIATE_MASK;
     to_set->the_actual_word|=immediate;
 }
 
-void set_data(word to_set,long new_data){
+void set_data(word to_set, unsigned long new_data){
     to_set->the_actual_word=new_data;
 }
 

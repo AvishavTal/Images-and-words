@@ -106,16 +106,6 @@ void print_externals(FILE *dest,symbol_table to_print){
         current_node=get_next_node(current_node);
     }
 }
-//void add_symbol(symbol_table table,char *name,long value,long base_address,long offset,
-//                                                    int is_entry,int is_extern,int is_data,int is_code,error *error1){
-//    if (!is_legal_name(name)){
-//        *error1=ILLEGAL_SYMBOL_NAME;
-//    } else if(double_definition(table, name, is_extern, error1)){
-//        symbol new_symbol;
-//        new_symbol= init_symbol_with_values(name,value,base_address,offset,is_entry,is_extern,is_data,is_code);
-//        push_symbol(table,new_symbol);
-//    }
-//}
 
 int double_definition(symbol_table symbols, char *name, int is_extern, error *error1) {
     symbol old_symbol;

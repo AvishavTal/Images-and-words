@@ -20,12 +20,12 @@ void set_address(word to_set,unsigned long new_address);
 unsigned long get_address(word word1);
 void delete_word(word to_delete);
 void set_are(word to_set, are new_are);
-void set_opcode(word to_set,int new_opcode);
-void set_funct(word to_set,int new_funct);
-void set_dest_register(word to_set,int reg_num);
+void set_opcode(word to_set, unsigned int new_opcode);
+void set_funct(word to_set, unsigned int new_funct);
+void set_dest_register(word to_set, unsigned int reg_num);
 void set_dest_addressing(word to_set, addressing_mode dest_addressing);
-void set_src_register(word to_set,int reg_num);
+void set_src_register(word to_set, unsigned int reg_num);
 void set_src_addressing(word to_set, addressing_mode src_addressing);
-void set_immediate(word to_set,int immediate);
-void set_data(word to_set,long new_data);
+void set_immediate(word to_set, unsigned int immediate);
+void set_data(word to_set, unsigned long new_data);
 #endif //EX14_WORD_H
