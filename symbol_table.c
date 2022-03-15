@@ -7,6 +7,8 @@
 #include "symbol_table.h"
 #include "linked_list.h"
 #include "parser.h"
+#include "string_manipulations.h"
+#include "boolean.h"
 
 
 #define BASE 16
@@ -36,10 +38,7 @@ void add_symbol(symbol_table symbols, char *symbol_name, unsigned long address, 
         *error1=ILLEGAL_SYMBOL_NAME;
     } else if(double_definition(symbols, symbol_name, is_extern, error1)){
         symbol new_symbol;
-        unsigned long base_address,offset;
-        base_address=address/BASE;
-        offset=address%BASE;
-        new_symbol= init_symbol_with_values(symbol_name,address,base_address,offset,is_entry,is_extern,is_data,is_code);
+        new_symbol= init_symbol_with_values(symbol_name, address, is_entry, is_extern, is_data, is_code);
         push_symbol(symbols,new_symbol);
     }
 }
@@ -132,10 +131,24 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
 
 int is_legal_name(char *name) {
     boolean result=true;
-    if(is_reserved_word(name)|| (strlen(name)>MAX_NAME_LENGTH)||!alpha_numeric_word(name)){
+    if(is_reserved_word(name)|| (strlen(name)>MAX_NAME_LENGTH)||!is_alpha_numeric_word(name)){
         result=false;
     }
     return result;
 }
 
-//todo update table (data and string to the end of the table)
+void update_addresses_of_data_symbols(symbol_table symbols,unsigned long final_ic){
+    node current_node;
+    symbol current_symbol=NULL;
+    current_node= get_head(symbols->table);
+    while (current_node){
+        current_symbol=get_node_data(current_node);
+        if (is_data_symbol(current_symbol)){
+            unsigned long address;
+            address= get_symbol_value(current_symbol);
+            address+=final_ic;
+            set_symbol_value(current_symbol,address);
+        }
+        current_node=get_next_node(current_node);
+    }
+}
