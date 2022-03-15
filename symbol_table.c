@@ -45,6 +45,7 @@ void add_symbol(symbol_table symbols, char *symbol_name, unsigned long address, 
 
 symbol get_symbol_by_name(symbol_table symbols, char *symbol_name) {
     node current_node=NULL;
+    symbol_name= trim_whitespace(symbol_name);
     current_node= get_head(symbols->table);
     while (current_node){
         symbol current_symbol=get_node_data(current_node);

@@ -32,41 +32,44 @@ void second_scan(file source){
     mark_ob_file_exist(source);
     while ((fgets(line,LINE_LENGTH,src))!=NULL){
         line_number++;
-        first_word_in_line=strtok(line," \t");
-        first_word_in_line= trim_whitespace(first_word_in_line);
-        if(is_symbol_def(first_word_in_line)){
-            first_word_in_line= strtok(NULL," \t");
-            first_word_in_line=trim_whitespace(first_word_in_line);
-        }
-        if (!is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
-            if (is_entry_def(first_word_in_line)){
-                char *symbol_name;
-                symbol to_update;
-                symbol_name= strtok(NULL," \t");
-                to_update= get_symbol_by_name(symbols, symbol_name);
-                if (to_update!=NULL){
-                    mark_entry(to_update);
+        if (!is_comment(line)&&!is_empty(line)){
+            first_word_in_line=strtok(line," \t");
+            first_word_in_line= trim_whitespace(first_word_in_line);
+            if(is_symbol_def(first_word_in_line)){
+                first_word_in_line= strtok(NULL," \t");
+                first_word_in_line=trim_whitespace(first_word_in_line);
+            }
+            if (!is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
+                if (is_entry_def(first_word_in_line)){
+                    char *symbol_name;
+                    symbol to_update;
+                    symbol_name= strtok(NULL," \t");
+                    to_update= get_symbol_by_name(symbols, symbol_name);
+                    if (to_update!=NULL){
+                        mark_entry(to_update);
+                    } else{
+                        error1=UNDEFINED_SYMBOL;
+                    }
                 } else{
-                    error1=UNDEFINED_SYMBOL;
+                    int n_words=0;
+                    instruction temp_instruction;
+                    temp_instruction= init_instruction(line, symbols, ic, &n_words, &error1);
+                    ic+=n_words;
+                    if(is_ob_file_exist(source)){
+                        print_instruction(dest,temp_instruction);
+                    }
                 }
-            } else{
-                int n_words=0;
-                instruction temp_instruction;
-                temp_instruction= init_instruction(line, symbols, ic, &n_words, &error1);
-                ic+=n_words;
-                if(is_ob_file_exist(source)){
-                    print_instruction(dest,temp_instruction);
+                if (error1!=NOT_ERROR){
+                    print_error(line_number,error1);
+                    mark_second_scan_failed(source);
+                    clean_up(source);
                 }
-            }
-            if (error1!=NOT_ERROR){
-                print_error(line_number,error1);
-                mark_second_scan_failed(source);
-                clean_up(source);
-            }
 
+            }
         }
     }
-    print_data(dest,get_data_image(source));
+    data_image image= get_data_image(source);
+    print_data(dest,image);
     fclose(src);
     if (is_ob_file_exist(source)){
         fclose(dest);

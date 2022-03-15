@@ -10,7 +10,6 @@
 
 #define LINE_SIZE 81
 
-void write_macro_content(FILE *dest, macro to_write);
 
 void write_line(FILE *dest, char *line);
 
@@ -21,7 +20,7 @@ void pre_assembler(file source) {
     macro temp_macro;
     macro_table table= get_macro_table(source);
     src= fopen(get_name_as(source),"r");//todo check if open file succeeded
-    dest= fopen(get_name_am(source),"a");
+    dest= fopen(get_name_am(source),"w");
 
     while ((fgets(line,LINE_SIZE,src)!=NULL)){
         strcpy(temp_line,line);
@@ -48,6 +47,8 @@ void pre_assembler(file source) {
             }
         }
     }
+    fclose(dest);
+    fclose(src);
 }
 
 void write_line(FILE *dest, char *line) {

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "operator_table.h"
 #include "addressing_mode.h"
+#include "string_manipulations.h"
+
 #define TABLE_SIZE 16
 #define NUMBER_OF_ADDRESSING_METHODS 4
 struct allowed_addressing{
@@ -44,7 +46,7 @@ operator get_operator_by_name(char *name){
         {"rts",0,14,0,{0,0,0,0},{0,0,0,0}},
         {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
     };
-
+    name= trim_whitespace(name);
     for ( ; i < TABLE_SIZE; ++i) {
         if (!strcmp(name,operators[i].name)){
             result = operators+i;

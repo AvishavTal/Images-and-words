@@ -52,11 +52,12 @@ boolean is_comment(char *line){
 }
 
 boolean is_empty(char *line){
+    line= trim_whitespace(line);
     unsigned long len;
     len= strlen(line);
-    while (len>0)
-        if (!isspace(line[--len]))
-            return false;
+    if(len>0){
+        return false;
+    }
     return true;
 }
 
