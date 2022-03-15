@@ -71,7 +71,7 @@ void add_string(data_image image, unsigned long address, char *new_string, int *
     if(!is_string(new_string)){
         *err=ILLEGAL_STRING_SYNTAX;
     } else{
-        for (; i <*n_words ; i++) {
+        for (; i <*n_words-1 ; i++) {
             if (isprint(new_string[i])){
                 add_data(image,address,new_string[i]);
                 address++;
@@ -79,6 +79,7 @@ void add_string(data_image image, unsigned long address, char *new_string, int *
                 *err=ILLEGAL_STRING;
             }
         }
+        add_data(image,address,0);
     }
 }
 
