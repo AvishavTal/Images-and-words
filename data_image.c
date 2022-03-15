@@ -83,6 +83,18 @@ void add_string(data_image image, unsigned long address, char *new_string, int *
 }
 
 void add_data_line(data_image image, unsigned long address, char *line, int *n_words, error *err) {
-
-
+    char *temp_str;
+    int temp_int;
+    line= trim_whitespace(line);
+    temp_str= strtok(line," , \t");
+    while (temp_str){
+        if(str_to_int(temp_str,&temp_int)){
+            add_data(image,address,temp_int);
+            address++;
+            (*n_words)++;
+        } else{
+            *err=NOT_INT;
+        }
+        temp_str= strtok(NULL," , \t");
+    }
 }
