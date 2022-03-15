@@ -18,7 +18,7 @@ boolean is_allocation_succeeded(void* pointer){
     return true;
 }
 
-boolean is_open_file_succeeded(file* curr_file) {
+boolean is_open_file_succeeded(file* curr_file){
     if(curr_file==NULL){
         fprintf(stderr,"Unable to open file");
         exit(OPEN_FILE_EXIT_CODE);
