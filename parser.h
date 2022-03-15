@@ -7,6 +7,10 @@
 
 #include "boolean.h"
 
+int end_of_macro_definition(char *line);
+
+int start_of_macro_definition(char *first_word);
+
 /**
  * get word, trimming whitespaces and check if equal to .entry
  * @param word word to check

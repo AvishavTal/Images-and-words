@@ -6,6 +6,7 @@
 #include "string_manipulations.h"
 #include "macro_table.h"
 #include "file.h"
+#include "parser.h"
 
 #define LINE_SIZE 81
 
@@ -54,18 +55,3 @@ void write_line(FILE *dest, char *line) {
     fprintf(dest,"%s",line);
 }
 
-int end_of_macro_definition(char *line) {
-    return !strcmp(line,"endm");
-}
-
-int start_of_macro_definition(char *first_word) {
-    return !strcmp(first_word,"macro");
-}
-//
-//void write_macro_content(FILE *dest, macro to_write) {
-//    node current= get_head(get_macro_body(to_write));
-//    while (current){
-//        fprintf(dest,"%s", (char *)get_node_data(current));
-//        current= get_next_node(current);
-//    }
-//}

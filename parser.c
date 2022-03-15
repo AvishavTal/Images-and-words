@@ -13,6 +13,14 @@
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
 
+int end_of_macro_definition(char *line) {
+    return !strcmp(line,"endm");
+}
+
+int start_of_macro_definition(char *first_word) {
+    return !strcmp(first_word,"macro");
+}
+
 boolean is_entry_def(char *word) {
     word=trim_whitespace(word);
     return !strcmp(word,".entry");
