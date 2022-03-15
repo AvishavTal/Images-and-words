@@ -200,3 +200,29 @@ long get_final_dc(file file){
 void set_final_dc(file file, long final_dc){
     file->DCF = final_dc;
 }
+
+void tear_down(file to_delete) {
+    free(to_delete->name_as);
+    free(to_delete->name_am);
+    free(to_delete->name_ob);
+    free(to_delete->name_ext);
+    free(to_delete->name_ent);
+    delete_symbol_table(to_delete->symbols);
+    delete_macro_table(to_delete->marcos);
+    delete_data(to_delete->image);
+    free(to_delete);
+}
+
+void make_ent_file(file source) {
+    FILE *dest;
+    dest= fopen(source->name_ent,"w");
+    print_entries(dest,source->symbols);
+    fclose(dest);
+}
+
+void make_ext_file(file source) {
+    FILE *dest;
+    dest= fopen(source->name_ext,"w");
+    print_externals(dest,source->symbols);
+    fclose(dest);
+}

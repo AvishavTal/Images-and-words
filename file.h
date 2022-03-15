@@ -198,4 +198,11 @@ long get_final_dc(file file);
  */
 void set_final_dc(file file, long final_dc);
 
+void make_ext_file(file source);
+
+void make_ent_file(file source);
+
+void tear_down(file to_delete);
+
+
 #endif /*EX14_FILE_H*/
