@@ -1,10 +1,15 @@
+/*
+* Created by Avishav & Sapir on March 2,2022
+*/
 
 #include <stdio.h>
 #include <string.h>
 #include "operator_table.h"
 #include "addressing_mode.h"
+
 #define TABLE_SIZE 16
 #define NUMBER_OF_ADDRESSING_METHODS 4
+
 struct allowed_addressing{
     unsigned int immediate :1;
     unsigned int direct :1;
@@ -20,8 +25,6 @@ struct operator{
     struct allowed_addressing source;
     struct allowed_addressing dest;
 };
-
-unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode);
 
 operator get_operator_by_name(char *name){
     int i=0;
@@ -45,7 +48,7 @@ operator get_operator_by_name(char *name){
         {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
     };
 
-    for ( ; i < TABLE_SIZE; ++i) {
+    for ( ; i < TABLE_SIZE; ++i){
         if (!strcmp(name,operators[i].name)){
             result = operators+i;
         }
@@ -56,16 +59,18 @@ operator get_operator_by_name(char *name){
 int get_opcode(operator op){
     return op->opcode;
 }
+
 int get_funct(operator op){
     return op->funct;
 }
+
 int get_n_operands(operator op){
     return op->num_of_operands;
 }
 
-unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode) {
+unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode){
     int result=0;
-    switch (mode) {
+    switch (mode){
         case IMMEDIATE:
             result=allowed.immediate;
             break;
