@@ -51,7 +51,7 @@ file init_file(char *name){
         result->marcos = init_macro_table();
         result->symbols = init_symbol_table();
         result->image = init_data_image();
-        result->has_passed_first_scan = true; /* if first scan failed wil be changed to false */
+        result->has_passed_first_scan = true; /* if first scan failed will be changed to false */
         result->has_passed_pre_assembler = true; /* if pre-assembler failed wil be changed to false */
         result->has_passed_second_scan = true;
     }
@@ -71,10 +71,10 @@ void set_name_as(file file) {
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
     file->name_as=(char *)calloc(1,len);
-    //if(is_allocation_succeeded(file->name_as)) {
+    if(is_allocation_succeeded(file->name_as)) {
         strcpy(file->name_as, file->name);
         strcat(file->name_as, ".as");
-    //}
+    }
 }
 
 char *get_name_am(file file){
