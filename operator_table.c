@@ -47,8 +47,8 @@ operator get_operator_by_name(char *name){
         {"rts",0,14,0,{0,0,0,0},{0,0,0,0}},
         {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
     };
-
-    for ( ; i < TABLE_SIZE; ++i){
+    name= trim_whitespace(name);
+    for ( ; i < TABLE_SIZE; ++i) {
         if (!strcmp(name,operators[i].name)){
             result = operators+i;
         }
