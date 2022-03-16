@@ -14,14 +14,11 @@
 
 
 #define BASE 16
-
 #define MAX_NAME_LENGTH 31
-
 
 struct symbol_table{
     list table;
 };
-
 
 int is_legal_name(char *name);
 
@@ -125,7 +122,7 @@ int double_definition(symbol_table symbols, char *name, int is_extern, error *er
     old_symbol= get_symbol_by_name(symbols,name);
     if(old_symbol!=NULL){
         if (!(get_is_extern_symbol(old_symbol) && is_extern)){
-            *error1=DOUBLE_DEFINITION_OF_LABEL;
+            *error1=DOUBLE_DEFINITION_OF_SYMBOL;
         }
         return 1;
     }

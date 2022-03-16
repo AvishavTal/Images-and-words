@@ -6,6 +6,7 @@
 #define EX14_SYSTEM_ERRORS_H
 
 #include "boolean.h"
+#include "file.h"
 
 /**
  * This function gets pointer and check if the allocation succeeded
