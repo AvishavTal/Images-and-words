@@ -10,7 +10,7 @@ void print_error(unsigned long line_number,error err_code){
         case UNDEFINED_OPERATOR:
             printf("%lu\t This operator not exist.\n", line_number);
             break;
-        case DOUBLE_DEFINITION_OF_LABEL:
+        case DOUBLE_DEFINITION_OF_SYMBOL:
             printf("%lu\t This label is already exist.\n", line_number);
             break;
         case ILLEGAL_SYMBOL_NAME:

@@ -10,8 +10,15 @@
 /**
  * This function gets pointer and check if the allocation succeeded
  * @param pointer the allocated pointer
- * @return if the allocation succeeded return true, else exit with exit_code
+ * @return if the allocation succeeded return true, else exit with ALLOCATION_EXIT_CODE
  */
 boolean is_allocation_succeeded(void* pointer);
 
-#endif //EX14_SYSTEM_ERRORS_H
+/**
+ * This function gets file and check if the file opens successfully
+ * @param curr_file the needed file
+ * @return true if the file opens successfully, else exit with OPEN_FILE_EXIT_CODE
+ */
+boolean is_open_file_succeeded(file* curr_file);
+
+#endif /* EX14_SYSTEM_ERRORS_H */
