@@ -71,10 +71,10 @@ void set_name_as(file file) {
     len= strlen(file->name);
     len=len+EXTENSION_LENGTH;
     file->name_as=(char *)calloc(1,len);
-    //if(is_allocation_succeeded(file->name_as)) {
+    if(is_allocation_succeeded(file->name_as)) {
         strcpy(file->name_as, file->name);
         strcat(file->name_as, ".as");
-    //}
+    }
 }
 
 char *get_name_am(file file){
