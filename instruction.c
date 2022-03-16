@@ -187,7 +187,7 @@ set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, i
     set_direct_operand(to_set,symbols,label,is_dest,ic,err);
     set_register_direct_operand(to_set,reg_name,is_dest,err);
     if((regi=get_register_by_name(reg_name))!=NULL){
-        if(!is_valid_index(regi)){
+        if(!get_is_valid_index(regi)){
             *err=INVALID_REGISTER_FOR_INDEX;
         }
     }
@@ -277,7 +277,7 @@ void set_register_direct_operand(instruction to_set, char *operand, int is_dest,
         *err=INVALID_REGISTER_NAME;
     } else{
         int register_code;
-        register_code=get_regcode(reg);
+        register_code=get_reg_code(reg);
         if (is_dest){
             set_dest_register(to_set->words[OPERANDS_INFO_WORD_INDEX], register_code);
         } else{
