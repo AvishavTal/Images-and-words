@@ -12,7 +12,7 @@ typedef struct reg *regyster;
 /**
  * Gets register name and return the wanted register if exist
  * @param name the wanted register name
- * @return the wanted register ig exist, NULL otherwise
+ * @return the wanted register if exist, NULL otherwise
  */
 regyster get_register_by_name(char *name);
 
