@@ -52,4 +52,5 @@ char is_zero(char *str);
 */
 char* get_first_word_in_line(char *str);
 boolean is_alpha_numeric_word(char *word);
+char *str_tok(char *src,const char *delim);
 #endif //EX14_STRING_MANIPULATIONS_H

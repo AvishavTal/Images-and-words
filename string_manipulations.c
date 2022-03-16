@@ -4,6 +4,8 @@
 
 #include "string_manipulations.h"
 
+#define BUFER_SIZE 256
+
 /**
  * trim the whitespaces from the edges of the given string
  * @param str
@@ -146,4 +148,13 @@ boolean is_alpha_numeric_word(char *word){
     }
     return result;
 
+}
+
+char *str_tok(char *src,const char *delim){
+    static char buffer[BUFER_SIZE];
+    if(src!=NULL){
+        strcpy(buffer,src);
+        src=buffer;
+    }
+    return strtok(src, delim);
 }
