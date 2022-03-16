@@ -27,8 +27,10 @@ struct operator{
 };
 
 operator get_operator_by_name(char *name){
-    int i=0;
-    operator result=NULL;
+    int i;
+    operator result;
+    i=0;
+    result=NULL;
     static struct operator operators[]={
         {"mov",0,0,2,{1,1,1,1},{0,1,1,1}},
         {"cmp",0,1,2,{1,1,1,1},{1,1,1,1}},
@@ -69,7 +71,8 @@ int get_n_operands(operator op){
 }
 
 unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode){
-    int result=0;
+    unsigned int result;
+    result=0;
     switch (mode){
         case IMMEDIATE:
             result=allowed.immediate;
@@ -86,10 +89,10 @@ unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing
     return result;
 }
 
-int is_legal_dest_addressing_mode(operator op,addressing_mode mode){
-    return is_allowed_addressing(op->dest,mode);
+unsigned int is_legal_source_addressing_mode(operator op,addressing_mode mode){
+    return is_allowed_addressing(op->source,mode);
 }
 
-int is_legal_source_addressing_mode(operator op,addressing_mode mode){
-    return is_allowed_addressing(op->source,mode);
+unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode){
+    return is_allowed_addressing(op->dest,mode);
 }
