@@ -47,7 +47,7 @@
 
 struct instruction{
     int n_words;/*number of words in the machine code*/
-    word words[MAX_N_WORDS];
+    word *words;
     operator op;
     addressing_mode dest_addressing;
     addressing_mode source_addressing;
@@ -89,6 +89,8 @@ int in_range(int immediate);
 
 void break_to_label_and_reg(char *operan_str, char *label, char *reg_name, error *err);
 
+void init_instruction_words(instruction to_set);
+
 void print_instruction(FILE *dest, instruction to_print){
     int i=0;
     for (; i<MAX_N_WORDS ; ++i) {
@@ -104,6 +106,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     trim_whitespace(line);
     opname=get_first_word_in_line(line);
     result=(instruction) malloc(sizeof(struct instruction));
+    init_instruction_words(result);
     result->n_words=0;
     set_operator(result, opname, &ic, err);
     if(*err==NOT_ERROR){
@@ -117,6 +120,11 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     *n_words=result->n_words;
     return result;
 }
+
+void init_instruction_words(instruction to_set) {
+    to_set->words=(word *) calloc(MAX_N_WORDS, sizeof(word));
+}
+
 void delete_instruction(instruction to_delete){
     int i=0;
     for ( ; i <MAX_N_WORDS ;i++) {
@@ -124,6 +132,7 @@ void delete_instruction(instruction to_delete){
             delete_word(to_delete->words[i]);
         }
     }
+    free(to_delete->words);
     free(to_delete);
 }
 
@@ -362,7 +371,7 @@ void set_operator(instruction to_set, char *name, unsigned long *ic, error *err)
         *err=UNDEFINED_OPERATOR;
     } else{
         int opcode;
-        to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
+        to_set->words[OP_WORD_INDEX]=init_word();
         to_set->n_words++;
         opcode= get_opcode(to_set->op);
         set_address(to_set->words[OP_WORD_INDEX], *ic);
