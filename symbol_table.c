@@ -10,6 +10,7 @@
 #include "parser.h"
 #include "string_manipulations.h"
 #include "boolean.h"
+#include "errors.h"
 
 
 #define BASE 16
