@@ -39,11 +39,9 @@ struct word{
 
 word init_word(){
     word result;
-    result = (word)calloc(1, sizeof(struct word));
-    if (is_allocation_succeeded(result)) {
-        result->the_actual_word = 0;
-        result->address = 0;
-    }
+    result=(word) malloc(sizeof(struct word)+1);
+    result->the_actual_word=0;
+    result->address=0;
     return result;
 }
 

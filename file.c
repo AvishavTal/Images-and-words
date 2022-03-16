@@ -40,7 +40,7 @@ struct file{
 
 file init_file(char *name){
     file result;
-    result=(file)calloc(1,sizeof(struct file));
+    result=(file)malloc(sizeof(struct file));
     if(is_allocation_succeeded(result)) {
         result->name = name;
         set_name_as(result);

@@ -37,7 +37,7 @@ symbol init_symbol(){
 
 symbol init_symbol_with_values(char *name, unsigned long address, boolean is_entry, boolean is_extern, boolean is_data, boolean is_code){
     symbol new_symbol;
-    new_symbol=(symbol)calloc(1,sizeof(struct symbol));
+    new_symbol=(symbol)malloc(sizeof(struct symbol));
     if(is_allocation_succeeded(new_symbol)) {
         new_symbol->name = name;
         new_symbol->address = address;
