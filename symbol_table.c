@@ -12,7 +12,6 @@
 #include "boolean.h"
 #include "errors.h"
 
-
 #define BASE 16
 #define MAX_NAME_LENGTH 31
 
