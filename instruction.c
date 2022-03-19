@@ -44,6 +44,12 @@
 #define MAX_IMMEDIATE 32767
 #define MIN_IMMEDIATE -32768
 
+/*numbers of words required for each addressing mode*/
+#define NUM_OF_WORDS_FOR_IMMEDIATE 1
+#define NUM_OF_WORDS_FOR_DIRECT 2
+#define NUM_OF_WORDS_FOR_INDEX 2
+#define NUM_OF_WRDS_FOR_REGISTER_DIRECT 0
+
 
 struct instruction{
     int n_words;/*number of words in the machine code*/
@@ -91,6 +97,10 @@ void break_to_label_and_reg(char *operan_str, char **label, char **reg_name, err
 
 void init_instruction_words(instruction to_set);
 
+void update_n_words_helper(instruction to_set, addressing_mode mode);
+
+void set_n_words(instruction to_set);
+
 void print_instruction(FILE *dest, instruction to_print){
     int i=0;
     for (; i<MAX_N_WORDS ; ++i) {
@@ -107,7 +117,6 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     opname=get_first_word_in_line(line);
     result=(instruction) malloc(sizeof(struct instruction));
     init_instruction_words(result);
-    result->n_words=0;
     set_operator(result, opname, &ic, err);
     if(*err==NOT_ERROR){
         char **arguments;
@@ -117,7 +126,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
         arguments_len= split(line+op_len+1,arguments,", \t");
         set_args(result, symbols, arguments, arguments_len, &ic, err);
     }
-    *n_words=result->n_words;
+    set_n_words(result);
     return result;
 }
 
@@ -240,7 +249,6 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             (*ic)++;
             set_address(offset_word,*ic);
             (*ic)++;
-            to_set->n_words+=2;
             if(is_dest){
                 to_set->words[DEST_ADDRESS_WORD_INDEX]=address_word;
                 to_set->words[DEST_OFFSET_WORD_INDEX]=offset_word;
@@ -303,7 +311,6 @@ build_second_word(instruction to_set, symbol_table symbols, char *source, char *
     if(*err==NOT_ERROR){
         int funct;
         to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
-        to_set->n_words++;
         funct= get_funct(to_set->op);
         set_address(to_set->words[OPERANDS_INFO_WORD_INDEX],*ic);
         (*ic)++;
@@ -320,6 +327,36 @@ void set_addressing_modes(instruction to_set, char *source, char *dest, error *e
     if(!is_legal_dest_addressing_mode(to_set->op,to_set->dest_addressing) ||
        ((source!=NULL)&&(!is_legal_source_addressing_mode(to_set->op,to_set->source_addressing)))){
         *err=ILLEGAL_ADDRESSING;
+    }
+}
+
+void set_n_words(instruction to_set) {
+    int n_args_required;
+    n_args_required= get_n_operands(to_set->op);
+    to_set->n_words=1;
+    if (n_args_required!=NO_ARGS_REQUIRED){
+        to_set->n_words++;/*for the operands information word*/
+        update_n_words_helper(to_set,to_set->dest_addressing);
+        if(n_args_required==REQUIRED_TWO){
+            update_n_words_helper(to_set,to_set->source_addressing);
+        }
+    }
+}
+
+void update_n_words_helper(instruction to_set, addressing_mode mode) {
+    switch (mode) {
+        case IMMEDIATE:
+            to_set->n_words+=NUM_OF_WORDS_FOR_IMMEDIATE;
+            break;
+        case DIRECT:
+            to_set->n_words+=NUM_OF_WORDS_FOR_DIRECT;
+            break;
+        case INDEX:
+            to_set->n_words+=NUM_OF_WORDS_FOR_INDEX;
+            break;
+        case REGISTER_DIRECT:
+            to_set->n_words+=NUM_OF_WRDS_FOR_REGISTER_DIRECT;
+            break;
     }
 }
 
@@ -372,7 +409,6 @@ void set_operator(instruction to_set, char *name, unsigned long *ic, error *err)
     } else{
         int opcode;
         to_set->words[OP_WORD_INDEX]=init_word();
-        to_set->n_words++;
         opcode= get_opcode(to_set->op);
         set_address(to_set->words[OP_WORD_INDEX], *ic);
         (*ic)++;
