@@ -87,7 +87,7 @@ void set_index_operand(instruction to_set, symbol_table symbols, char *operand_s
 
 int in_range(int immediate);
 
-void break_to_label_and_reg(char *operan_str, char *label, char *reg_name, error *err);
+void break_to_label_and_reg(char *operan_str, char **label, char **reg_name, error *err);
 
 void init_instruction_words(instruction to_set);
 
@@ -192,7 +192,7 @@ void
 set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
     char *label,*reg_name;
     regyster regi;
-    break_to_label_and_reg(operand_str,label,reg_name,err);
+    break_to_label_and_reg(operand_str,&label,&reg_name,err);
     set_direct_operand(to_set,symbols,label,is_dest,ic,err);
     set_register_direct_operand(to_set,reg_name,is_dest,err);
     if((regi=get_register_by_name(reg_name))!=NULL){
@@ -202,11 +202,11 @@ set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, i
     }
 }
 
-void break_to_label_and_reg(char *operan_str, char *label, char *reg_name, error *err) {
+void break_to_label_and_reg(char *operan_str, char **label, char **reg_name, error *err) {
     char *end;
     operan_str= trim_whitespace(operan_str);
-    label= strtok(operan_str,"[");
-    reg_name= strtok(NULL,"]");
+    *label= strtok(operan_str,"[");
+    *reg_name= strtok(NULL,"]");
     end= strtok(NULL," \t");
     if(end){
         *err=ILLEGAL_OPERAND;
