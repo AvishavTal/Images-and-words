@@ -110,7 +110,7 @@ void print_instruction(FILE *dest, instruction to_print){
     }
 }
 
-instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, int *n_words, error *err) {
+instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err) {
     instruction result;
     char *opname;
     trim_whitespace(line);
@@ -129,6 +129,11 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     set_n_words(result);
     return result;
 }
+
+int get_n_words(instruction instruction1){
+    return instruction1->n_words;
+}
+
 
 void init_instruction_words(instruction to_set) {
     to_set->words=(word *) calloc(MAX_N_WORDS, sizeof(word));

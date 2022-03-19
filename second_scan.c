@@ -55,7 +55,7 @@ void second_scan(file source){
                 } else{
                     int n_words=0;
                     instruction temp_instruction;
-                    temp_instruction= init_instruction(temp_line, symbols, ic, &n_words, &error1);
+                    temp_instruction= init_instruction(temp_line, symbols, ic, &error1);
                     ic+=n_words;
                     if(is_ob_file_exist(source)){
                         print_instruction(dest,temp_instruction);
