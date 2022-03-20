@@ -21,7 +21,9 @@ void pre_assembler(file source) {
     macro temp_macro;
     macro_table table= get_macro_table(source);
     src= fopen(get_name_as(source),"r");
-    if (is_open_file_succeeded(src,false, get_name_as(source))){
+    if (!is_open_file_succeeded(src,false, get_name_as(source))) {
+        mark_pre_assembler_failed(source);
+    } else{
         dest= fopen(get_name_am(source),"w");
         if (is_open_file_succeeded(dest,true, get_name_am(source))){
             while ((fgets(line,LINE_SIZE,src)!=NULL)){
@@ -58,4 +60,3 @@ void pre_assembler(file source) {
 void write_line(FILE *dest, char *line) {
     fprintf(dest,"%s",line);
 }
-
