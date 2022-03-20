@@ -9,7 +9,7 @@ LOOP:   prn     #48
         endm
         lea     STR,r6
         m1
-        rub     r1,r4
+        sub     r1,r4
         bne     END
         cmp     vall,#-6
         bne     END[r15]

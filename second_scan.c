@@ -15,6 +15,8 @@
 
 void clean_up(file to_clean);
 
+void make_ob_file_head(FILE *ob_file, file source);
+
 void second_scan(file source){
     symbol_table symbols;
     long line_number=0;
@@ -24,18 +26,19 @@ void second_scan(file source){
     error error1=NOT_ERROR;
     symbols= get_symbol_table(source);
     src= fopen(get_name_am(source),"r");
-    dest= fopen(get_name_ob(source),"a");
+    dest= fopen(get_name_ob(source),"w");
     if(dest==NULL){
         fprintf(stderr,"problem with opening output file");
         exit(1);
     }
     mark_ob_file_exist(source);
+    make_ob_file_head(dest, source);
     while ((fgets(line,LINE_LENGTH,src))!=NULL){
-        temp_line=line;
+        temp_line= trim_whitespace(line);
         line_number++;
         if (!is_comment(temp_line)&&!is_empty(temp_line)){
             first_word_in_line=str_tok(temp_line," \t");
-            first_word_in_line= trim_whitespace(first_word_in_line);
+//            first_word_in_line= trim_whitespace(first_word_in_line);
             if(is_symbol_def(first_word_in_line)){
                 temp_line=line+ strlen(first_word_in_line)+1;
                 first_word_in_line= str_tok(NULL," \t");
@@ -53,10 +56,9 @@ void second_scan(file source){
                         error1=UNDEFINED_SYMBOL;
                     }
                 } else{
-                    int n_words=0;
                     instruction temp_instruction;
                     temp_instruction= init_instruction(temp_line, symbols, ic, &error1);
-                    ic+=n_words;
+                    ic+= get_n_words(temp_instruction);
                     if(is_ob_file_exist(source)){
                         print_instruction(dest,temp_instruction);
                     }
@@ -78,6 +80,13 @@ void second_scan(file source){
     if (is_ob_file_exist(source)){
         fclose(dest);
     }
+}
+
+/*
+ * print to the object the part before the code image
+ */
+void make_ob_file_head(FILE *ob_file, file source) {
+
 }
 
 void clean_up(file to_clean) {
