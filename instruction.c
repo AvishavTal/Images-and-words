@@ -313,18 +313,15 @@ void set_register_direct_operand(instruction to_set, char *operand, int is_dest,
 
 void
 build_second_word(instruction to_set, symbol_table symbols, char *source, char *dest, unsigned long *ic, error *err) {
-    set_addressing_modes(to_set,source,dest,err);//todo delete this line
-    if(*err==NOT_ERROR){
-        int funct;
-        to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
-        funct= get_funct(to_set->op);
-        set_address(to_set->words[OPERANDS_INFO_WORD_INDEX],*ic);
-        (*ic)++;
-        set_funct(to_set->words[OPERANDS_INFO_WORD_INDEX],funct);
-        set_are(to_set->words[OPERANDS_INFO_WORD_INDEX],ABSOLUTE);
-        set_src_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->source_addressing);
-        set_dest_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->dest_addressing);
-    }
+    int funct;
+    to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
+    funct= get_funct(to_set->op);
+    set_address(to_set->words[OPERANDS_INFO_WORD_INDEX],*ic);
+    (*ic)++;
+    set_funct(to_set->words[OPERANDS_INFO_WORD_INDEX],funct);
+    set_are(to_set->words[OPERANDS_INFO_WORD_INDEX],ABSOLUTE);
+    set_src_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->source_addressing);
+    set_dest_addressing(to_set->words[OPERANDS_INFO_WORD_INDEX],to_set->dest_addressing);
 }
 
 void set_addressing_modes(instruction to_set, char *source, char *dest, error *err) {
