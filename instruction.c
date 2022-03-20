@@ -11,6 +11,7 @@
 #include "ARE.h"
 #include "register_table.h"
 #include <stdio.h>
+#include "system_errors.h"
 
 #define MAX_N_WORDS 6
 
@@ -113,19 +114,21 @@ void print_instruction(FILE *dest, instruction to_print){
 instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err) {
     instruction result;
     char *opname;
-    line=trim_whitespace(line);//todo delete this trim?
+    line=trim_whitespace(line);
     opname=get_first_word_in_line(line);
     result=(instruction) malloc(sizeof(struct instruction));
-    init_instruction_words(result);
-    set_operator(result, opname, &ic, err);
-    if(*err==NOT_ERROR){
-        char **arguments;
-        unsigned long op_len,arguments_len;
-        op_len= strlen(opname);
-        arguments=(char **) malloc(sizeof(char *));
-        arguments_len= split(line+op_len+1,arguments,", \t");
-        set_args(result, symbols, arguments, arguments_len, &ic, err);
-        set_n_words(result);
+    if (is_allocation_succeeded(result)){
+        init_instruction_words(result);
+        set_operator(result, opname, &ic, err);
+        if(*err==NOT_ERROR){
+            char **arguments;
+            unsigned long op_len,arguments_len;
+            op_len= strlen(opname);
+            arguments=(char **) malloc(sizeof(char *));
+            arguments_len= split(line+op_len+1,arguments,", \t");
+            set_args(result, symbols, arguments, arguments_len, &ic, err);
+            set_n_words(result);
+        }
     }
     return result;
 }
@@ -137,6 +140,7 @@ int get_n_words(instruction instruction1){
 
 void init_instruction_words(instruction to_set) {
     to_set->words=(word *) calloc(MAX_N_WORDS, sizeof(word));
+    is_allocation_succeeded(to_set->words);
 }
 
 void delete_instruction(instruction to_delete){
