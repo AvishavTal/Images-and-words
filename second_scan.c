@@ -11,11 +11,24 @@
 #include "parser.h"
 #include "first_and_second_scan_constants.h"
 #include "errors.h"
+#include "system_errors.h"
 
 
 void clean_up(file to_clean);
 
 void make_ob_file_head(FILE *ob_file, file source);
+
+void entry_definition(symbol_table symbols, error *err);
+
+void instruction_call(char *line, symbol_table symbols, unsigned long *ic, error *err, file source, FILE *dest);
+
+void error_line(long line_number, error err, file source);
+
+void append_data_image(file source, FILE *dest);
+
+void close_files(file source, FILE *src, FILE *dest);
+
+void skip_symbol(char **line, char **first_word);
 
 void second_scan(file source){
     symbol_table symbols;
@@ -26,59 +39,101 @@ void second_scan(file source){
     error error1=NOT_ERROR;
     symbols= get_symbol_table(source);
     src= fopen(get_name_am(source),"r");
-    dest= fopen(get_name_ob(source),"w");
-    if(dest==NULL){
-        fprintf(stderr,"problem with opening output file");
-        exit(1);
-    }
-    mark_ob_file_exist(source);
-    make_ob_file_head(dest, source);
-    while ((fgets(line,LINE_LENGTH,src))!=NULL){
-        temp_line= trim_whitespace(line);
-        line_number++;
-        if (!is_comment(temp_line)&&!is_empty(temp_line)){
-            first_word_in_line=str_tok(temp_line," \t");
-//            first_word_in_line= trim_whitespace(first_word_in_line);
-            if(is_symbol_def(first_word_in_line)){
-                temp_line=line+ strlen(first_word_in_line)+1;
-                first_word_in_line= str_tok(NULL," \t");
-                first_word_in_line=trim_whitespace(first_word_in_line);
-            }
-            if (!is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
-                if (is_entry_def(first_word_in_line)){
-                    char *symbol_name;
-                    symbol to_update;
-                    symbol_name= str_tok(NULL," \t");
-                    to_update= get_symbol_by_name(symbols, symbol_name);
-                    if (to_update!=NULL){
-                        mark_entry(to_update);
-                    } else{
-                        error1=UNDEFINED_SYMBOL;
+    if (!is_open_file_succeeded(src,false, get_name_am(source))){
+        mark_second_scan_failed(source);
+    } else{
+        dest= fopen(get_name_ob(source),"w");
+        if (is_open_file_succeeded(dest,true, get_name_ob(source))){
+            mark_ob_file_exist(source);
+            make_ob_file_head(dest, source);
+            while ((fgets(line,LINE_LENGTH,src))!=NULL){
+                temp_line= trim_whitespace(line);
+                line_number++;
+                error1=NOT_ERROR;
+                if (!is_comment(temp_line)&&!is_empty(temp_line)){
+                    first_word_in_line=str_tok(temp_line," \t");
+                    if(is_symbol_def(first_word_in_line)){
+                        skip_symbol(&temp_line,&first_word_in_line);
                     }
-                } else{
-                    instruction temp_instruction;
-                    temp_instruction= init_instruction(temp_line, symbols, ic, &error1);
-                    ic+= get_n_words(temp_instruction);
-                    if(is_ob_file_exist(source)){
-                        print_instruction(dest,temp_instruction);
+                    if (!is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
+                        if (is_entry_def(first_word_in_line)){
+                            entry_definition(symbols,&error1);
+                        } else{
+                            instruction_call(temp_line, symbols, &ic, &error1, source, dest);
+                        }
+                        if (error1!=NOT_ERROR){
+                            error_line(line_number,error1,source);
+                        }
                     }
-                    delete_instruction(temp_instruction);
                 }
-                if (error1!=NOT_ERROR){
-                    print_error(line_number,error1);
-                    error1=NOT_ERROR;
-                    mark_second_scan_failed(source);
-                    clean_up(source);
-                }
-
             }
+            append_data_image(source,dest);
+            close_files(source,src,dest);
         }
     }
-    data_image image= get_data_image(source);
-    print_data(dest,image);
+}
+
+/*
+ * ignore the label at the beginning of a given line
+ */
+void skip_symbol(char **line, char **first_word) {
+    *line=*line+ strlen(*first_word)+1;
+    *first_word= str_tok(NULL," \t");
+    *first_word=trim_whitespace(*first_word);
+}
+
+/*
+ * close the input and output files
+ */
+void close_files(file source, FILE *src, FILE *dest) {
     fclose(src);
     if (is_ob_file_exist(source)){
         fclose(dest);
+    }
+}
+
+/*
+ * append the data image to the output file
+ */
+void append_data_image(file source, FILE *dest) {
+    data_image image= get_data_image(source);
+    print_data(dest,image);
+}
+
+/*
+ * deal with error line
+ */
+void error_line(long line_number, error err, file source) {
+    print_error(line_number,err);
+    mark_second_scan_failed(source);
+    clean_up(source);
+}
+
+/*
+ * deal with instruction call line
+ */
+void instruction_call(char *line, symbol_table symbols, unsigned long *ic, error *err, file source, FILE *dest) {
+    instruction temp_instruction;
+    temp_instruction= init_instruction(line, symbols, *ic, err);
+    *ic += get_n_words(temp_instruction);
+    if(is_ob_file_exist(source)){
+        print_instruction(dest,temp_instruction);
+    }
+    delete_instruction(temp_instruction);
+}
+
+/*
+ * deal with line that define symbol as entry.
+ */
+void entry_definition(symbol_table symbols, error *err) {
+    char *symbol_name;
+    symbol to_update;
+    symbol_name= str_tok(NULL," \t");
+    to_update= get_symbol_by_name(symbols, symbol_name);
+    if (to_update!=NULL){
+        mark_entry(to_update);
+    } else{
+        *err=UNDEFINED_SYMBOL;
     }
 }
 
