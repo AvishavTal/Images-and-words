@@ -1,7 +1,7 @@
-;one register operand
+;one operand
 prn #140
 
-;tow register operands
+;tow operands
 mov #1,r1
 cmp #4,#4
 add #-1,r4
