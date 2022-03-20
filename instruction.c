@@ -125,8 +125,8 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
         arguments=(char **) malloc(sizeof(char *));
         arguments_len= split(line+op_len+1,arguments,", \t");
         set_args(result, symbols, arguments, arguments_len, &ic, err);
+        set_n_words(result);
     }
-    set_n_words(result);
     return result;
 }
 
