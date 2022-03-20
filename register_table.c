@@ -15,7 +15,8 @@ struct reg {
 };
 
 regyster get_register_by_name(char *name){
-    int i;
+    int i=0;
+    regyster result=NULL;
     static struct reg registers[]={
             {"r0",0,false},
             {"r1",1,false},
@@ -35,12 +36,13 @@ regyster get_register_by_name(char *name){
             {"r15",15,true}
     };
     name=trim_whitespace(name);
-    for (i=0 ; i < REG_TABLE_SIZE ; ++i){
+    while ((i<REG_TABLE_SIZE)&&(result==NULL)){
         if(!strcmp(registers[i].name,name)){
-            return registers+i;
+            result= registers+i;
         }
+        i++;
     }
-    return NULL;
+    return result;
 }
 
 int get_reg_code(regyster reg){
