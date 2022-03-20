@@ -48,10 +48,11 @@ operator get_operator_by_name(char *name){
         {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
     };
     name= trim_whitespace(name);
-    for ( ; i < TABLE_SIZE; ++i) {
+    while ((i<TABLE_SIZE)&&(result==NULL)){
         if (!strcmp(name,operators[i].name)){
             result = operators+i;
         }
+        i++;
     }
     return result;
 }
