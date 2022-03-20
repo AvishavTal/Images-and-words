@@ -276,9 +276,10 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
     } else{
         word immediate_word;
         immediate_word=init_word();
+        set_address(immediate_word,*ic);
+        (*ic)++;
         set_immediate(immediate_word,immediate);
         set_are(immediate_word,ABSOLUTE);
-        (*ic)++;
         if(is_dest){
             to_set->words[DEST_ADDRESS_WORD_INDEX]=immediate_word;
         } else{
