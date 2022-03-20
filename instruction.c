@@ -113,7 +113,7 @@ void print_instruction(FILE *dest, instruction to_print){
 instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err) {
     instruction result;
     char *opname;
-    trim_whitespace(line);
+    line=trim_whitespace(line);//todo delete this trim?
     opname=get_first_word_in_line(line);
     result=(instruction) malloc(sizeof(struct instruction));
     init_instruction_words(result);
@@ -142,7 +142,7 @@ void init_instruction_words(instruction to_set) {
 void delete_instruction(instruction to_delete){
     int i=0;
     for ( ; i <MAX_N_WORDS ;i++) {
-        if(to_delete->words[i]){
+        if(to_delete->words[i]!=NULL){
             delete_word(to_delete->words[i]);
         }
     }
@@ -159,7 +159,7 @@ void set_args(instruction to_set, symbol_table symbols, char **arguments_list, u
         *err=TOO_MANY_ARGS;
     } else if (n_args<required_number_of_operands) {
         *err = TOO_FEW_ARGS;
-    } else {
+    } else if (required_number_of_operands!=NO_ARGS_REQUIRED) {
         char *source=NULL,*dest=NULL;
 
         if (required_number_of_operands==REQUIRED_ONE){
@@ -312,7 +312,7 @@ void set_register_direct_operand(instruction to_set, char *operand, int is_dest,
 
 void
 build_second_word(instruction to_set, symbol_table symbols, char *source, char *dest, unsigned long *ic, error *err) {
-    set_addressing_modes(to_set,source,dest,err);
+    set_addressing_modes(to_set,source,dest,err);//todo delete this line
     if(*err==NOT_ERROR){
         int funct;
         to_set->words[OPERANDS_INFO_WORD_INDEX]=init_word();
