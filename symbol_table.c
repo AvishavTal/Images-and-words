@@ -41,7 +41,7 @@ void add_symbol(symbol_table symbols, char *symbol_name, unsigned long address, 
                 boolean is_data, boolean is_code, error *err){
     if (!is_legal_name(symbol_name)){
         *err=ILLEGAL_SYMBOL_NAME;
-    } else if(double_definition(symbols, symbol_name, is_extern, err)){
+    } else if(!double_definition(symbols, symbol_name, is_extern, err)){
         symbol new_symbol;
         new_symbol=NULL;
         new_symbol= init_symbol_with_values(symbol_name, address, is_entry, is_extern, is_data, is_code);
