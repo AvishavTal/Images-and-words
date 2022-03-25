@@ -39,7 +39,7 @@ symbol init_symbol_with_values(char *name, unsigned long address, boolean is_ent
     symbol new_symbol;
     new_symbol=(symbol)malloc(sizeof(struct symbol));
     if(is_allocation_succeeded(new_symbol)) {
-        new_symbol->name = name;
+        set_symbol_name(new_symbol,name);
         new_symbol->address = address;
         new_symbol->attribute.is_entry = is_entry;
         new_symbol->attribute.is_extern = is_extern;
@@ -60,10 +60,10 @@ char* get_symbol_name(symbol curr_symbol){
 
 void set_symbol_name(symbol curr_symbol , char *name){
     char *new_name;
-    new_name=(char *)calloc(1,strlen(name)+1);
+    new_name=(char *) malloc(strlen(name)+1);
     if(is_allocation_succeeded(new_name)) {
         strcpy(new_name, name);
-        curr_symbol->name = name;
+        curr_symbol->name = new_name;
     }
 }
 
