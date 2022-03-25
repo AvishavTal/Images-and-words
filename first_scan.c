@@ -2,106 +2,142 @@
 // Created by Sapir on 10.3.2022.
 //
 #include "first_scan.h"
+#include "data_image.h"
+#include <string.h>
+#include "symbol_table.h"
+#include "string_manipulations.h"
+#include "instruction.h"
+#include "parser.h"
+#include "first_and_second_scan_constants.h"
+#include "system_errors.h"
 
 #define MIN_DC 0
 #define true 1
 #define false 0
 #define  NOT_SYMBOL -1
 
+void pull_symbol_name(char *first_word, char *dest);
+
+void check_entry_definition_syntax(char *line, error *err);
+
+void check_symbol_definition_syntax(char *line, error *err);
+
+void check_data_definition_syntax(char *line, error *err);
+
+void check_string_definition_syntax(char *line, error *err);
+
+void check_extern_definition_syntax(char *line, error *err);
+
+void check_instrucion_line_syntax(char *line, error *err);
+
 void first_scan(file source) {
-//    /* variables declaration */
-//    symbol_table symbols;
-//    data_image image;
-//    FILE *src;
-//    error err;
-//    long IC, DC;
-//    unsigned long line_num;
-//    int is_there_error, is_symbol, words_num;
-//    char line[LINE_LENGTH], *first_word_in_line, *second_word_in_line, *symbol_name;
-//
-//    /* reset variables */
-//    err = NOT_ERROR;
-//    IC = MIN_IC;
-//    DC = MIN_DC;
-//    line_num = 0;
-//    is_there_error = false;// todo mat=ybe need to be share with the second scan
-//    symbols = get_symbol_table(source);
-//    image = init_data_image(); /* data image */
-//    first_word_in_line = get_first_word_in_line(line);
-//    second_word_in_line = get_first_word_in_line(line + (strlen(first_word_in_line)));
-//    src = fopen(get_name_am(source), "r");//todo add open file check
-//
-//    while ((fgets(line, LINE_LENGTH, src)) != NULL) {
-//        if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
-//            if (is_syntax_correct) {//todo add the function that check if the commas correct - if everything ok continue
-//                if (!(is_entry_def(line))) {/* if this line is not an entry line */
-//                    if (is_symbol_def(first_word_in_line) != NOT_SYMBOL) { /* if this line starts with symbol */
-//                        is_symbol = true;
-//                        symbol_name = pull_symbol_name(first_word_in_line);
-//                    }
-//                    /* if this line is both symbol and data */
-//                    if ((is_symbol) && (is_data_def(second_word_in_line))) {
-//                        add_symbol(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
-//                        add_data(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),&words_num);
-//                        DC += words_num;
-//                    }
-//                    /* if this line is data only */
-//                    else if ((!is_symbol) && (is_data_def(first_word_in_line))) {
-//                        add_data(image, DC, line + strlen(first_word_in_line), &words_num);//todo maybe to add err
-//                        DC += words_num;
-//                    }
-//                    /* if this line is both symbol and string */
-//                    else if ((is_symbol) && (is_string_def(second_word_in_line))) {
-//                        add_symbol(symbols, symbol_name, DC, false, false, true, false, &err);//todo error maybe error*
-//                        add_string(image, DC, line + strlen(first_word_in_line) + strlen(second_word_in_line),
-//                                   &words_num, NULL);//todo maybe to add err
-//                        DC += words_num;
-//                    }
-//                    /* if this line is string only */
-//                    else if ((!is_symbol) && (is_string_def(first_word_in_line))) {
-//                        add_string(image, DC, line + strlen(first_word_in_line), &words_num, NULL);
-//                        DC += words_num;
-//                    }
-//                    /* if this line is external line */
-//                    else if (is_extern_def(first_word_in_line)) {
-//                        add_symbol(symbols, line + strlen(first_word_in_line), 0, false, true, false, false,
-//                                   &err);
-//                    }
-//                    /* if this line is both symbol and code */
-//                    else if (is_symbol) {
-//                        add_symbol(symbols, symbol_name, IC, false, false, false, true,
-//                                   &err);
-//                        init_instruction(line + strlen(first_word_in_line), symbols, IC, &words_num, &err);
-//                        IC += words_num;
-//                    }
-//                    /* if this line is code only */
-//                    else {
-//                        init_instruction(line + strlen(first_word_in_line), symbols, IC, &words_num, &err);
-//                        IC += words_num;
-//                    }
-//                }
-//            }
-//        }
-//        /* if error was found */
-//        if(err != NOT_ERROR){
-//            is_there_error = true;
-//            print_error(line_num, err);
-//        }
-//        line_num ++;
-//    }
-//    /* finished the file and there is no errors */
-//    if(!is_there_error){ // check + print if there is errors - if not continue - exist in file
-//        ICF = IC;
-//        DCF = DC;
-//        update_addresses_of_data_symbols(ICF);
-//        update_addresses(image, ICF);
-//    }
+    /* variables declaration */
+    symbol_table symbols;
+    data_image image;
+    FILE *src;
+    error err;
+    long ic, dc;
+    unsigned long line_num;
+    int  words_num;
+    char line[LINE_LENGTH],*temp_line, *first_word_in_line, *second_word_in_line, symbol_name[LINE_LENGTH];
+    boolean is_symbol;
+
+    /*set variables */
+    ic = MIN_IC;
+    dc = MIN_DC;
+    line_num = 0;
+    symbols = get_symbol_table(source);
+    image=get_data_image(source);
+    src = fopen(get_name_am(source), "r");
+    if (!is_open_file_succeeded(src,false, get_name_am(source))){
+        mark_first_scan_failed(source);
+    } else{
+        while ((fgets(line, LINE_LENGTH, src)) != NULL) {
+            is_symbol=false;
+            err = NOT_ERROR;
+            line_num ++;
+            temp_line= trim_whitespace(line);
+            if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
+                first_word_in_line= str_tok(temp_line," \t");
+                if (is_entry_def(first_word_in_line)) {
+                    check_entry_definition_syntax(temp_line,&err);
+                } else{
+                    if (is_symbol_def(first_word_in_line)) { /* if this line starts with symbol */
+                        is_symbol = true;
+                        pull_symbol_name(first_word_in_line, symbol_name);
+                        check_symbol_definition_syntax(temp_line,&err);
+                        first_word_in_line= str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
+                    }
+                    if (is_data_def(first_word_in_line)|| is_string_def(first_word_in_line)){
+                        long first_word_length;
+                        first_word_length= strlen(first_word_in_line);
+                        if (is_symbol){
+                            add_symbol(symbols, symbol_name, dc, false, false, true, false, &err);
+                        }
+                        if (is_data_def(first_word_in_line)){
+                            check_data_definition_syntax(temp_line,&err);
+                            add_data_line(image,dc,temp_line+first_word_length+1,&words_num,&err);
+                        } else if (is_string_def(first_word_in_line)){
+                            check_string_definition_syntax(temp_line,&err);
+                            add_string(image,dc,temp_line+first_word_length+1,&words_num,&err);
+                        }
+                        dc+=words_num;
+                    }
+                    else if (is_extern_def(first_word_in_line)) {
+                        int first_word_length;
+                        first_word_length= strlen(first_word_in_line);
+                        check_extern_definition_syntax(temp_line,&err);
+                        add_symbol(symbols, temp_line+first_word_length+1, 0, false, true, false, false,
+                                   &err);
+                    } else{ /*this line is an instruction.*/
+                        instruction temp_instruction;
+                        check_instrucion_line_syntax(temp_line,&err);
+                        if (is_symbol){
+                            add_symbol(symbols, symbol_name, ic, false, false, false, true, &err);
+                        }
+                        temp_instruction= init_instruction(temp_line,symbols,ic,&err);
+                        ic+= get_n_words(temp_instruction);
+                        delete_instruction(temp_instruction);
+                    }
+                }
+            }
+        }
+        if(err != NOT_ERROR){
+            mark_first_scan_failed(source);
+            print_error(line_num, err);
+        }
+        set_final_dc(source,dc);
+        set_final_ic(source,ic);
+        update_addresses(image,ic);
+        update_addresses_of_data_symbols(symbols,ic);
+    }
 }
 
-char* pull_symbol_name(char* str) {
-    char *symbol_name = (char*) calloc (1,strlen(str));
-    strcpy(symbol_name, str);
-    symbol_name = trim_whitespace(symbol_name);
-    symbol_name[strlen(symbol_name)-1] = '\0';
-    return symbol_name;
+void check_instrucion_line_syntax(char *line, error *err) {
+
+}
+
+void check_extern_definition_syntax(char *line, error *err) {
+
+}
+
+void check_string_definition_syntax(char *line, error *err) {
+
+}
+
+void check_data_definition_syntax(char *line, error *err) {
+
+}
+
+void check_symbol_definition_syntax(char *line, error *err) {
+
+}
+
+void check_entry_definition_syntax(char *line, error *err) {
+
+}
+
+void pull_symbol_name(char *first_word, char *dest) {
+    strcpy(dest,first_word);
+    dest[strlen(first_word)-1]='\0';
 }
