@@ -67,6 +67,7 @@ void first_scan(file source) {
                         pull_symbol_name(first_word_in_line, symbol_name);
                         check_symbol_definition_syntax(temp_line,&err);
                         first_word_in_line= str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
+                        temp_line=temp_line+ strlen(symbol_name)+1;
                     }
                     if (is_data_def(first_word_in_line)|| is_string_def(first_word_in_line)){
                         long first_word_length;
