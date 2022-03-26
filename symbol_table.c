@@ -110,8 +110,8 @@ void print_externals(FILE *dest,symbol_table to_print){
             name= get_symbol_name(current_symbol);
             address= get_symbol_base_address(current_symbol);
             offset= get_symbol_offset(current_symbol);
-            fprintf(dest,"%s %04ld\n",name,address);
-            fprintf(dest,"%s %04ld\n",name,offset);
+            fprintf(dest,"%s BASE %04ld\n",name,address);
+            fprintf(dest,"%s OFFSET %04ld\n",name,offset);
         }
         current_node=get_next_node(current_node);
     }
