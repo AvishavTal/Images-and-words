@@ -96,17 +96,18 @@ void first_scan(file source) {
                         if (is_symbol){
                             add_symbol(symbols, symbol_name, ic, false, false, false, true, &err);
                         }
-                        temp_instruction= init_instruction(temp_line,symbols,ic,&err);
+                        temp_instruction= init_instruction(temp_line,NULL,ic,&err);
                         ic+= get_n_words(temp_instruction);
                         delete_instruction(temp_instruction);
                     }
                 }
             }
+            if(err != NOT_ERROR){
+                mark_first_scan_failed(source);
+                print_error(line_num, err);
+            }
         }
-        if(err != NOT_ERROR){
-            mark_first_scan_failed(source);
-            print_error(line_num, err);
-        }
+
         set_final_dc(source,dc);
         set_final_ic(source,ic);
         update_addresses(image,ic);
