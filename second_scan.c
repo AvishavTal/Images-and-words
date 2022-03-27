@@ -141,7 +141,10 @@ void entry_definition(symbol_table symbols, error *err) {
  * print to the object the part before the code image
  */
 void make_ob_file_head(FILE *ob_file, file source) {
-
+    unsigned long ic,dc;
+    ic= get_final_ic(source);
+    dc= get_final_dc(source);
+    fprintf(ob_file,"%lu %lu\n",ic,dc);
 }
 
 void clean_up(file to_clean) {
