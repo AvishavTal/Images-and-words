@@ -39,7 +39,7 @@ struct word{
 
 word init_word(){
     word result;
-    result=(word) malloc(sizeof(struct word)+1);
+    result=(word) malloc(sizeof(struct word));
     result->the_actual_word=0;
     result->address=0;
     return result;
