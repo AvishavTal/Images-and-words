@@ -27,7 +27,9 @@ void add_data(data_image image, unsigned long address, unsigned long new_data){
     word new_word;
     new_word=init_word();
     set_address(new_word,address);
-    set_data(new_word,new_data);
+//    set_data(new_word,new_data);
+    set_immediate(new_word,new_data);
+    set_are(new_word,ABSOLUTE);
     add_to_tail(image->words,new_word);
 }
 
@@ -65,13 +67,13 @@ void update_addresses(data_image image,long final_ic){
 }
 
 void add_string(data_image image, unsigned long address, char *new_string, int *n_words, error *err) {
-    int i=0;
+    int i=1;
     new_string= trim_whitespace(new_string);
     *n_words= strlen(new_string)-1;
     if(!is_string(new_string)){
         *err=ILLEGAL_STRING_SYNTAX;
     } else{
-        for (; i <*n_words-1 ; i++) {
+        for (; i <*n_words ; i++) {
             if (isprint(new_string[i])){
                 add_data(image,address,new_string[i]);
                 address++;
