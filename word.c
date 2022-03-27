@@ -59,7 +59,7 @@ void print_word(FILE *dest, word to_print){
     c&=MASK;
     d&=MASK;
     e&=MASK;
-    fprintf(dest,"%04lu A%03x-B%03x-C%03x-D%03x-E%03x\n",to_print->address,a,b,c,d,e);
+    fprintf(dest,"%04lu A%x-B%x-C%x-D%x-E%x\n",to_print->address,a,b,c,d,e);
 }
 
 
