@@ -38,7 +38,6 @@ void first_scan(file source) {
     error err;
     long ic, dc;
     unsigned long line_num;
-    int  words_num;
     char line[LINE_LENGTH],*temp_line, *first_word_in_line, *second_word_in_line, symbol_name[LINE_LENGTH];
     boolean is_symbol;
 
@@ -68,8 +67,10 @@ void first_scan(file source) {
                         check_symbol_definition_syntax(temp_line,&err);
                         first_word_in_line= str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
                         temp_line=temp_line+ strlen(symbol_name)+1;
+                        temp_line= trim_whitespace(temp_line);
                     }
                     if (is_data_def(first_word_in_line)|| is_string_def(first_word_in_line)){
+                        int  words_num=0;
                         long first_word_length;
                         first_word_length= strlen(first_word_in_line);
                         if (is_symbol){
@@ -109,7 +110,7 @@ void first_scan(file source) {
         }
 
         set_final_dc(source,dc);
-        set_final_ic(source,ic);
+        set_final_ic(source,ic-MIN_IC);
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
     }
