@@ -76,7 +76,7 @@ void set_symbol_address(symbol curr_symbol , unsigned long address){
 }
 
 unsigned long get_symbol_base_address(symbol curr_symbol){
-    return curr_symbol->address / BASE;
+    return (curr_symbol->address / BASE)*BASE;
 }
 
 unsigned long get_symbol_offset(symbol curr_symbol){
