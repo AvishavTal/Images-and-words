@@ -10,11 +10,11 @@
 #include "parser.h"
 #include "first_and_second_scan_constants.h"
 #include "system_errors.h"
+#include "boolean.h"
 
 #define MIN_DC 0
-#define true 1
-#define false 0
-#define  NOT_SYMBOL -1
+#define SEPARATOR ','
+#define QUOTATION_MARKS '"'
 
 void pull_symbol_name(char *first_word, char *dest);
 
@@ -30,6 +30,10 @@ void check_extern_definition_syntax(char *line, error *err);
 
 void check_instrucion_line_syntax(char *line, error *err);
 
+void check_commas(char *line, error *err);
+
+boolean check_for_comma_in_line(char *line);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -38,7 +42,7 @@ void first_scan(file source) {
     error err;
     long ic, dc;
     unsigned long line_num;
-    char line[LINE_LENGTH],*temp_line, *first_word_in_line, *second_word_in_line, symbol_name[LINE_LENGTH];
+    char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
     boolean is_symbol;
 
     /*set variables */
@@ -72,7 +76,7 @@ void first_scan(file source) {
                     if (is_data_def(first_word_in_line)|| is_string_def(first_word_in_line)){
                         int  words_num=0;
                         long first_word_length;
-                        first_word_length= strlen(first_word_in_line);
+                        first_word_length=strlen(first_word_in_line);
                         if (is_symbol){
                             add_symbol(symbols, symbol_name, dc, false, false, true, false, &err);
                         }
@@ -117,30 +121,119 @@ void first_scan(file source) {
 }
 
 void check_instrucion_line_syntax(char *line, error *err) {
-
+    check_commas(line, err);
 }
 
 void check_extern_definition_syntax(char *line, error *err) {
-
+    if(check_for_comma_in_line(line)){
+        *err = ILLEGAL_COMMA;
+    }
 }
 
+/* check if the first ant last chars are quotation marks */
 void check_string_definition_syntax(char *line, error *err) {
-
+    if(line[0] == QUOTATION_MARKS && line[strlen(line)-1] == QUOTATION_MARKS)
+        *err = SYNTAX_ERROR;
 }
 
 void check_data_definition_syntax(char *line, error *err) {
-
+    check_commas(line, err);
 }
 
 void check_symbol_definition_syntax(char *line, error *err) {
+    //line = trim_whitespace(line);
 
+    //check_commas(line, err);
 }
 
-void check_entry_definition_syntax(char *line, error *err) {
+boolean check_for_comma_in_line(char *line){
+    boolean result = false;
+    int i=0;
 
+    while ((!result) && i<strlen(line)){
+        if (line[i]==SEPARATOR)
+            result = true;
+        i++;
+    }
+    return result;
+}
+
+/* check if there is commas in this line */
+void check_entry_definition_syntax(char *line, error *err) {
+    if(check_for_comma_in_line(line)){
+        *err = ILLEGAL_COMMA;
+    }
 }
 
 void pull_symbol_name(char *first_word, char *dest) {
     strcpy(dest,first_word);
     dest[strlen(first_word)-1]='\0';
+}
+
+
+/**
+ * check the validity of the  commas in one line.
+ * @param line the input from the user
+ * @return OK if the input is ok, detailed information otherwise
+ */
+void check_commas(char *line, error *err) {
+    enum state {BEFORE_OP, AFTER_OP, GETTING_OP, BEFORE_ARG, GETTING_ARG, AFTER_ARG};
+    enum state current=BEFORE_OP;
+    char tmp_char;
+    int i;
+    unsigned long length;
+    length= strlen(line);
+    i=0;
+
+    if(line[length-1]==SEPARATOR){ /* if the line ends with separator */
+        *err=ILLEGAL_COMMA;
+    }
+    while (*err==NOT_ERROR && i<length){
+        tmp_char = line[i];
+        switch (current){
+            case BEFORE_OP:
+                if (tmp_char==SEPARATOR){
+                    *err= ILLEGAL_COMMA;
+                }
+                if (!isspace(tmp_char)){
+                    current = GETTING_OP;
+                }
+                break;
+            case GETTING_OP:
+                if (tmp_char==SEPARATOR){
+                    *err= ILLEGAL_COMMA;
+                }
+                if (isspace(tmp_char)){
+                    current=BEFORE_ARG;
+                }
+                break;
+            case BEFORE_ARG:
+                if (tmp_char==SEPARATOR){
+                    *err= ILLEGAL_COMMA;
+                }
+                if (!isspace(tmp_char)){
+                    current=GETTING_ARG;
+                }
+                break;
+            case GETTING_ARG:
+                if (isspace(tmp_char)){
+                    current = AFTER_ARG;
+                }
+                if (tmp_char==SEPARATOR){
+                    current = BEFORE_ARG;
+                }
+                break;
+            case AFTER_ARG:
+                if (tmp_char==SEPARATOR){
+                    current = BEFORE_ARG;
+                    break;
+                }
+                if (!isspace(tmp_char)){
+                    *err= MISSING_COMMA;
+                }
+            default:
+                continue;
+        }
+        i++;
+    }
 }
