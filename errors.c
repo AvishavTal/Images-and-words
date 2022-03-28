@@ -55,7 +55,13 @@ void print_error(unsigned long line_number,error err_code){
         case ILLEGAL_OPERAND:
             printf("%lu\t Illegal operand.\n", line_number);
             break;
-        default:
+        case ILLEGAL_COMMA:
+            printf("%lu\t Illegal comma in line.\n", line_number);
+            break;
+        case MISSING_COMMA:
+            printf("%lu\t Missing comma in line\n", line_number);
+            break;
+            default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);
             break;
     }
