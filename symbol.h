@@ -6,6 +6,7 @@
 #define EX14_SYMBOL_H
 
 #include "boolean.h"
+#include <stdio.h>
 
 typedef struct symbol *symbol;
 
@@ -134,5 +135,10 @@ boolean get_is_data_symbol(symbol curr_symbol);
   * @param to_delete the needed symbol
   */
 void delete_symbol(symbol to_delete);
+
+void print_entry_symbol(FILE *dest,symbol to_print);
+void print_extern_symbol(FILE *dest,symbol to_print);
+void add_to_base_required(symbol to_update,unsigned long address);
+void add_to_offset_required(symbol to_update,unsigned long address);
 
 #endif /* EX14_SYMBOL_H */
