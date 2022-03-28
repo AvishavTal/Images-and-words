@@ -12,7 +12,4 @@ void* get_next_node(node node);
 list create_empty_list();
 void add_to_tail(struct list*, void *new_data);
 
-
-
-void print_list(list list);//to delete later
-#endif //EX14_LINKED_LIST_H
+#endif /* EX14_LINKED_LIST_H */
