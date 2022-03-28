@@ -6,6 +6,7 @@
 #define EX14_PARSER_H
 
 #include "boolean.h"
+#include "errors.h"
 
 int end_of_macro_definition(char *line);
 
