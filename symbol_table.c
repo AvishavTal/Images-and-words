@@ -85,12 +85,7 @@ void print_entries(FILE *dest,symbol_table to_print){
     while (current_node){
         current_symbol=get_node_data(current_node);
         if (get_is_entry_symbol(current_symbol)){
-            char *name;
-            unsigned long address,offset;
-            name= get_symbol_name(current_symbol);
-            address= get_symbol_base_address(current_symbol);
-            offset= get_symbol_offset(current_symbol);
-            fprintf(dest,"%s,%04ld,%04ld\n",name,address,offset);
+            print_entry_symbol(dest,current_symbol);
         }
         current_node=get_next_node(current_node);
     }
@@ -105,13 +100,7 @@ void print_externals(FILE *dest,symbol_table to_print){
     while (current_node){
         current_symbol=get_node_data(current_node);
         if (get_is_extern_symbol(current_symbol)){
-            char *name;
-            unsigned long address,offset;
-            name= get_symbol_name(current_symbol);
-            address= get_symbol_base_address(current_symbol);
-            offset= get_symbol_offset(current_symbol);
-            fprintf(dest,"%s BASE %04ld\n",name,address);
-            fprintf(dest,"%s OFFSET %04ld\n",name,offset);
+            print_extern_symbol(dest,current_symbol);
         }
         current_node=get_next_node(current_node);
     }
@@ -153,7 +142,7 @@ boolean double_definition(symbol_table symbols, char *name, boolean is_extern, e
         if (!(get_is_extern_symbol(old_symbol) && is_extern)){
             *err=DOUBLE_DEFINITION_OF_SYMBOL;
         }
-        result = true; //todo to consider to put this line inside the if
+        result = true; //todo to consider to put this line inside the if - has to be here because if extern , than result true but its not error
         //todo consider if need another if for entry
     }
 
