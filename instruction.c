@@ -258,6 +258,10 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             (*ic)++;
             set_address(offset_word,*ic);
             (*ic)++;
+            if (get_is_extern_symbol(symbol_operand)){
+                add_to_base_required(symbol_operand,get_address(address_word));
+                add_to_offset_required(symbol_operand,get_address(offset_word));
+            }
             if(is_dest){
                 to_set->words[DEST_ADDRESS_WORD_INDEX]=address_word;
                 to_set->words[DEST_OFFSET_WORD_INDEX]=offset_word;

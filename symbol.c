@@ -160,7 +160,7 @@ void print_offset_required(FILE *dest, symbol to_print) {
 
 void print_base_required(FILE *dest, symbol to_print) {
     node current;
-    current= get_head(to_print->offset_required);
+    current= get_head(to_print->base_required);
     while (current){
         unsigned long *address;
         address= get_node_data(current);
