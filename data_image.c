@@ -51,6 +51,8 @@ void delete_data(data_image to_delete){
         delete_word(get_node_data(current_node));
         current_node=get_next_node(current_node);
     }
+    free_list(to_delete->words);
+    free(to_delete);
 }
 void update_addresses(data_image image,long final_ic){
     node current_node;
