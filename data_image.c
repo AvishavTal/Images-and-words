@@ -22,7 +22,9 @@ data_image init_data_image(){
     return result;
 }
 
-
+/*
+ * helper function to add any data type to the data image
+ */
 void add_data(data_image image, unsigned long address, unsigned long new_data){
     word new_word;
     new_word=init_word();
