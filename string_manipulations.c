@@ -1,6 +1,6 @@
-//
-// Created by avishav on 2.3.2022.
-//
+/*
+* Created by avishav on 2.3.2022.
+*/
 
 #include "string_manipulations.h"
 
@@ -21,7 +21,7 @@ char *trim_whitespace(char *str){
     while(end > str && isspace((unsigned char)*end))
         end--;
     end[1] = '\0';
-    return str; // do not change! it need to return other string!!
+    return str;
 }
 
 /**
@@ -76,25 +76,6 @@ char is_zero(char *str) {
 
 
 /**
-* convert string to a floating point number
-* @param str string to convert
-* @return 0 iff the string contains non numeric chars
-*/
-int str_to_double(char *str, double *dest) {
-    int result=1;
-    str=trim_whitespace(str);
-    if(is_zero(str)){
-        *dest= 0;
-    } else{
-        *dest= atof(str);
-        if (!(*dest)){
-            result=0;
-        }
-    }
-    return result;
-}
-
-/**
  * convert string to int
  * @param str string to convert
  * @return 0 iff the string contains non numeric chars
@@ -114,26 +95,6 @@ int str_to_int(char *str,int *dest){
     return result;
 }
 
-
-/**
-* return the first word in string with whitespaces
-* @param str string to manipulate
-* @return the first word in str with whitespaces
-*/
-char* get_first_word_in_line(char *str){
-    char *first_word = (char*)calloc(1,strlen(str)+1);
-    int str_index=0;
-
-    while(isspace(str[str_index])) {
-        first_word[str_index] = str[str_index];
-        str_index++;
-    }
-    while(!(isspace(str[str_index]))) {
-        first_word[str_index] = str[str_index];
-        str_index++;
-    }
-    return first_word;
-}
 
 boolean is_alpha_numeric_word(char *word){
     unsigned long len;

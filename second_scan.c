@@ -1,6 +1,6 @@
-//
-// Created by avishav on 28.2.2022.
-//
+/*
+* Created by avishav on 28.2.2022.
+*/
 #include <stdio.h>
 #include <string.h>
 #include "second_scan.h"

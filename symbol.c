@@ -7,7 +7,6 @@
 #include "symbol.h"
 #include "boolean.h"
 #include "system_errors.h"
-#include "linked_list.h"
 #include "unsigned_long_list.h"
 
 #define BASE 16
@@ -16,10 +15,10 @@ struct symbol{
     char *name;
     unsigned long address;
     struct attr{
-        boolean is_entry :1;
-        boolean is_extern :1;
-        boolean is_data :1;
-        boolean is_code :1;
+        unsigned int is_entry :1;
+        unsigned int is_extern :1;
+        unsigned int is_data :1;
+        unsigned int is_code :1;
     }attribute;
 
     /*addresses of words requires the base address of the offset of this symbol and the sizes of those arrays*/
@@ -31,20 +30,6 @@ struct symbol{
 void print_base_required(FILE *dest, symbol to_print);
 
 void print_offset_required(FILE *dest, symbol to_print);
-
-symbol init_symbol(){
-    symbol new_symbol;
-    new_symbol=(symbol)calloc(1,sizeof(struct symbol));
-    if(is_allocation_succeeded(new_symbol)) {
-        new_symbol->name = NULL;
-        new_symbol->address = 0;
-        new_symbol->attribute.is_entry = false;
-        new_symbol->attribute.is_extern = false;
-        new_symbol->attribute.is_data = false;
-        new_symbol->attribute.is_code = false;
-    }
-    return new_symbol;
-}
 
 symbol init_symbol_with_values(char *name, unsigned long address, boolean is_entry, boolean is_extern, boolean is_data, boolean is_code){
     symbol new_symbol;
@@ -62,11 +47,6 @@ symbol init_symbol_with_values(char *name, unsigned long address, boolean is_ent
         }
     }
     return new_symbol;
-}
-
-void update_symbol(symbol curr_symbol, char* name, unsigned long address){
-    set_symbol_name(curr_symbol,name);
-    set_symbol_address(curr_symbol, address);
 }
 
 char* get_symbol_name(symbol curr_symbol){
@@ -102,28 +82,12 @@ void mark_entry(symbol to_mark){
     to_mark->attribute.is_entry = true;
 }
 
-void mark_extern(symbol to_mark){
-    to_mark->attribute.is_extern = true;
-}
-
-void mark_code(symbol to_mark){
-    to_mark->attribute.is_code = true;
-}
-
-void mark_data(symbol to_mark){
-    to_mark->attribute.is_data = true;
-}
-
 boolean get_is_entry_symbol(symbol curr_symbol){
     return curr_symbol->attribute.is_entry;
 }
 
 boolean get_is_extern_symbol(symbol curr_symbol){
     return curr_symbol->attribute.is_extern;
-}
-
-boolean get_is_code_symbol(symbol curr_symbol){
-    return curr_symbol->attribute.is_code;
 }
 
 boolean get_is_data_symbol(symbol curr_symbol){

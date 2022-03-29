@@ -1,6 +1,6 @@
-//
-// Created by avishav on 8.3.2022.
-//
+/*
+* Created by avishav on 8.3.2022.
+*/
 
 #include <stdlib.h>
 #include "word.h"
@@ -8,7 +8,6 @@
 #include "system_errors.h"
 #include "addressing_mode.h"
 
-#define OPCODE_SHIFT 0
 #define DEST_ADDRESSING_SHIFT 0
 #define DEST_REG_SHIFT 2
 #define SRC_ADDRESSING_SHIFT 6
@@ -23,18 +22,11 @@
 #define E_SHIFT 0
 #define MASK 017
 
-#define OPCODE_MASK 0777777
-#define ARE_MASK 0700000
-#define DEST_ADDRESSING_MASK 3
-#define DEST_REG_MASK 074
-#define SRC_ADDRESSING_MASK 0300
-#define SRC_REG_MASK 07400
-#define FUNCT_MASK 0170000
 #define IMMEDIATE_MASK 0xffff
 
 struct word{
     unsigned long address;
-    unsigned long the_actual_word;//todo find appropriate name -  maybe alphabetic_word?
+    unsigned long the_actual_word;
 };
 
 word init_word(){

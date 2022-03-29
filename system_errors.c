@@ -4,7 +4,6 @@
 
 #include <stdlib.h>
 #include "boolean.h"
-#include "file.h"
 #include "system_errors.h"
 
 #define ALLOCATION_EXIT_CODE -1

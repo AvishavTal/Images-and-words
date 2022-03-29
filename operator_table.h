@@ -60,6 +60,6 @@ unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode);
  * @param opcode
  * @return 1 if the marcos is_legal_operator the opname, 0 otherwise
  */
-int is_legal_operator(const char *opname, int *funct, int *opcode);//todo the function and the API
+int is_legal_operator(const char *opname, int *funct, int *opcode);
 
-#endif /* EX14_OPERATOR_TABLE_H */
+#endif

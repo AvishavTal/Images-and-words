@@ -30,4 +30,4 @@ int get_reg_code(regyster reg);
  */
 boolean get_is_valid_index(regyster reg);
 
-#endif /* EX14_REGISTER_TABLE_H */
+#endif

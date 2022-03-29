@@ -10,11 +10,6 @@
 
 typedef struct symbol *symbol;
 
-/**
- * Returns new symbol with default values
- * @return new symbol with default values
- */
-symbol init_symbol();/* create new symbol and reset all variables */
 
 /**
  * Returns new symbol with the wanted values
@@ -28,13 +23,6 @@ symbol init_symbol();/* create new symbol and reset all variables */
  */
 symbol init_symbol_with_values(char *name, unsigned long address, boolean is_entry, boolean is_extern, boolean is_data, boolean is_code);
 
-/**
- * Receives a symbol and updates its values
- * @param curr_symbol the received symbol
- * @param name symbol new name
- * @param address symbol new address
- */
-void update_symbol(symbol curr_symbol, char* name, unsigned long address);/* update the variables of given symbol*/
 
 /**
  * Returns the name of the symbol
@@ -85,24 +73,6 @@ unsigned long get_symbol_offset(symbol curr_symbol);
 void mark_entry(symbol to_mark);
 
 /**
- * Set extern flag to true
- * @param to_mark the needed symbol
- */
-void mark_extern(symbol to_mark);
-
-/**
- * Set code flag to true
- * @param to_mark the needed symbol
- */
-void mark_code(symbol to_mark);
-
-/**
- * Set data flag to true
- * @param to_mark the needed symbol
- */
-void mark_data(symbol to_mark);
-
- /**
   * Returns if this symbol is an entry symbol
   * @param curr_symbol the needed symbol
   * @return true if this symbol is an entry symbol, false otherwise
@@ -115,13 +85,6 @@ boolean get_is_entry_symbol(symbol curr_symbol);
  * @return true if this symbol is an extern symbol, false otherwise
  */
 boolean get_is_extern_symbol(symbol curr_symbol);
-
-/**
- * Returns if this symbol is an code symbol
- * @param curr_symbol the needed symbol
- * @return true if this symbol is an code symbol, false otherwise
- */
-boolean get_is_code_symbol(symbol curr_symbol);
 
 /**
  * Returns if this symbol is an data symbol
@@ -141,4 +104,4 @@ void print_extern_symbol(FILE *dest,symbol to_print);
 void add_to_base_required(symbol to_update,unsigned long address);
 void add_to_offset_required(symbol to_update,unsigned long address);
 
-#endif /* EX14_SYMBOL_H */
+#endif

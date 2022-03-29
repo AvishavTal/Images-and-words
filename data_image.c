@@ -1,6 +1,6 @@
-//
-// Created by avishav on 10.3.2022.
-//
+/*
+ Created by avishav on 10.3.2022.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "data_image.h"
@@ -27,7 +27,6 @@ void add_data(data_image image, unsigned long address, unsigned long new_data){
     word new_word;
     new_word=init_word();
     set_address(new_word,address);
-//    set_data(new_word,new_data);
     set_immediate(new_word,new_data);
     set_are(new_word,ABSOLUTE);
     add_to_tail(image->words,new_word);

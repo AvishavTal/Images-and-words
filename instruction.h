@@ -1,6 +1,3 @@
-//
-// Created by avishav on 28.2.2022.
-//
 
 #ifndef EX14_INSTRUCTION_H
 #define EX14_INSTRUCTION_H
@@ -14,4 +11,4 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
 int get_n_words(instruction instruction1);
 void print_instruction(FILE *dest,instruction to_print);
 void delete_instruction(instruction to_delete);
-#endif //EX14_INSTRUCTION_H
+#endif

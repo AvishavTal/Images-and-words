@@ -1,12 +1,10 @@
 
-#include <stdio.h>
 #include <string.h>
 #include "operator_table.h"
 #include "addressing_mode.h"
 #include "string_manipulations.h"
 
 #define TABLE_SIZE 16
-#define NUMBER_OF_ADDRESSING_METHODS 4
 
 struct allowed_addressing{
     unsigned int immediate :1;

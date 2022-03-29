@@ -1,6 +1,4 @@
-//
-// Created by Sapir on 10.3.2022.
-//
+
 #include "first_scan.h"
 #include "data_image.h"
 #include <string.h>
@@ -141,9 +139,7 @@ void check_data_definition_syntax(char *line, error *err) {
 }
 
 void check_symbol_definition_syntax(char *line, error *err) {
-    //line = trim_whitespace(line);
 
-    //check_commas(line, err);
 }
 
 boolean check_for_comma_in_line(char *line){

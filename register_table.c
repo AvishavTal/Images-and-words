@@ -53,6 +53,3 @@ boolean get_is_valid_index(regyster reg){
     return reg->valid_index;
 }
 
-boolean is_valid_index(regyster reg){
-    return reg->valid_index;
-}

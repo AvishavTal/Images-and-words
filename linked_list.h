@@ -1,6 +1,6 @@
-//
-// Created by Sapir on 28.2.2022.
-//
+/*
+Created by Sapir on 28.2.2022.
+*/
 
 #ifndef EX14_LINKED_LIST_H
 #define EX14_LINKED_LIST_H
@@ -18,4 +18,4 @@ void add_to_tail(struct list*, void *new_data);
  */
 void free_list(list to_free);
 
-#endif /* EX14_LINKED_LIST_H */
+#endif

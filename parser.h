@@ -75,4 +75,4 @@ boolean is_string(char *line);
  */
 boolean is_reserved_word(char *word);
 
-#endif /* EX14_PARSER_H */
+#endif

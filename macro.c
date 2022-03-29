@@ -1,6 +1,4 @@
-//
-// Created by Sapir on 28.2.2022.
-//
+
 
 #include "macro.h"
 #include "macro_body.h"
@@ -28,13 +26,6 @@ void set_macro_name(macro macro, char *name){
     trim_whitespace(name);
     macro->name=(char *) malloc(strlen(name)+1);
     strcpy(macro->name,name);
-}
-
-macro_body get_macro_body(macro macro){
-    return macro->body;
-}
-void set_macro_body(macro macro, macro_body body){
-    macro->body=body;
 }
 
 /*append line to the body of the macro*/

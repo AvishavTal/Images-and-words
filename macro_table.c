@@ -1,14 +1,15 @@
-//
-// Created by avishav on 2.3.2022.
-//
-#include <stdio.h>
+/*
+* Created by avishav on 2.3.2022.
+*/
 #include <stdlib.h>
 #include <string.h>
 #include "macro_table.h"
 #include "linked_list.h"
+
 struct macro_table{
     list table;
 };
+
 macro get_macro_by_name(macro_table macros, char *name) {
     node current_node= get_head(macros->table);
     macro current_macro;

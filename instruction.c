@@ -1,6 +1,6 @@
-//
-// Created by avishav on 28.2.2022.
-//
+/*
+ Created by avishav on 28.2.2022.
+*/
 
 #include "instruction.h"
 #include "word.h"
@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "system_errors.h"
 #include "symbol.h"
+#include "register_table.h"
 
 #define MAX_N_WORDS 6
 

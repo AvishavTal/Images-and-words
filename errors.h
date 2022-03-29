@@ -18,4 +18,4 @@ typedef enum {NOT_ERROR,UNDEFINED_OPERATOR,ILLEGAL_SYMBOL_NAME,
   */
  void print_error(unsigned long line_number,error err_code);
 
-#endif /* EX14_ERRORS_H */
+#endif

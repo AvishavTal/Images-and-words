@@ -1,6 +1,6 @@
-//
-// Created by avishav on 29.3.2022.
-//
+/*
+* Created by avishav on 29.3.2022.
+*/
 
 #include "unsigned_long_list.h"
 #include "linked_list.h"

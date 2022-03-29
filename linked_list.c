@@ -1,6 +1,6 @@
-//
-// Created by Sapir on 28.2.2022.
-//
+/*
+ Created by Sapir on 28.2.2022.
+*/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -61,7 +61,6 @@ void add_to_tail(struct list* list, void *new_data){
     }
 }
 
-//todo - add free function for nodes and data - remember data in data (like body in macro)
 void free_list(list to_free){
     node current,next;
     current=to_free->head;

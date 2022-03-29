@@ -205,4 +205,4 @@ void make_ent_file(file source);
 void tear_down(file to_delete);
 
 
-#endif /*EX14_FILE_H*/
+#endif

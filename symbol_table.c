@@ -144,8 +144,7 @@ boolean double_definition(symbol_table symbols, char *name, boolean is_extern, e
         if (!(get_is_extern_symbol(old_symbol) && is_extern)){
             *err=DOUBLE_DEFINITION_OF_SYMBOL;
         }
-        result = true; //todo to consider to put this line inside the if - has to be here because if extern , than result true but its not error
-        //todo consider if need another if for entry
+        result = true;
     }
 
     return result;

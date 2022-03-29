@@ -67,4 +67,4 @@ void print_externals(FILE *dest,symbol_table to_print);
  */
 void update_addresses_of_data_symbols(symbol_table symbols,unsigned long final_ic);
 
-#endif /* EX14_SYMBOL_TABLE_H */
+#endif

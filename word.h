@@ -1,6 +1,6 @@
-//
-// Created by avishav on 8.3.2022.
-//
+/*
+* Created by avishav on 8.3.2022.
+*/
 
 #ifndef EX14_WORD_H
 #define EX14_WORD_H
@@ -27,4 +27,4 @@ void set_src_register(word to_set, unsigned int reg_num);
 void set_src_addressing(word to_set, addressing_mode src_addressing);
 void set_immediate(word to_set, unsigned int immediate);
 void set_data(word to_set, unsigned long new_data);
-#endif //EX14_WORD_H
+#endif
