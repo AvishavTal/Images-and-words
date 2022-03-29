@@ -37,10 +37,9 @@ word init_word(){
     return result;
 }
 
-/*finished word to file*/
+
 void print_word(FILE *dest, word to_print){
     unsigned int a,b,c,d,e;
-    a=0,b=0,c=0,d=0,e=0; /*the groups of bits in the special base*/
     a=to_print->the_actual_word>>A_SHIFT;
     b=to_print->the_actual_word>>B_SHIFT;
     c=to_print->the_actual_word>>C_SHIFT;
@@ -66,7 +65,7 @@ unsigned long get_address(word word1){
 void delete_word(word to_delete){
     free(to_delete);
 }
-/*which group a r e*/
+
 void set_are(word to_set, are new_are){
     unsigned int temp;
     temp=new_are;
@@ -83,7 +82,7 @@ void set_funct(word to_set, unsigned int new_funct){
     new_funct<<=FUNCT_SHIFT;
     to_set->the_actual_word|=new_funct;
 }
-/*srote the register number*/
+
 void set_dest_register(word to_set, unsigned int reg_num){
     reg_num<<=DEST_REG_SHIFT;
     to_set->the_actual_word|=reg_num;
@@ -107,12 +106,8 @@ void set_src_addressing(word to_set, addressing_mode src_addressing){
     temp<<=SRC_ADDRESSING_SHIFT;
     to_set->the_actual_word|=temp;
 }
-/*immediate operand*/
+
 void set_immediate(word to_set, unsigned int immediate){
     immediate&=IMMEDIATE_MASK;
     to_set->the_actual_word|=immediate;
-}
-
-void set_data(word to_set, unsigned long new_data){
-    to_set->the_actual_word=new_data;
 }
