@@ -62,3 +62,14 @@ void add_to_tail(struct list* list, void *new_data){
 }
 
 //todo - add free function for nodes and data - remember data in data (like body in macro)
+void free_list(list to_free){
+    node current,next;
+    current=to_free->head;
+    next=NULL;
+    while (current!=NULL){
+        next=current->next;
+        free(current);
+        current=next;
+    }
+    free(to_free);
+}

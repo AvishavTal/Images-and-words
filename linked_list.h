@@ -12,4 +12,10 @@ void* get_next_node(node node);
 list create_empty_list();
 void add_to_tail(struct list*, void *new_data);
 
+/**
+ * free the memory that the list to_free use, does not free the memory of the data stored in it.
+ * @param to_free
+ */
+void free_list(list to_free);
+
 #endif /* EX14_LINKED_LIST_H */
