@@ -38,6 +38,40 @@ struct file{
     long DCF;
 };
 
+
+/*
+ * Set the name of the file to be the accepted name with the .as extension
+ * @param file the needed file
+ */
+void set_name_as(file file);
+
+
+/*
+ * Set the name of the file to be the accepted name with the .am extension
+ * @param file the needed file
+ */
+void set_name_am(file file);
+
+
+/*
+ * Set the name of the file to be the accepted name with the .ob extension
+ * @param file the needed file
+ */
+void set_name_ob(file file);
+
+/*
+ * Set the name of the file to be the accepted name with the .ent extension
+ * @param file the needed file
+ */
+void set_name_ent(file file);
+
+/*
+ * Set the name of the file to be the accepted name with the .ext extension
+ * @param file the needed file
+ */
+void set_name_ext(file file);
+
+
 file init_file(char *name){
     file result;
     result=(file)malloc(sizeof(struct file));
@@ -56,10 +90,6 @@ file init_file(char *name){
         result->has_passed_second_scan = true;
     }
     return result;
-}
-
-char *get_name(file file){
-    return file->name;
 }
 
 char *get_name_as(file file){
@@ -107,10 +137,6 @@ void set_name_ob(file file) {
     }
 }
 
-char *get_name_ent(file file){
-    return file->name_ent;
-}
-
 void set_name_ent(file file) {
     unsigned long len;
     len= strlen(file->name);
@@ -120,10 +146,6 @@ void set_name_ent(file file) {
         strcpy(file->name_ent, file->name);
         strcat(file->name_ent, ".ent");
     }
-}
-
-char *get_name_ext(file file){
-    return file->name_ext;
 }
 
 void set_name_ext(file file) {

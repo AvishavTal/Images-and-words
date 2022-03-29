@@ -20,24 +20,12 @@ typedef struct file *file;
 file init_file(char *name);
 
 /**
- * Return the file's name
- * @param file the needed file
- * @return the name of the file
- */
-char *get_name(file file);
-
-/**
  * Returns the name of the file with the .as extension
  * @param file the needed file
  * @return the name of the file  with the .as extension
  */
 char *get_name_as(file file);
 
-/**
- * Set the name of the file to be the accepted name with the .as extension
- * @param file the needed file
- */
-void set_name_as(file file);
 
 /**
  * Returns the name of the file with the .am extension
@@ -47,49 +35,12 @@ void set_name_as(file file);
 char *get_name_am(file file);
 
 /**
- * Set the name of the file to be the accepted name with the .am extension
- * @param file the needed file
- */
-void set_name_am(file file);
-
-/**
  * Returns the name of the file with the .ob extension
  * @param file the needed file
  * @return the name of the file  with the .ob extension
  */
 char *get_name_ob(file file);
 
-/**
- * Set the name of the file to be the accepted name with the .ob extension
- * @param file the needed file
- */
-void set_name_ob(file file);
-
-/**
- * Returns the name of the file with the .ent extension
- * @param file the needed file
- * @return the name of the file  with the .ent extension
- */
-char *get_name_ent(file file);
-
-/**
- * Set the name of the file to be the accepted name with the .ent extension
- * @param file the needed file
- */
-void set_name_ent(file file);
-
-/**
- * Returns the name of the file with the .ext extension
- * @param file the needed file
- * @return the name of the file  with the .ext extension
- */
-char *get_name_ext(file file);
-
-/**
- * Set the name of the file to be the accepted name with the .ext extension
- * @param file the needed file
- */
-void set_name_ext(file file);
 
 /**
  * Returns the macro table of the file
