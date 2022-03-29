@@ -43,9 +43,10 @@ void append_line(macro macro, char *line){
 }
 
 
-void delete_macro(macro macro){
-    free(macro->name);
-    delete_body(macro->body);
+void delete_macro(macro to_delete){
+    free(to_delete->name);
+    delete_body(to_delete->body);
+    free(to_delete);
 }
 
 void macro_call(FILE *dest,macro to_print){

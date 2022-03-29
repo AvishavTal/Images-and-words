@@ -24,6 +24,8 @@ void delete_body(macro_body to_delete){
         free(get_node_data(current));
         current= get_next_node(current);
     }
+    free_list(to_delete->lines);
+    free(to_delete);
 }
 
 void append_line_to_body(macro_body to_update,char *line){

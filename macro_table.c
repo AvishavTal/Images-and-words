@@ -36,4 +36,6 @@ void delete_macro_table(macro_table to_delete) {
         delete_macro((macro)get_node_data(current));
         current=get_next_node(current);
     }
+    free_list(to_delete->table);
+    free(to_delete);
 }
