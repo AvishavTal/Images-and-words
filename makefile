@@ -1,4 +1,4 @@
-images_and_words: command.o mycomp.o complex.o string_manipulations.o
+assembler: assembler.o file.o complex.o string_manipulations.o
 	gcc -g -Wall -ansi -pedantic file.o main.o pre_assembler.o first_scan.o second_scan.o -o images_and_words
 mycomp.o: mycomp.c
 	gcc -g -Wall -ansi -pedantic mycomp.c -c
