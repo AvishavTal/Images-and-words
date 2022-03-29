@@ -21,7 +21,7 @@ char *trim_whitespace(char *str);
  * @param delimiter
  * @return the number of strings
  */
-int split(char *src, char **dest, const char *delimiter);
+int split(char *src, char ***dest, const char *delimiter);
 
 
 /**

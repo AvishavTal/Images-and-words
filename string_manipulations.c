@@ -31,18 +31,17 @@ char *trim_whitespace(char *str){
  * @param delimiter
  * @return the number of strings
  */
-int split(char *src, char **dest, const char *delimiter) {
+int split(char *src, char ***dest, const char *delimiter) {
     int i;
     char *temp;
     i=0;
     temp=strtok(src,delimiter);
     while (temp!=NULL){
-        dest=(char **)realloc(dest, (i+1)* sizeof(char *));
-        dest[i]=temp;
+        *dest=(char **)realloc(*dest, (i+1)* sizeof(char *));
+        (*dest)[i]=temp;
         temp=strtok(NULL,delimiter);
         i++;
     }
-
     return i;
 }
 
