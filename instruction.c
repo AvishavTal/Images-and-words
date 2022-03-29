@@ -116,7 +116,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     instruction result;
     char *opname;
     line=trim_whitespace(line);
-    opname=get_first_word_in_line(line);
+    opname= str_tok(line," \t");
     result=(instruction) malloc(sizeof(struct instruction));
     if (is_allocation_succeeded(result)){
         init_instruction_words(result);
