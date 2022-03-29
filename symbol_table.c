@@ -74,6 +74,8 @@ void delete_symbol_table(symbol_table to_delete){
         delete_symbol((symbol)get_node_data(current));
         current=get_next_node(current);
     }
+    free_list(to_delete->table);
+    free(to_delete);
 }
 
 void print_entries(FILE *dest,symbol_table to_print){
