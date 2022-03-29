@@ -52,8 +52,8 @@ boolean is_comment(char *line){
 }
 
 boolean is_empty(char *line){
-    line= trim_whitespace(line);
     unsigned long len;
+    line= trim_whitespace(line);
     len= strlen(line);
     if(len>0){
         return false;

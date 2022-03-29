@@ -23,10 +23,8 @@ struct operator{
 };
 
 operator get_operator_by_name(char *name){
-    int i;
-    operator result;
-    i=0;
-    result=NULL;
+    int i=0;
+    operator result=NULL;
     static struct operator operators[]={
         {"mov",0,0,2,{1,1,1,1},{0,1,1,1}},
         {"cmp",0,1,2,{1,1,1,1},{1,1,1,1}},
