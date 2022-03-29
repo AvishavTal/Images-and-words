@@ -8,6 +8,7 @@
 #include "boolean.h"
 #include "system_errors.h"
 #include "linked_list.h"
+#include "unsigned_long_list.h"
 
 #define BASE 16
 
@@ -22,8 +23,8 @@ struct symbol{
     }attribute;
 
     /*addresses of words requires the base address of the offset of this symbol and the sizes of those arrays*/
-    list base_required;
-    list offset_required;
+    ul_list base_required;
+    ul_list offset_required;
 
 };
 
@@ -56,8 +57,8 @@ symbol init_symbol_with_values(char *name, unsigned long address, boolean is_ent
         new_symbol->attribute.is_data = is_data;
         new_symbol->attribute.is_code = is_code;
         if (is_extern){
-            new_symbol->base_required=create_empty_list();
-            new_symbol->offset_required=create_empty_list();
+            new_symbol->base_required=init_ul_list();
+            new_symbol->offset_required=init_ul_list();
         }
     }
     return new_symbol;
@@ -131,6 +132,10 @@ boolean get_is_data_symbol(symbol curr_symbol){
 
 void delete_symbol(symbol to_delete){
     free(to_delete->name);
+    if (get_is_extern_symbol(to_delete)){
+        delete_ul_list(to_delete->base_required);
+        delete_ul_list(to_delete->offset_required);
+    }
     free(to_delete);
 }
 
@@ -148,35 +153,27 @@ void print_extern_symbol(FILE *dest,symbol to_print){
 }
 
 void print_offset_required(FILE *dest, symbol to_print) {
-    node current;
-    current= get_head(to_print->offset_required);
-    while (current){
-        unsigned long *address;
-        address= get_node_data(current);
-        fprintf(dest,"%s OFFSET %04lu\n",to_print->name,*address);
-        current= get_next_node(current);
+    unsigned long offset_required_size,address,i=0;
+    offset_required_size=get_size(to_print->offset_required);
+    get_next_val(to_print->offset_required,&address);
+    for (;i<offset_required_size;++i){
+        fprintf(dest,"%s OFFSET %04lu\n",to_print->name,address);
+        get_next_val(NULL,&address);
     }
 }
 
 void print_base_required(FILE *dest, symbol to_print) {
-    node current;
-    current= get_head(to_print->base_required);
-    while (current){
-        unsigned long *address;
-        address= get_node_data(current);
-        fprintf(dest,"%s BASE %04lu\n",to_print->name,*address);
-        current= get_next_node(current);
+    unsigned long base_required_size,address,i=0;
+    base_required_size=get_size(to_print->base_required);
+    get_next_val(to_print->base_required,&address);
+    for (;i<base_required_size;++i){
+        fprintf(dest,"%s BASE %04lu\n",to_print->name,address);
+        get_next_val(NULL,&address);
     }
 }
 void add_to_base_required(symbol to_update,unsigned long address){
-    unsigned long *new_val_ptr;
-    new_val_ptr=(unsigned long *) malloc(sizeof(unsigned long));
-    *new_val_ptr=address;
-    add_to_tail(to_update->base_required,new_val_ptr);
+    append(to_update->base_required,address);
 }
 void add_to_offset_required(symbol to_update,unsigned long address){
-    unsigned long *new_val_ptr;
-    new_val_ptr=(unsigned long *) malloc(sizeof(unsigned long));
-    *new_val_ptr=address;
-    add_to_tail(to_update->offset_required,new_val_ptr);
+    append(to_update->offset_required,address);
 }
