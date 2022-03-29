@@ -217,7 +217,7 @@ set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, i
     set_direct_operand(to_set,symbols,label,is_dest,ic,err);
     set_register_direct_operand(to_set,reg_name,is_dest,err);
     if((regi=get_register_by_name(reg_name))!=NULL){
-        if(!get_is_valid_index(regi)){
+        if(!is_valid_index(regi)){
             *err=INVALID_REGISTER_FOR_INDEX;
         }
     }

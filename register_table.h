@@ -24,10 +24,9 @@ regyster get_register_by_name(char *name);
 int get_reg_code(regyster reg);
 
 /**
- * Returns the register index
  * @param reg
- * @return
+ * @return true if the register can be used as index
  */
-boolean get_is_valid_index(regyster reg);
+boolean is_valid_index(regyster reg);
 
 #endif

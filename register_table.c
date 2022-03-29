@@ -49,7 +49,7 @@ int get_reg_code(regyster reg){
     return reg->reg_code;
 }
 
-boolean get_is_valid_index(regyster reg){
+boolean is_valid_index(regyster reg){
     return reg->valid_index;
 }
 
