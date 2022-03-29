@@ -18,6 +18,7 @@ int main(int argc, char **argv){
     file *files=NULL;
     files= init_files(files,argc-1,argv+1);
     run_assembler(files,argc-1);
+    free(files);
     return 0;
 }
 
