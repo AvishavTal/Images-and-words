@@ -238,13 +238,18 @@ void tear_down(file to_delete) {
 void make_ent_file(file source) {
     FILE *dest;
     dest= fopen(source->name_ent,"w");
-    print_entries(dest,source->symbols);
-    fclose(dest);
+    if (is_open_file_succeeded(dest,false, source->name_ent)){
+        print_entries(dest,source->symbols);
+        fclose(dest);
+    }
+
 }
 
 void make_ext_file(file source) {
     FILE *dest;
     dest= fopen(source->name_ext,"w");
-    print_externals(dest,source->symbols);
-    fclose(dest);
+    if (is_open_file_succeeded(dest,false, source->name_ext)) {
+        print_externals(dest, source->symbols);
+        fclose(dest);
+    }
 }
