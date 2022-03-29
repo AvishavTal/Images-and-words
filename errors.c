@@ -46,6 +46,9 @@ void print_error(unsigned long line_number,error err_code){
         case ILLEGAL_STRING:
             printf("%lu\t Illegal string.\n", line_number);
             break;
+        case ILLEGAL_STRING_SYNTAX:
+            printf("%lu\t Illegal string.\n", line_number);
+            break;
         case SYNTAX_ERROR:
             printf("%lu\t Illegal data.\n", line_number);
             break;
