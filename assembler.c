@@ -8,9 +8,18 @@
 #include "pre_assembler.h"
 #include "first_scan.h"
 #include "second_scan.h"
-
+/**
+ * init the file objects of the program
+ * @param files
+ * @param n_files
+ * @param names
+ * @return
+ */
 file *init_files(file *files, int n_files, char **names);
 
+/*
+ * do the actual work
+ */
 void run_assembler(file *files, int n_files);
 
 
