@@ -7,10 +7,19 @@
 
 #include "boolean.h"
 #include "errors.h"
+/**
+ * check if the given line is the word to end macro definition
+ * @param line to check
+ * @return
+ */
+boolean end_of_macro_definition(char *line);
 
-int end_of_macro_definition(char *line);
-
-int start_of_macro_definition(char *first_word);
+/**
+ * check if the given line is the word to start macro definition
+ * @param first_word
+ * @return
+ */
+boolean start_of_macro_definition(char *first_word);
 
 /**
  * get word, trimming whitespaces and check if equal to .entry

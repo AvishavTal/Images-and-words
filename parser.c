@@ -13,11 +13,11 @@
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
 
-int end_of_macro_definition(char *line) {
+boolean end_of_macro_definition(char *line) {
     return !strcmp(line,"endm");
 }
 
-int start_of_macro_definition(char *first_word) {
+boolean start_of_macro_definition(char *first_word) {
     return !strcmp(first_word,"macro");
 }
 
