@@ -102,19 +102,18 @@ void first_scan(file source) {
                         }
                     }
                 }
-            }
             if(err != NOT_ERROR){
                 mark_first_scan_failed(source);
                 print_error(line_num, err);
             }
         }
-
         set_final_dc(source,dc);
         set_final_ic(source,ic-MIN_IC);
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
     }
+}
 
 void
 encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
