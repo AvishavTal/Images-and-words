@@ -36,6 +36,10 @@ void check_commas(char *line, error *err);
 
 boolean check_for_comma_in_line(char *line);
 
+void
+encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
+                       char *first_word_in_line, long *dc, error *err, char *line);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -75,24 +79,7 @@ void first_scan(file source) {
                     if (is_entry_def(first_word_in_line)) {
                         check_entry_definition_syntax(line, &err);
                     } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
-                        int words_num = 0;
-                        long first_word_length;
-                        first_word_length = strlen(first_word_in_line);
-                        if (is_symbol) {
-                            add_symbol(symbols, symbol_name, dc, false, false, true, false, &err);
-                        }
-                        if (is_data_def(first_word_in_line) && err == NOT_ERROR) {
-                            check_data_definition_syntax(temp_line, &err);
-                            if (err == NOT_ERROR) {
-                                add_data_line(image, dc, temp_line + first_word_length + 1, &words_num, &err);
-                            }
-                        } else if (is_string_def(first_word_in_line) && err == NOT_ERROR) {
-                            check_string_definition_syntax(temp_line, &err);
-                            if (err == NOT_ERROR) {
-                                add_string(image, dc, temp_line + first_word_length + 1, &words_num, &err);
-                            }
-                        }
-                        dc += words_num;
+                        encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, &dc, &err, temp_line);
                     } else if ((is_extern_def(first_word_in_line))) {
                         int first_word_length;
                         first_word_length = strlen(first_word_in_line);
@@ -128,6 +115,29 @@ void first_scan(file source) {
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
     }
+
+void
+encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
+                       char *first_word_in_line, long *dc, error *err, char *line) {
+    int words_num = 0;
+    long first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    if (is_symbol) {
+        add_symbol(symbols, symbol_name, *dc, false, false, true, false, err);
+    }
+    if (is_data_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_data_definition_syntax(line, err);
+        if (*err == NOT_ERROR) {
+            add_data_line(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    } else if (is_string_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_string_definition_syntax(line, err);
+        if (*err == NOT_ERROR) {
+            add_string(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    }
+    (*dc) += words_num;
+}
 
 
 boolean check_if_syntax_correct(char* line, error *err){
