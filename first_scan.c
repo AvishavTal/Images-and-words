@@ -30,7 +30,7 @@ void check_string_definition_syntax(char *line, error *err);
 
 void check_extern_definition_syntax(char *line, error *err);
 
-void check_instrucion_line_syntax(char *line, error *err);
+void check_instruction_line_syntax(char *line, error *err);
 
 void check_commas(char *line, error *err);
 
@@ -106,7 +106,7 @@ void first_scan(file source) {
                             }
                         } else { /*this line is an instruction.*/
                             instruction temp_instruction;
-                            check_instrucion_line_syntax(temp_line, &err);
+                            check_instruction_line_syntax(temp_line, &err);
                             if (err == NOT_ERROR) {
                                 if (is_symbol) {
                                     add_symbol(symbols, symbol_name, ic, false, false, false, true, &err);
@@ -151,7 +151,7 @@ void pull_symbol_name(char *first_word, char *dest) {
 }
 
 
-void check_instrucion_line_syntax(char *line, error *err) {
+void check_instruction_line_syntax(char *line, error *err) {
     check_commas(line, err);
 }
 
