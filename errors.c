@@ -8,7 +8,7 @@
 void print_error(unsigned long line_number,error err_code){
     switch (err_code) {
         case UNDEFINED_OPERATOR:
-            printf("%lu\t This operator not exist.\n", line_number);
+            printf("%lu\t Undefined token.\n", line_number);
             break;
         case DOUBLE_DEFINITION_OF_SYMBOL:
             printf("%lu\t This label is already exist.\n", line_number);
@@ -29,7 +29,7 @@ void print_error(unsigned long line_number,error err_code){
             printf("%lu\t Invalid register name.\n", line_number);
             break;
         case NOT_INT:
-            printf("%lu\t The number must be integer.\n", line_number);
+            printf("%lu\t Not int.\n", line_number);
             break;
         case NOT_IN_RANGE_IMMEDIATE:
             printf("%lu\t Not in range for immediate addressing.\n", line_number);
@@ -64,7 +64,10 @@ void print_error(unsigned long line_number,error err_code){
         case MISSING_COMMA:
             printf("%lu\t Missing comma in line\n", line_number);
             break;
-            default:
+        case SAME_SYMBOL_FOR_ENTRY_AND_EXTERN:
+            printf("%lu\t Same symbol for entry and extern\n", line_number);
+            break;
+        default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);
             break;
     }
