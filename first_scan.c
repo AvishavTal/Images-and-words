@@ -40,6 +40,8 @@ void
 encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
                        char *first_word_in_line, long *dc, error *err, char *line);
 
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -81,13 +83,7 @@ void first_scan(file source) {
                     } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
                         encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, &dc, &err, temp_line);
                     } else if ((is_extern_def(first_word_in_line))) {
-                        int first_word_length;
-                        first_word_length = strlen(first_word_in_line);
-                        check_extern_definition_syntax(temp_line, &err);
-                        if (err == NOT_ERROR) {
-                            add_symbol(symbols, temp_line + first_word_length + 1, 0, false, true, false, false,
-                                       &err);
-                        }
+                        encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
                     } else { /*this line is an instruction.*/
                         instruction temp_instruction;
                         check_instruction_line_syntax(temp_line, &err);
@@ -112,6 +108,15 @@ void first_scan(file source) {
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
+    }
+}
+
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
+    int first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    check_extern_definition_syntax(line, err);
+    if (*err == NOT_ERROR) {
+        add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
     }
 }
 
