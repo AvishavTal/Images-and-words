@@ -9,7 +9,7 @@
 #include "string_manipulations.h"
 #include "instruction.h"
 #include "parser.h"
-#include "first_and_second_scan_constants.h"
+#include "general_constants.h"
 #include "system_errors.h"
 #include "boolean.h"
 
