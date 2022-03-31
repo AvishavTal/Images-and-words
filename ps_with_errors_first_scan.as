@@ -109,13 +109,17 @@ macro: add r1,r2
 endm: add r2,r3
 : add r1,r2
 
-    ; NOT_IN_RANGE_IMMEDIATE
-mov #49586878597247297439623460,r2
+
 
     ;DOUBLE_DEFINITION_OF_SYMBOL
     sameSymbolLabel: add r1,r2
     sameSymbolLabel: mov r1,r2
 
-;.data
+    ;TOO_LONG_LINE
+.string " long line long line long line long line long line long line long line long line long line long line long line long line"
+
+        .data
+
+    ;.data
 ;label:
-.entry
+;.entry
