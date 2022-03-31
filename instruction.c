@@ -24,9 +24,6 @@
 #define DEST_ADDRESS_WORD_INDEX 4
 #define DEST_OFFSET_WORD_INDEX 5
 
-/*Indexes in the arguments list*/
-#define DEST_ARG_INDEX 1
-#define SOURCE_ARG_INDEX 0
 
 /*number of arguments required*/
 #define REQUIRED_TWO 2
@@ -37,9 +34,6 @@
 
 #define LEFT_BRAKET '['
 #define RIGHT_BRAKET ']'
-
-#define MAX_IMMEDIATE 32767
-#define MIN_IMMEDIATE -32768
 
 /*numbers of words required for each addressing mode*/
 #define NUM_OF_WORDS_FOR_IMMEDIATE 1
@@ -69,11 +63,11 @@ addressing_mode recognize_addressing_mode(char *operand);
 
 void set_addressing_modes(instruction to_set, char *source, char *dest, error *err);
 
-int is_immediate(char *operand);
+int is_immediate_addressing(char *operand);
 
-int is_index(char *operand);
+int is_index_addressing(char *operand);
 
-int is_register_direct(char *operand);
+int is_register_direct_addressing(char *operand);
 
 
 void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err);
@@ -87,8 +81,6 @@ void
 set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err);
 
 void set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err);
-
-int in_range(int immediate);
 
 void break_to_label_and_reg(char *operan_str, char **label, char **reg_name, error *err);
 
@@ -293,10 +285,6 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
     }
 }
 
-int in_range(int immediate) {
-    return (immediate>MIN_IMMEDIATE)&&(immediate<MAX_IMMEDIATE);
-}
-
 
 void set_register_direct_operand(instruction to_set, char *operand, int is_dest, error *err) {
     regyster reg;
@@ -372,11 +360,11 @@ addressing_mode recognize_addressing_mode(char *operand) {
     addressing_mode result;
     result=DEFAULT;
     if(operand){
-        if (is_immediate(operand)){
+        if (is_immediate_addressing(operand)){
             result=IMMEDIATE;
-        } else if(is_index(operand)){
+        } else if(is_index_addressing(operand)){
             result=INDEX;
-        } else if(is_register_direct(operand)){
+        } else if(is_register_direct_addressing(operand)){
             result=REGISTER_DIRECT;
         } else{
             result=DIRECT;
@@ -385,11 +373,11 @@ addressing_mode recognize_addressing_mode(char *operand) {
     return result;
 }
 
-int is_register_direct(char *operand) {
+int is_register_direct_addressing(char *operand) {
     return get_register_by_name(operand)!=NULL;
 }
 
-int is_index(char *operand) {
+int is_index_addressing(char *operand) {
     int result=0,len,left_diteceted=0,i=0;
     operand=trim_whitespace(operand);
     len= strlen(operand);
@@ -405,7 +393,7 @@ int is_index(char *operand) {
     return result;
 }
 
-int is_immediate(char *operand) {
+int is_immediate_addressing(char *operand) {
     trim_whitespace(operand);
     return *operand==IMMEDIATE_SIGN;
 }
