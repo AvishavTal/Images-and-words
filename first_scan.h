@@ -17,7 +17,6 @@
  * 4. Enter data to data table
  * @param source information about file in the program
  */
-
 void first_scan(file source);
 
 #endif
