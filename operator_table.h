@@ -16,7 +16,6 @@ typedef struct operator *operator;
  */
 operator get_operator_by_name(char *name);
 
-
 /**
  * Returns the operator code
  * @param op wanted operator
