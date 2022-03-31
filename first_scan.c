@@ -19,42 +19,29 @@
 #define MAX_LINE_LENGTH 80
 #define MEMORY_SIZE 8192
 
-boolean check_if_syntax_correct(char* line, error *err);
-
-void pull_symbol_name(char *first_word, char *dest);
-
-void check_entry_definition_format(char *line, error *err);
-
-void check_symbol_definition_format(char *line, error *err);
-
-void check_data_definition_format(char *line, error *err);
-
-void check_string_definition_format(char *line, error *err);
-
-void check_extern_definition_format(char *line, error *err);
-
-void check_instruction_line_format(char *line, error *err);
-
-void check_commas(char *line, error *err);
-
-boolean check_for_comma_in_line(char *line);
-
-void
-encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
-                       char *first_word_in_line, long *dc, error *err, char *line);
-
-void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err);
-
-void
-encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
-
+/* private function declaration */
 void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc);
-
 void check_not_start_with_comma(const char *line, error *err);
-
+boolean check_if_syntax_correct(char* line, error *err);
 void check_not_too_long(char *line, error *err);
-
+void check_entry_definition_format(char *line, error *err);
+void check_data_definition_format(char *line, error *err);
+void check_string_definition_format(char *line, error *err);
+void check_extern_definition_format(char *line, error *err);
+void check_instruction_line_format(char *line, error *err);
+void check_commas(char *line, error *err);
+boolean check_for_comma_in_line(char *line);
+void pull_symbol_name(char *first_word, char *dest);
+void encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name, char *first_word_in_line, long *dc, error *err, char *line);
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err);
+void encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
 void memory_check(file source);
+/* end of private function declaration */
+
+
+
+
+/* public functions implementation */
 
 void first_scan(file source) {
     /* variables declaration */
@@ -82,16 +69,12 @@ void first_scan(file source) {
     }
 }
 
-void memory_check(file source) {
-    unsigned long ic,dc,total;
-    ic=get_final_ic(source);
-    dc=get_final_dc(source);
-    total=ic+dc;
-    if (total>MEMORY_SIZE){
-        print_error(0,MEMORY_OVERFLOW);
-        mark_first_scan_failed(source);
-    }
-}
+/* end of public functions implementation */
+
+
+
+
+/* private functions implementation */
 
 void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc) {
     char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
@@ -133,54 +116,11 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
         }
     }
 }
-
-void
-encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
-    instruction temp_instruction;
-    check_instruction_line_format(line, err);
-    if (*err == NOT_ERROR) {
-        if (is_symbol) {
-            add_symbol(symbols, symbol_name, *ic, false, false, false, true, err);
-        }
-        temp_instruction = init_instruction(line,NULL,*ic,err);
-        (*ic) += get_n_words(temp_instruction);
-        delete_instruction(temp_instruction);
+void check_not_start_with_comma(const char *line, error *err) {
+    if(line[0] == SEPARATOR){
+        *err = ILLEGAL_COMMA;
     }
 }
-
-void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
-    int first_word_length;
-    first_word_length = strlen(first_word_in_line);
-    check_extern_definition_format(line, err);
-    if (*err == NOT_ERROR && strcmp(first_word_in_line,line)) {/*valid syntax and the line contains more than one word*/
-        add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
-    }
-}
-
-void
-encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
-                       char *first_word_in_line, long *dc, error *err, char *line) {
-    int words_num = 0;
-    long first_word_length;
-    first_word_length = strlen(first_word_in_line);
-    if (is_symbol) {
-        add_symbol(symbols, symbol_name, *dc, false, false, true, false, err);
-    }
-    if (is_data_def(first_word_in_line) && *err == NOT_ERROR) {
-        check_data_definition_format(line, err);
-        if (*err == NOT_ERROR) {
-            add_data_line(image, *dc, line + first_word_length + 1, &words_num, err);
-        }
-    } else if (is_string_def(first_word_in_line) && *err == NOT_ERROR) {
-        check_string_definition_format(line, err);
-        if (*err == NOT_ERROR) {
-            add_string(image, *dc, line + first_word_length + 1, &words_num, err);
-        }
-    }
-    (*dc) += words_num;
-}
-
-
 boolean check_if_syntax_correct(char* line, error *err){
     boolean result;
     result = true;
@@ -192,35 +132,26 @@ boolean check_if_syntax_correct(char* line, error *err){
     }
     return result;
 }
-
 void check_not_too_long(char *line, error *err) {
     if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH){
         *err=TOO_LONG_LINE;
     }
 }
-
-void check_not_start_with_comma(const char *line, error *err) {
-    if(line[0] == SEPARATOR){
-        *err = ILLEGAL_COMMA;
-    }
-}
-
-void pull_symbol_name(char *first_word, char *dest) {
-    strcpy(dest,first_word);
-    dest[strlen(first_word)-1]='\0';
-}
-
-
-void check_instruction_line_format(char *line, error *err) {
-    check_commas(line, err);
-}
-
-void check_extern_definition_format(char *line, error *err) {
+/* check if there is commas in this line */
+void check_entry_definition_format(char *line, error *err) {
     if(check_for_comma_in_line(line)){
         *err = ILLEGAL_COMMA;
     }
 }
-
+void check_data_definition_format(char *line, error *err) {
+    char* temp;
+    temp = str_tok(line, " \t");
+    temp = str_tok(NULL, " \t");
+    if(temp == NULL){
+        *err = DATA_NOT_EXIST;
+    }
+    check_commas(line, err);
+}
 /* check if the first ant last chars are quotation marks */
 void check_string_definition_format(char *line, error *err) {
     int i = 0;
@@ -240,44 +171,16 @@ void check_string_definition_format(char *line, error *err) {
         i++;
     }
 }
-
-void check_data_definition_format(char *line, error *err) {
-    char* temp;
-    temp = str_tok(line, " \t");
-    temp = str_tok(NULL, " \t");
-    if(temp == NULL){
-        *err = DATA_NOT_EXIST;
-    }
-    check_commas(line, err);
-}
-
-void check_symbol_definition_format(char *line, error *err) {
-
-}
-
-/* check if there is commas in this line */
-void check_entry_definition_format(char *line, error *err) {
+void check_extern_definition_format(char *line, error *err) {
     if(check_for_comma_in_line(line)){
         *err = ILLEGAL_COMMA;
     }
 }
-
-boolean check_for_comma_in_line(char *line){
-    boolean result = false;
-    int i=0;
-
-    while ((!result) && i<strlen(line)){
-        if (line[i]==SEPARATOR)
-            result = true;
-        i++;
-    }
-    return result;
+void check_instruction_line_format(char *line, error *err) {
+    check_commas(line, err);
 }
-
-/**
+/*
  * check the validity of the  commas in one line.
- * @param line the input from the user
- * @return OK if the input is ok, detailed information otherwise
  */
 void check_commas(char *line, error *err) {
     enum state {BEFORE_OP, AFTER_OP, GETTING_OP, BEFORE_ARG, GETTING_ARG, AFTER_ARG};
@@ -340,3 +243,71 @@ void check_commas(char *line, error *err) {
         i++;
     }
 }
+boolean check_for_comma_in_line(char *line){
+    boolean result = false;
+    int i=0;
+
+    while ((!result) && i<strlen(line)){
+        if (line[i]==SEPARATOR)
+            result = true;
+        i++;
+    }
+    return result;
+}
+void pull_symbol_name(char *first_word, char *dest) {
+    strcpy(dest,first_word);
+    dest[strlen(first_word)-1]='\0';
+}
+void encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
+                            char *first_word_in_line, long *dc, error *err, char *line) {
+    int words_num = 0;
+    long first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    if (is_symbol) {
+        add_symbol(symbols, symbol_name, *dc, false, false, true, false, err);
+    }
+    if (is_data_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_data_definition_format(line, err);
+        if (*err == NOT_ERROR) {
+            add_data_line(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    } else if (is_string_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_string_definition_format(line, err);
+        if (*err == NOT_ERROR) {
+            add_string(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    }
+    (*dc) += words_num;
+}
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
+    int first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    check_extern_definition_format(line, err);
+    if (*err == NOT_ERROR && strcmp(first_word_in_line,line)) {/*valid syntax and the line contains more than one word*/
+        add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
+    }
+}
+void encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
+    instruction temp_instruction;
+    check_instruction_line_format(line, err);
+    if (*err == NOT_ERROR) {
+        if (is_symbol) {
+            add_symbol(symbols, symbol_name, *ic, false, false, false, true, err);
+        }
+        temp_instruction = init_instruction(line,NULL,*ic,err);
+        (*ic) += get_n_words(temp_instruction);
+        delete_instruction(temp_instruction);
+    }
+}
+void memory_check(file source) {
+    unsigned long ic,dc,total;
+    ic=get_final_ic(source);
+    dc=get_final_dc(source);
+    total=ic+dc;
+    if (total>MEMORY_SIZE){
+        print_error(0,MEMORY_OVERFLOW);
+        mark_first_scan_failed(source);
+    }
+}
+
+/* end of private functions implementation */
