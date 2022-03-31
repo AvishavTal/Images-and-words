@@ -32,10 +32,10 @@ L: .data 6,a
 .data 5.9
 mov #3.2, r2
 
-    ; Invalid register for index.
+    ; INVALID_REGISTER_FOR_INDEX
 mov L[r9],r3
 
-    ;Invalid register name
+    ;INVALID_REGISTER_NAME
 mov L[1],r2
 mov L[r16],r4
 mov L[[r18]],r2
@@ -99,6 +99,13 @@ movv r2,r3
     ;ILLEGAL_SYMBOL_NAME
 illegal_name: .data 5
 illegal:name: .data 5
+r3: mov r2,r4
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ: add r1,r2
+1234: add r1,r2
+mov: add r1,r2
+macro: add r1,r2
+endm: add r2,r3
+: add r1,r2
 
     ; NOT_IN_RANGE_IMMEDIATE
 mov #49586878597247297439623460,r2
