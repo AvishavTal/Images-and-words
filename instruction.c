@@ -112,7 +112,7 @@ instruction init_instruction(char *line, symbol_table symbols, unsigned long ic,
     char *opname;
     line=trim_whitespace(line);
     opname= str_tok(line," \t");
-    result=(instruction) malloc(sizeof(struct instruction));
+    result=(instruction) calloc(1, sizeof(struct instruction));
     if (is_allocation_succeeded(result)){
         init_instruction_words(result);
         set_operator(result, opname, &ic, err);
