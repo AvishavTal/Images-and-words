@@ -42,6 +42,9 @@ encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol
 
 void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err);
 
+void
+encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -85,16 +88,7 @@ void first_scan(file source) {
                     } else if ((is_extern_def(first_word_in_line))) {
                         encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
                     } else { /*this line is an instruction.*/
-                        instruction temp_instruction;
-                        check_instruction_line_syntax(temp_line, &err);
-                        if (err == NOT_ERROR) {
-                            if (is_symbol) {
-                                add_symbol(symbols, symbol_name, ic, false, false, false, true, &err);
-                            }
-                                temp_instruction = init_instruction(temp_line, NULL, ic, &err);
-                                ic += get_n_words(temp_instruction);
-                                delete_instruction(temp_instruction);
-                            }
+                        encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, &ic, &err);
                         }
                     }
                 }
@@ -108,6 +102,20 @@ void first_scan(file source) {
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
+    }
+}
+
+void
+encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
+    instruction temp_instruction;
+    check_instruction_line_syntax(line, err);
+    if (*err == NOT_ERROR) {
+        if (is_symbol) {
+            add_symbol(symbols, symbol_name, *ic, false, false, false, true, err);
+        }
+        temp_instruction = init_instruction(line,NULL,*ic,err);
+        (*ic) += get_n_words(temp_instruction);
+        delete_instruction(temp_instruction);
     }
 }
 
