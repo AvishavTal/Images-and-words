@@ -67,6 +67,9 @@ void print_error(unsigned long line_number,error err_code){
         case TOO_LONG_LINE:
             printf("%lu\t This line is too long\n", line_number);
             break;
+        case DATA_NOT_EXIST:
+            printf("%lu\t Data not exist\n", line_number);
+            break;
         default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);
             break;
