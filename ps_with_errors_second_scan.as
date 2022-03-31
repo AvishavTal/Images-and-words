@@ -7,7 +7,7 @@ sameLabel: add r1,r2
 .entry sameLabel
 .extern sameLabel
 
-; UNDEFINED_SYMBOL
+    ;UNDEFINED_SYMBOL
 .entry M
 .entry O
 mov A, r2
