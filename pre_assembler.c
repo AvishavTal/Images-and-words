@@ -9,15 +9,15 @@
 #include "macro_table.h"
 #include "file.h"
 #include "parser.h"
+#include "first_and_second_scan_constants.h"
 
-#define LINE_SIZE 81
 
 void write_line(FILE *dest, char *line);
 
 void pre_assembler(file source) {
     FILE *src,*dest;
     int macro_definition=0;
-    char line[LINE_SIZE],temp_line[LINE_SIZE],*first_word_in_line;
+    char line[LINE_LENGTH],temp_line[LINE_LENGTH],*first_word_in_line;
     macro temp_macro;
     macro_table table= get_macro_table(source);
     src= fopen(get_name_as(source),"r");
@@ -26,7 +26,7 @@ void pre_assembler(file source) {
     } else{
         dest= fopen(get_name_am(source),"w");
         if (is_open_file_succeeded(dest,true, get_name_am(source))){
-            while ((fgets(line,LINE_SIZE,src)!=NULL)){
+            while ((fgets(line,LINE_LENGTH,src)!=NULL)){
                 strcpy(temp_line,line);
                 first_word_in_line= strtok(temp_line," \t");
                 trim_whitespace(first_word_in_line);
