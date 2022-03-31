@@ -55,7 +55,7 @@ void second_scan(file source){
                     if(is_symbol_def(first_word_in_line)){
                         skip_symbol(&temp_line,&first_word_in_line);
                     }
-                    if (!is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
+                    if (first_word_in_line!=NULL && !is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
                         if (is_entry_def(first_word_in_line)){
                             entry_definition(symbols,&error1);
                         } else{
@@ -79,7 +79,9 @@ void second_scan(file source){
 void skip_symbol(char **line, char **first_word) {
     *line=*line+ strlen(*first_word)+1;
     *first_word= str_tok(NULL," \t");
-    *first_word=trim_whitespace(*first_word);
+    if (*first_word){
+        *first_word=trim_whitespace(*first_word);
+    }
 }
 
 /*
