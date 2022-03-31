@@ -86,7 +86,7 @@ void print_entries(FILE *dest,symbol_table to_print){
     current_node= get_head(to_print->table);
     while (current_node){
         current_symbol=get_node_data(current_node);
-        if (get_is_entry_symbol(current_symbol)){
+        if (is_entry_symbol(current_symbol)){
             print_entry_symbol(dest,current_symbol);
         }
         current_node=get_next_node(current_node);
@@ -101,7 +101,7 @@ void print_externals(FILE *dest,symbol_table to_print){
     current_node= get_head(to_print->table);
     while (current_node){
         current_symbol=get_node_data(current_node);
-        if (get_is_extern_symbol(current_symbol)){
+        if (is_extern_symbol(current_symbol)){
             print_extern_symbol(dest,current_symbol);
         }
         current_node=get_next_node(current_node);
@@ -116,7 +116,7 @@ void update_addresses_of_data_symbols(symbol_table symbols,unsigned long final_i
     current_node= get_head(symbols->table);
     while (current_node){
         current_symbol=get_node_data(current_node);
-        if (get_is_data_symbol(current_symbol)){
+        if (is_data_symbol(current_symbol)){
             unsigned long address;
             address= get_symbol_address(current_symbol);
             address+=final_ic;
@@ -141,7 +141,7 @@ boolean double_definition(symbol_table symbols, char *name, boolean is_extern, e
     old_symbol=NULL;
     old_symbol= get_symbol_by_name(symbols,name);
     if(old_symbol!=NULL){
-        if (!(get_is_extern_symbol(old_symbol) && is_extern)){
+        if (!(is_extern_symbol(old_symbol) && is_extern)){
             *err=DOUBLE_DEFINITION_OF_SYMBOL;
         }
         result = true;

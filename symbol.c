@@ -82,21 +82,21 @@ void mark_entry(symbol to_mark){
     to_mark->attribute.is_entry = true;
 }
 
-boolean get_is_entry_symbol(symbol curr_symbol){
+boolean is_entry_symbol(symbol curr_symbol){
     return curr_symbol->attribute.is_entry;
 }
 
-boolean get_is_extern_symbol(symbol curr_symbol){
+boolean is_extern_symbol(symbol curr_symbol){
     return curr_symbol->attribute.is_extern;
 }
 
-boolean get_is_data_symbol(symbol curr_symbol){
+boolean is_data_symbol(symbol curr_symbol){
     return curr_symbol->attribute.is_data;
 }
 
 void delete_symbol(symbol to_delete){
     free(to_delete->name);
-    if (get_is_extern_symbol(to_delete)){
+    if (is_extern_symbol(to_delete)){
         delete_ul_list(to_delete->base_required);
         delete_ul_list(to_delete->offset_required);
     }

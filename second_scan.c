@@ -140,7 +140,7 @@ void entry_definition(symbol_table symbols, error *err) {
     if (symbol_name!=NULL){
         to_update= get_symbol_by_name(symbols, symbol_name);
         if (to_update!=NULL){
-            if (get_is_extern_symbol(to_update)){
+            if (is_extern_symbol(to_update)){
                 *err=BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL;
             }
             mark_entry(to_update);

@@ -75,21 +75,21 @@ void mark_entry(symbol to_mark);
   * @param curr_symbol the needed symbol
   * @return true if this symbol is an entry symbol, false otherwise
   */
-boolean get_is_entry_symbol(symbol curr_symbol);
+boolean is_entry_symbol(symbol curr_symbol);
 
 /**
  * Returns if this symbol is an extern symbol
  * @param curr_symbol the needed symbol
  * @return true if this symbol is an extern symbol, false otherwise
  */
-boolean get_is_extern_symbol(symbol curr_symbol);
+boolean is_extern_symbol(symbol curr_symbol);
 
 /**
  * Returns if this symbol is an data symbol
  * @param curr_symbol the needed symbol
  * @return true if this symbol is an data symbol, false otherwise
  */
-boolean get_is_data_symbol(symbol curr_symbol);
+boolean is_data_symbol(symbol curr_symbol);
 
  /**
   * Delete the received symbol and free all its allocations

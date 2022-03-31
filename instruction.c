@@ -240,7 +240,7 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             set_immediate(address_word,symbol_address);
             set_immediate(offset_word,symbol_offset);
             are1=RELOCATABLE;
-            if (get_is_extern_symbol(symbol_operand)){
+            if (is_extern_symbol(symbol_operand)){
                 are1=EXTERNAL;
             }
             set_are(address_word,are1);
@@ -249,7 +249,7 @@ set_direct_operand(instruction to_set, symbol_table symbols, char *operand_str, 
             (*ic)++;
             set_address(offset_word,*ic);
             (*ic)++;
-            if (get_is_extern_symbol(symbol_operand)){
+            if (is_extern_symbol(symbol_operand)){
                 add_to_base_required(symbol_operand,get_address(address_word));
                 add_to_offset_required(symbol_operand,get_address(offset_word));
             }
