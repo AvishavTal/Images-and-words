@@ -9,7 +9,7 @@
 #include "macro_table.h"
 #include "file.h"
 #include "parser.h"
-#include "first_and_second_scan_constants.h"
+#include "general_constants.h"
 
 
 void write_line(FILE *dest, char *line);

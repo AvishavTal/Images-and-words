@@ -10,7 +10,7 @@
 #include "symbol.h"
 #include "instruction.h"
 #include "parser.h"
-#include "first_and_second_scan_constants.h"
+#include "general_constants.h"
 #include "errors.h"
 #include "system_errors.h"
 
