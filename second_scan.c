@@ -133,6 +133,9 @@ void entry_definition(symbol_table symbols, error *err) {
     symbol_name= str_tok(NULL," \t");
     to_update= get_symbol_by_name(symbols, symbol_name);
     if (to_update!=NULL){
+        if (get_is_extern_symbol(to_update)){
+            *err=BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL;
+        }
         mark_entry(to_update);
     } else{
         *err=UNDEFINED_SYMBOL;

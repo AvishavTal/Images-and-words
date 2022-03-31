@@ -64,7 +64,7 @@ void print_error(unsigned long line_number,error err_code){
         case MISSING_COMMA:
             printf("%lu\t Missing comma in line\n", line_number);
             break;
-        case SAME_SYMBOL_FOR_ENTRY_AND_EXTERN:
+        case BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL:
             printf("%lu\t Same symbol for entry and extern\n", line_number);
             break;
         case MEMORY_OVERFLOW:
