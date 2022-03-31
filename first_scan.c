@@ -18,6 +18,8 @@
 
 #define MAX_LINE_LENGTH 80
 
+#define MEMORY_SIZE 8192
+
 boolean check_if_syntax_correct(char* line, error *err);
 
 void pull_symbol_name(char *first_word, char *dest);
@@ -53,6 +55,8 @@ void check_not_start_with_comma(const char *line, error *err);
 
 void check_not_too_long(char *line, error *err);
 
+void memory_check(file source);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -72,9 +76,17 @@ void first_scan(file source) {
         scan(source, src, symbols, image, &ic, &dc);
         set_final_dc(source,dc);
         set_final_ic(source,ic-MIN_IC);
+        memory_check(source);
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
+    }
+}
+
+void memory_check(file source) {
+    if (get_final_dc(source)+get_final_ic(source)>MEMORY_SIZE){
+        print_error(0,MEMORY_OVERFLOW);
+        mark_first_scan_failed(source);
     }
 }
 
