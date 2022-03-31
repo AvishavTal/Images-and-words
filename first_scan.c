@@ -83,10 +83,10 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
         err = NOT_ERROR;
         line_num ++;
         temp_line= trim_whitespace(line);
-        if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
-            if(check_if_syntax_correct(temp_line, &err)) { /* if this line not starts or ends with separator */
+        if (!(is_comment(line) || is_empty(line))) {
+            if(check_if_syntax_correct(temp_line, &err)) {
                 first_word_in_line = str_tok(temp_line, " \t");
-                if (is_symbol_def(first_word_in_line)) { /* if this line starts with symbol */
+                if (is_symbol_def(first_word_in_line)) {
                     is_symbol = true;
                     pull_symbol_name(first_word_in_line, symbol_name);
                     first_word_in_line = str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
