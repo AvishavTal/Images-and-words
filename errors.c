@@ -34,9 +34,6 @@ void print_error(unsigned long line_number,error err_code){
         case UNDEFINED_SYMBOL:
             printf("%lu\t Undefined symbol.\n", line_number);
             break;
-        case TOO_MANY_CHARS:
-            printf("%lu\t Too many chars in line.\n", line_number);
-            break;
         case ILLEGAL_DATA:
             printf("%lu\t Illegal data.\n", line_number);
             break;
@@ -45,9 +42,6 @@ void print_error(unsigned long line_number,error err_code){
             break;
         case ILLEGAL_STRING_SYNTAX:
             printf("%lu\t Illegal string.\n", line_number);
-            break;
-        case SYNTAX_ERROR:
-            printf("%lu\t Illegal data.\n", line_number);
             break;
         case INVALID_REGISTER_FOR_INDEX:
             printf("%lu\t Invalid register for index.\n", line_number);
