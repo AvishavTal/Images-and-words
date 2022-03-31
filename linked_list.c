@@ -7,43 +7,46 @@
 #include "system_errors.h"
 #include "linked_list.h"
 
-struct list{
+struct list {
     struct node *head;
     struct node *tail;
 };
 
-struct node{
-    void *data;/* Any data type can be stored in this node */
+struct node {
+    void *data; /* Any data type can be stored in this node */
     struct node *next;
 };
 
-void* get_head(list list){
+
+/* public functions implementation */
+
+void* get_head(list list) {
     return list->head;
 }
 
-void* get_node_data(node node){
+void* get_node_data(node node) {
     return node->data;
 }
 
-void* get_next_node(node node){
+void* get_next_node(node node) {
     return node->next;
 }
 
-list create_empty_list(){
+list create_empty_list() {
     struct list *new_list;
     new_list = (struct list*)malloc(sizeof(struct list));
-    if(is_allocation_succeeded(new_list)) {
+    if (is_allocation_succeeded(new_list)) {
         new_list->head = NULL;
         new_list->tail = NULL;
     }
     return new_list;
 }
 
-void add_to_tail(struct list* list, void *new_data){
+void add_to_tail(struct list* list, void *new_data) {
     /* Allocate memory for node */
     struct node *new_node;
     new_node = (struct node*)malloc(sizeof(struct node));
-    if(is_allocation_succeeded(new_node)) {
+    if (is_allocation_succeeded(new_node)) {
         /* append the received data to the new node */
         new_node->data = new_data;
         new_node->next = NULL;
@@ -59,14 +62,16 @@ void add_to_tail(struct list* list, void *new_data){
     }
 }
 
-void free_list(list to_free){
+void free_list(list to_free) {
     node current,next;
-    current=to_free->head;
-    next=NULL;
-    while (current!=NULL){
-        next=current->next;
+    current = to_free->head;
+    next = NULL;
+    while (current != NULL) {
+        next = current->next;
         free(current);
-        current=next;
+        current = next;
     }
     free(to_free);
 }
+
+/* end of public functions implementation */
