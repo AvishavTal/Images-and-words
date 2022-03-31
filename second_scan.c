@@ -30,14 +30,10 @@ void close_files(file source, FILE *src, FILE *dest);
 
 void skip_symbol(char **line, char **first_word);
 
+void scan2(file source, FILE *src, FILE *dest);
+
 void second_scan(file source){
-    symbol_table symbols;
-    long line_number=0;
-    char *temp_line,line[LINE_LENGTH],*first_word_in_line;
-    unsigned long ic=MIN_IC;
     FILE *src,*dest;
-    error error1=NOT_ERROR;
-    symbols= get_symbol_table(source);
     src= fopen(get_name_am(source),"r");
     if (!is_open_file_succeeded(src,false, get_name_am(source))){
         mark_second_scan_failed(source);
@@ -46,29 +42,39 @@ void second_scan(file source){
         if (is_open_file_succeeded(dest,true, get_name_ob(source))){
             mark_ob_file_exist(source);
             make_ob_file_head(dest, source);
-            while ((fgets(line,LINE_LENGTH,src))!=NULL){
-                temp_line= trim_whitespace(line);
-                line_number++;
-                error1=NOT_ERROR;
-                if (!is_comment(temp_line)&&!is_empty(temp_line)){
-                    first_word_in_line=str_tok(temp_line," \t");
-                    if(is_symbol_def(first_word_in_line)){
-                        skip_symbol(&temp_line,&first_word_in_line);
-                    }
-                    if (first_word_in_line!=NULL && !is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
-                        if (is_entry_def(first_word_in_line)){
-                            entry_definition(symbols,&error1);
-                        } else{
-                            instruction_call(temp_line, symbols, &ic, &error1, source, dest);
-                        }
-                        if (error1!=NOT_ERROR){
-                            error_line(line_number,error1,source);
-                        }
-                    }
-                }
-            }
+            scan2(source, src, dest);
             append_data_image(source,dest);
             close_files(source,src,dest);
+        }
+    }
+}
+
+void scan2(file source, FILE *src, FILE *dest) {
+    symbol_table symbols;
+    long line_number=0;
+    char *temp_line,line[LINE_LENGTH],*first_word_in_line;
+    unsigned long ic=MIN_IC;
+    error error1=NOT_ERROR;
+    symbols= get_symbol_table(source);
+    while ((fgets(line,LINE_LENGTH,src))!=NULL){
+        temp_line= trim_whitespace(line);
+        line_number++;
+        error1=NOT_ERROR;
+        if (!is_comment(temp_line)&&!is_empty(temp_line)){
+            first_word_in_line=str_tok(temp_line," \t");
+            if(is_symbol_def(first_word_in_line)){
+                skip_symbol(&temp_line,&first_word_in_line);
+            }
+            if (first_word_in_line!=NULL && !is_extern_def(first_word_in_line) && !is_string_def(first_word_in_line) && !is_data_def(first_word_in_line)){
+                if (is_entry_def(first_word_in_line)){
+                    entry_definition(symbols,&error1);
+                } else{
+                    instruction_call(temp_line, symbols, &ic, &error1, source, dest);
+                }
+                if (error1!=NOT_ERROR){
+                    error_line(line_number,error1,source);
+                }
+            }
         }
     }
 }
