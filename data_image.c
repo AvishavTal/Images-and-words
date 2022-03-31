@@ -12,14 +12,18 @@
 #include "string_manipulations.h"
 #include "system_errors.h"
 
-/* Internal function declaration */
-void add_data(data_image image, unsigned long address, unsigned long new_data);
-
-
 struct image {
     list words;
 };
 
+/* private function declaration */
+void add_data(data_image image, unsigned long address, unsigned long new_data);
+/* end of private function declaration */
+
+
+
+
+/* public functions implementation */
 
 data_image init_data_image() {
     data_image result;
@@ -100,6 +104,14 @@ void add_data_line(data_image image, unsigned long address, char *line, int *n_w
     }
 }
 
+/* end of public functions implementation */
+
+
+
+
+
+/* private functions implementation */
+
 /*
  * Internal function - this function add any data type to the data image
  */
@@ -111,3 +123,5 @@ void add_data(data_image image, unsigned long address, unsigned long new_data){
     set_are(new_word,ABSOLUTE);
     add_to_tail(image->words,new_word);
 }
+
+/* end of private functions implementation */
