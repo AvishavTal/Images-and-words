@@ -10,7 +10,9 @@
 #include "data_image.h"
 #include "boolean.h"
 
-//todo add description
+/**
+ * information about file in the program
+ */
 typedef struct file *file;
 
 /**
@@ -27,7 +29,6 @@ file init_file(char *name);
  */
 char *get_name_as(file file);
 
-
 /**
  * Returns the name of the file with the .am extension
  * @param file the needed file
@@ -41,7 +42,6 @@ char *get_name_am(file file);
  * @return the name of the file  with the .ob extension
  */
 char *get_name_ob(file file);
-
 
 /**
  * Returns the macro table of the file
@@ -150,10 +150,22 @@ long get_final_dc(file file);
  */
 void set_final_dc(file file, long final_dc);
 
+/**
+ * This function delete file object and free all memory
+ * @param to_delete file to delete
+ */
+void tear_down(file to_delete);
+
+/**
+ * Create entries file and print all entry symbols to file
+ * @param source information about file in the program
+ */
 void make_ext_file(file source);
 
+/**
+ * Create externals file and print all entry symbols to file
+ * @param source information about file in the program
+ */
 void make_ent_file(file source);
-
-void tear_down(file to_delete);
 
 #endif
