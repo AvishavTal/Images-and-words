@@ -20,7 +20,7 @@ typedef struct instruction *instruction;
  * @param symbols symbol table of the program input
  * @param ic number of machine words instruction takes until this instruction
  * @param err hold the information of error if detected
- * @return
+ * @return initialize instruction
  */
 instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err);
 
