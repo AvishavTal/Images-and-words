@@ -8,9 +8,7 @@
 #include "file.h"
 
 /**
- * In the first scan we find
- * The first scan run only if the pre assembled ends successfully
- * In the first scan we perform the following:
+ * In the first scan we find the following:
  * 1. Find the errors if exist and print them
  * 2. Calculate the ic and the dc
  * 3. Enter symbols to symbols table
