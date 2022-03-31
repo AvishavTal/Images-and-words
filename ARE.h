@@ -6,7 +6,7 @@
 #define EX14_ARE_H
 
 /**
- * the possible values of are filed
+ * the possible values of ARE filed
  */
 typedef enum {ABSOLUTE=4,RELOCATABLE=2,EXTERNAL=1}are;
 
