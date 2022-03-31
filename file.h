@@ -10,6 +10,7 @@
 #include "data_image.h"
 #include "boolean.h"
 
+//todo add description
 typedef struct file *file;
 
 /**

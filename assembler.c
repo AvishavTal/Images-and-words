@@ -12,18 +12,7 @@
 
 #define LINE_LENGTH 81
 
-/**
- * init the file objects of the program
- * @param files
- * @param n_files
- * @param names
- * @return
- */
 file *init_files(file *files, int n_files, char **names);
-
-/*
- * do the actual work
- */
 void run_assembler(file *files, int n_files);
 
 int main(int argc, char **argv){
@@ -34,6 +23,9 @@ int main(int argc, char **argv){
     return 0;
 }
 
+/*
+ * do the actual work
+ */
 void run_assembler(file *files, int n_files) {
     int i=0;
     for (; i < n_files; ++i) {
@@ -54,6 +46,9 @@ void run_assembler(file *files, int n_files) {
     }
 }
 
+/*
+ * init the file objects of the program
+ */
 file *init_files(file *files, int n_files, char **names) {
     int i=0;
     files=(file *) malloc(sizeof(file)*n_files);

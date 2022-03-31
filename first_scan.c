@@ -23,17 +23,17 @@ boolean check_if_syntax_correct(char* line, error *err);
 
 void pull_symbol_name(char *first_word, char *dest);
 
-void check_entry_definition_syntax(char *line, error *err);
+void check_entry_definition_format(char *line, error *err);
 
-void check_symbol_definition_syntax(char *line, error *err);
+void check_symbol_definition_format(char *line, error *err);
 
-void check_data_definition_syntax(char *line, error *err);
+void check_data_definition_format(char *line, error *err);
 
-void check_string_definition_syntax(char *line, error *err);
+void check_string_definition_format(char *line, error *err);
 
-void check_extern_definition_syntax(char *line, error *err);
+void check_extern_definition_format(char *line, error *err);
 
-void check_instruction_line_syntax(char *line, error *err);
+void check_instruction_line_format(char *line, error *err);
 
 void check_commas(char *line, error *err);
 
@@ -116,7 +116,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
                 }
                 if (first_word_in_line!=NULL){
                     if (is_entry_def(first_word_in_line)) {
-                        check_entry_definition_syntax(line, &err);
+                        check_entry_definition_format(line, &err);
                     } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
                         encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, dc, &err, temp_line);
                     } else if ((is_extern_def(first_word_in_line))) {
@@ -137,7 +137,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
 void
 encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
     instruction temp_instruction;
-    check_instruction_line_syntax(line, err);
+    check_instruction_line_format(line, err);
     if (*err == NOT_ERROR) {
         if (is_symbol) {
             add_symbol(symbols, symbol_name, *ic, false, false, false, true, err);
@@ -151,7 +151,7 @@ encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symb
 void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
     int first_word_length;
     first_word_length = strlen(first_word_in_line);
-    check_extern_definition_syntax(line, err);
+    check_extern_definition_format(line, err);
     if (*err == NOT_ERROR && strcmp(first_word_in_line,line)) {/*valid syntax and the line contains more than one word*/
         add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
     }
@@ -167,12 +167,12 @@ encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol
         add_symbol(symbols, symbol_name, *dc, false, false, true, false, err);
     }
     if (is_data_def(first_word_in_line) && *err == NOT_ERROR) {
-        check_data_definition_syntax(line, err);
+        check_data_definition_format(line, err);
         if (*err == NOT_ERROR) {
             add_data_line(image, *dc, line + first_word_length + 1, &words_num, err);
         }
     } else if (is_string_def(first_word_in_line) && *err == NOT_ERROR) {
-        check_string_definition_syntax(line, err);
+        check_string_definition_format(line, err);
         if (*err == NOT_ERROR) {
             add_string(image, *dc, line + first_word_length + 1, &words_num, err);
         }
@@ -211,20 +211,23 @@ void pull_symbol_name(char *first_word, char *dest) {
 }
 
 
-void check_instruction_line_syntax(char *line, error *err) {
+void check_instruction_line_format(char *line, error *err) {
     check_commas(line, err);
 }
 
-void check_extern_definition_syntax(char *line, error *err) {
+void check_extern_definition_format(char *line, error *err) {
     if(check_for_comma_in_line(line)){
         *err = ILLEGAL_COMMA;
     }
 }
 
 /* check if the first ant last chars are quotation marks */
-void check_string_definition_syntax(char *line, error *err) {
+void check_string_definition_format(char *line, error *err) {
     int i = 0;
-    if(line == NULL){
+    char* temp;
+    temp = str_tok(line, " \t");
+    temp = str_tok(NULL, " \t");
+    if(temp == NULL){
         *err = STRING_NOT_EXIST;
     }
     while(i<strlen(line)-1){
@@ -238,12 +241,25 @@ void check_string_definition_syntax(char *line, error *err) {
     }
 }
 
-void check_data_definition_syntax(char *line, error *err) {
+void check_data_definition_format(char *line, error *err) {
+    char* temp;
+    temp = str_tok(line, " \t");
+    temp = str_tok(NULL, " \t");
+    if(temp == NULL){
+        *err = DATA_NOT_EXIST;
+    }
     check_commas(line, err);
 }
 
-void check_symbol_definition_syntax(char *line, error *err) {
+void check_symbol_definition_format(char *line, error *err) {
 
+}
+
+/* check if there is commas in this line */
+void check_entry_definition_format(char *line, error *err) {
+    if(check_for_comma_in_line(line)){
+        *err = ILLEGAL_COMMA;
+    }
 }
 
 boolean check_for_comma_in_line(char *line){
@@ -257,14 +273,6 @@ boolean check_for_comma_in_line(char *line){
     }
     return result;
 }
-
-/* check if there is commas in this line */
-void check_entry_definition_syntax(char *line, error *err) {
-    if(check_for_comma_in_line(line)){
-        *err = ILLEGAL_COMMA;
-    }
-}
-
 
 /**
  * check the validity of the  commas in one line.
