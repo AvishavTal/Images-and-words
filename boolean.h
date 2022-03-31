@@ -5,6 +5,9 @@
 #ifndef EX14_BOOLEAN_H
 #define EX14_BOOLEAN_H
 
-typedef enum {false,true}boolean;
+/**
+ * the possible values of boolean
+ */
+typedef enum {false = 0,true}boolean;
 
 #endif
