@@ -22,6 +22,8 @@ E: mov r1,r2,,
 .string "some error string
 .string some error string"
 .string some error string
+.string
+
 
     ; MISSING_COMMA
 .data 6 5
@@ -114,5 +116,6 @@ mov #49586878597247297439623460,r2
     sameSymbolLabel: add r1,r2
     sameSymbolLabel: mov r1,r2
 
-label:
-;.entry
+;.data
+;label:
+.entry
