@@ -9,14 +9,14 @@
 
 #define TABLE_SIZE 16
 
-struct allowed_addressing{
+struct allowed_addressing {
     unsigned int immediate :1;
     unsigned int direct :1;
     unsigned int index :1;
     unsigned int register_direct :1;
 };
 
-struct operator{
+struct operator {
     char *name;
     int funct;
     int opcode;
@@ -25,10 +25,17 @@ struct operator{
     struct allowed_addressing dest;
 };
 
-operator get_operator_by_name(char *name){
-    int i=0;
-    operator result=NULL;
-    static struct operator operators[]={
+/* private function declaration */
+unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode);
+/* end of private function declaration */
+
+
+/* public functions implementation */
+
+operator get_operator_by_name(char *name) {
+    int i = 0;
+    operator result = NULL;
+    static struct operator operators[]= {
         {"mov",0,0,2,{1,1,1,1},{0,1,1,1}},
         {"cmp",0,1,2,{1,1,1,1},{1,1,1,1}},
         {"add",10,2,2,{1,1,1,1},{0,1,1,1}},
@@ -46,9 +53,9 @@ operator get_operator_by_name(char *name){
         {"rts",0,14,0,{0,0,0,0},{0,0,0,0}},
         {"stop",0,15,0,{0,0,0,0},{0,0,0,0}}
     };
-    name= trim_whitespace(name);
-    while ((i<TABLE_SIZE)&&(result==NULL)){
-        if (!strcmp(name,operators[i].name)){
+    name = trim_whitespace(name);
+    while ((i < TABLE_SIZE) && (result == NULL)) {
+        if (!strcmp(name,operators[i].name)) {
             result = operators+i;
         }
         i++;
@@ -56,41 +63,52 @@ operator get_operator_by_name(char *name){
     return result;
 }
 
-int get_opcode(operator op){
+int get_opcode(operator op) {
     return op->opcode;
 }
 
-int get_funct(operator op){
+int get_funct(operator op) {
     return op->funct;
 }
 
-int get_n_operands(operator op){
+int get_n_operands(operator op) {
     return op->num_of_operands;
 }
 
-unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode){
+unsigned int is_legal_source_addressing_mode(operator op,addressing_mode mode) {
+    return is_allowed_addressing(op->source,mode);
+}
+
+unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode) {
+    return is_allowed_addressing(op->dest,mode);
+}
+
+/* end of public functions implementation */
+
+
+
+/* private functions implementation */
+
+/*
+ * Gets mode and check if this mode is allowed addressing
+ */
+unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing_mode mode) {
     unsigned int result;
-    result=0;
-    switch (mode){
+    result = 0;
+    switch (mode) {
         case IMMEDIATE:
-            result=allowed.immediate;
+            result = allowed.immediate;
             break;
         case DIRECT:
-            result=allowed.direct;
+            result = allowed.direct;
             break;
         case REGISTER_DIRECT:
-            result=allowed.register_direct;
+            result = allowed.register_direct;
             break;
         case INDEX:
-            result=allowed.index;
+            result = allowed.index;
     }
     return result;
 }
 
-unsigned int is_legal_source_addressing_mode(operator op,addressing_mode mode){
-    return is_allowed_addressing(op->source,mode);
-}
-
-unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode){
-    return is_allowed_addressing(op->dest,mode);
-}
+/* end of private functions implementation */
