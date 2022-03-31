@@ -4,6 +4,7 @@
 
 #include "unsigned_long_list.h"
 #include "linked_list.h"
+#include "system_errors.h"
 #include <stdlib.h>
 
 struct unsigned_long_list{
@@ -14,17 +15,21 @@ struct unsigned_long_list{
 ul_list init_ul_list(){
     ul_list result;
     result=(ul_list)malloc(sizeof (struct unsigned_long_list));
-    result->size=0;
-    result->the_list=create_empty_list();
+    if(is_allocation_succeeded(result)) {
+        result->size = 0;
+        result->the_list = create_empty_list();
+    }
     return result;
 }
 
 void append(ul_list to_update,unsigned long new_val){
     unsigned long *new_val_ptr;
-    new_val_ptr=(unsigned long *) malloc(sizeof(unsigned long));
-    *new_val_ptr=new_val;
-    add_to_tail(to_update->the_list,new_val_ptr);
-    to_update->size++;
+    new_val_ptr = (unsigned long *) malloc(sizeof(unsigned long));
+    if(is_allocation_succeeded(new_val_ptr)) {
+        *new_val_ptr = new_val;
+        add_to_tail(to_update->the_list, new_val_ptr);
+        to_update->size++;
+    }
 }
 unsigned long get_size(ul_list list){
     return list->size;

@@ -9,6 +9,7 @@
 #include "parser.h"
 #include <ctype.h>
 #include "string_manipulations.h"
+#include "system_errors.h"
 
 struct image{
     list words;
@@ -18,7 +19,9 @@ struct image{
 data_image init_data_image(){
     data_image result;
     result=(data_image) malloc(sizeof(struct image));
-    result->words=create_empty_list();
+    if(is_allocation_succeeded(result)){
+        result->words = create_empty_list();
+    }
     return result;
 }
 

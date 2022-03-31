@@ -32,8 +32,10 @@ struct word{
 word init_word(){
     word result;
     result=(word) malloc(sizeof(struct word));
-    result->the_actual_word=0;
-    result->address=0;
+    if(is_allocation_succeeded(result)) {
+        result->the_actual_word = 0;
+        result->address = 0;
+    }
     return result;
 }
 

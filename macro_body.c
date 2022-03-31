@@ -6,14 +6,17 @@
 #include <string.h>
 #include "macro_body.h"
 #include "linked_list.h"
+#include "system_errors.h"
 
 struct body{
     list lines;
 };
 macro_body init_body(){
     macro_body result;
-    result=(macro_body) malloc(sizeof(struct body));
-    result->lines=create_empty_list();
+    result = (macro_body) malloc(sizeof(struct body));
+    if(is_allocation_succeeded(result)) {
+        result->lines = create_empty_list();
+    }
     return result;
 }
 
@@ -32,9 +35,11 @@ void append_line_to_body(macro_body to_update,char *line){
     char *new_line;
     unsigned long len;
     len=strlen(line)+1;
-    new_line=(char *) malloc(len);
-    strcpy(new_line, line);
-    add_to_tail(to_update->lines, new_line);
+    new_line = (char *) malloc(len);
+    if(is_allocation_succeeded(new_line)) {
+        strcpy(new_line, line);
+        add_to_tail(to_update->lines, new_line);
+    }
 }
 
 void print_body(FILE *dest, macro_body to_print) {

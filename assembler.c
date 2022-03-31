@@ -8,6 +8,8 @@
 #include "pre_assembler.h"
 #include "first_scan.h"
 #include "second_scan.h"
+#include "system_errors.h"
+
 /**
  * init the file objects of the program
  * @param files
@@ -54,8 +56,10 @@ void run_assembler(file *files, int n_files) {
 file *init_files(file *files, int n_files, char **names) {
     int i=0;
     files=(file *) malloc(sizeof(file)*n_files);
-    for ( ; i < n_files; ++i) {
-        files[i]= init_file(names[i]);
+    if(is_allocation_succeeded(files)) {
+        for (; i < n_files; ++i) {
+            files[i] = init_file(names[i]);
+        }
     }
     return files;
 }

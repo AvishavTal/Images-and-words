@@ -5,6 +5,7 @@
 #include <string.h>
 #include "macro_table.h"
 #include "linked_list.h"
+#include "system_errors.h"
 
 struct macro_table{
     list table;
@@ -26,8 +27,11 @@ void push_macro(macro_table table, macro new_macro) {
     add_to_tail(table->table,new_macro);
 }
 macro_table init_macro_table(){
-    macro_table result=(macro_table) malloc(sizeof(struct macro_table));
-    result->table=create_empty_list();
+    macro_table result;
+    result = (macro_table) malloc(sizeof(struct macro_table));
+    if(is_allocation_succeeded(result)) {
+        result->table = create_empty_list();
+    }
     return result;
 }
 void delete_macro_table(macro_table to_delete) {

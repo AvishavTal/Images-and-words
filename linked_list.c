@@ -3,7 +3,7 @@
 */
 #include<stdio.h>
 #include<stdlib.h>
-
+#include "system_errors.h"
 #include "linked_list.h"
 
 struct list{
@@ -29,35 +29,32 @@ void* get_next_node(node node){
 }
 
 list create_empty_list(){
-    struct list *new_list = (struct list*)malloc(sizeof(struct list));
-    new_list->head = NULL;
-    new_list->tail = NULL;
-
+    struct list *new_list;
+    new_list = (struct list*)malloc(sizeof(struct list));
+    if(is_allocation_succeeded(new_list)) {
+        new_list->head = NULL;
+        new_list->tail = NULL;
+    }
     return new_list;
 }
 
 void add_to_tail(struct list* list, void *new_data){
     /* Allocate memory for node */
-    struct node *new_node = (struct node*)malloc(sizeof(struct node));
+    struct node *new_node;
+    new_node = (struct node*)malloc(sizeof(struct node));
+    if(is_allocation_succeeded(new_node)) {
+        /* append the received data to the new node */
+        new_node->data = new_data;
+        new_node->next = NULL;
 
-    /* Check if the allocation failed */
-    if(new_node == NULL){
-        printf("Unable to allocate memory for new node\n");
-        exit(-1);
-    }
-
-    /* append the received data to the new node */
-    new_node->data = new_data;
-    new_node->next = NULL;
-
-    /* if this node is the first node in the list - add the node as head and tail */
-    if(list->head == NULL){
-        list->head = new_node;
-        list->tail = new_node;
-    }
-    else { /* this node is NOT the first node in the list - add the new node to the end of the list */
-        list->tail->next = new_node;
-        list->tail = new_node;
+        /* if this node is the first node in the list - add the node as head and tail */
+        if (list->head == NULL) {
+            list->head = new_node;
+            list->tail = new_node;
+        } else { /* this node is NOT the first node in the list - add the new node to the end of the list */
+            list->tail->next = new_node;
+            list->tail = new_node;
+        }
     }
 }
 
