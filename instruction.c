@@ -278,8 +278,6 @@ void set_immediate_operand(instruction to_set, char *operand_str, int is_dest, u
     operand_str++; /*delete the # sign*/
     if (!str_to_int(operand_str,&immediate)){
         *err=NOT_INT;
-    } else if(!in_range(immediate)){
-        *err=NOT_IN_RANGE_IMMEDIATE;
     } else{
         word immediate_word;
         immediate_word=init_word();
