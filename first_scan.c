@@ -76,6 +76,9 @@ void first_scan(file source) {
 
 /* private functions implementation */
 
+/*
+ * this function is all the logic of first scan
+ */
 void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc) {
     char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
     unsigned long line_num;
@@ -97,7 +100,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
                     temp_line = temp_line + strlen(symbol_name) + 1;
                     temp_line = trim_whitespace(temp_line);
                 }
-                if (first_word_in_line!=NULL){
+                if (first_word_in_line!=NULL){ /* if after symbol there is an empty line */
                     if (is_entry_def(first_word_in_line)) {
                         check_entry_definition_format(line, &err);
                     } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
@@ -116,11 +119,19 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
         }
     }
 }
+
+/*
+ * check if the line starts with comma
+ */
 void check_not_start_with_comma(const char *line, error *err) {
     if(line[0] == SEPARATOR){
         *err = ILLEGAL_COMMA;
     }
 }
+
+/*
+ * check if not starts with comma and the line is not too long
+ */
 boolean check_if_syntax_correct(char* line, error *err){
     boolean result;
     result = true;
@@ -132,17 +143,28 @@ boolean check_if_syntax_correct(char* line, error *err){
     }
     return result;
 }
+
+/*
+ * check if the line is not too long - above MAX_LINE_LENGTH
+ */
 void check_not_too_long(char *line, error *err) {
     if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH){
         *err=TOO_LONG_LINE;
     }
 }
-/* check if there is commas in this line */
+
+/*
+ * check if there is any commas in this line
+ */
 void check_entry_definition_format(char *line, error *err) {
     if(check_for_comma_in_line(line)){
         *err = ILLEGAL_COMMA;
     }
 }
+
+/*
+ * check if the received data is not empty and if it is in the right format
+ */
 void check_data_definition_format(char *line, error *err) {
     char* temp;
     temp = str_tok(line, " \t");
@@ -152,7 +174,10 @@ void check_data_definition_format(char *line, error *err) {
     }
     check_commas(line, err);
 }
-/* check if the first ant last chars are quotation marks */
+
+/*
+ * check if  the received string is not empty and if the first and last chars are quotation marks
+ */
 void check_string_definition_format(char *line, error *err) {
     int i = 0;
     char* temp;
@@ -171,16 +196,25 @@ void check_string_definition_format(char *line, error *err) {
         i++;
     }
 }
+
+/*
+ * check if there is any commas in this line
+ */
 void check_extern_definition_format(char *line, error *err) {
     if(check_for_comma_in_line(line)){
         *err = ILLEGAL_COMMA;
     }
 }
+
+/*
+ * check if  the received instruction is in the right format
+ */
 void check_instruction_line_format(char *line, error *err) {
     check_commas(line, err);
 }
+
 /*
- * check the validity of the  commas in one line.
+ * check the validity of the commas in line
  */
 void check_commas(char *line, error *err) {
     enum state {BEFORE_OP, AFTER_OP, GETTING_OP, BEFORE_ARG, GETTING_ARG, AFTER_ARG};
@@ -243,6 +277,10 @@ void check_commas(char *line, error *err) {
         i++;
     }
 }
+
+/*
+ * check if there is any commas in this line
+ */
 boolean check_for_comma_in_line(char *line){
     boolean result = false;
     int i=0;
@@ -254,10 +292,18 @@ boolean check_for_comma_in_line(char *line){
     }
     return result;
 }
+
+/*
+ * Gets symbol name with colon and update dest to the symbol without colon
+ */
 void pull_symbol_name(char *first_word, char *dest) {
     strcpy(dest,first_word);
     dest[strlen(first_word)-1]='\0';
 }
+
+/*
+ * Check errors for data line and if not exist insert the data to data image and calculate dc
+ */
 void encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
                             char *first_word_in_line, long *dc, error *err, char *line) {
     int words_num = 0;
@@ -279,6 +325,10 @@ void encode_data_image_line(data_image image, symbol_table symbols, boolean is_s
     }
     (*dc) += words_num;
 }
+
+/*
+ * Check errors for extern line and if not exist insert the symbol to symbols table
+ */
 void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
     int first_word_length;
     first_word_length = strlen(first_word_in_line);
@@ -287,6 +337,10 @@ void encode_extern_definition_line(symbol_table symbols, char *line, char *first
         add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
     }
 }
+
+/*
+ * Check errors for instruction line and if not exist calculate ic
+ */
 void encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
     instruction temp_instruction;
     check_instruction_line_format(line, err);
@@ -299,6 +353,10 @@ void encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is
         delete_instruction(temp_instruction);
     }
 }
+
+/*
+ * check if after first scan the total memory for symbols table and data image is within the allowable range (less than MEMORY_SIZE)
+ */
 void memory_check(file source) {
     unsigned long ic,dc,total;
     ic=get_final_ic(source);
