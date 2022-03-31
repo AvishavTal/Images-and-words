@@ -5,6 +5,8 @@
 #include<stdio.h>
 #include "errors.h"
 
+/* public functions implementation */
+
 void print_error(unsigned long line_number,error err_code){
     switch (err_code) {
         case ILLEGAL_COMMA:
@@ -72,3 +74,5 @@ void print_error(unsigned long line_number,error err_code){
             break;
     }
 }
+
+/* end of public functions implementation */

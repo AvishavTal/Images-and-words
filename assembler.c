@@ -12,9 +12,18 @@
 
 #define LINE_LENGTH 81
 
+/* private function declaration */
 void run_assembler(file *files, int n_files);
 file* init_files(file *files, int n_files, char **names);
+int main(int argc, char **argv);
+/* end of private function declaration */
 
+
+/* private functions implementation */
+
+/*
+ * This is the program main function
+ */
 int main(int argc, char **argv) {
     file *files = NULL;
     files = init_files(files,argc-1,argv+1);
@@ -60,3 +69,5 @@ file* init_files(file *files, int n_files, char **names) {
     }
     return files;
 }
+
+/* end of private functions implementation */
