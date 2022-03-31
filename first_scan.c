@@ -15,7 +15,7 @@
 
 #define MIN_DC 0
 #define SEPARATOR ','
-#define QUOTATION_MARKS '"'
+#define QUOTATION_MARKS '\"'
 #define MAX_LINE_LENGTH 80
 #define MEMORY_SIZE 8192
 
@@ -223,9 +223,12 @@ void check_extern_definition_syntax(char *line, error *err) {
 
 /* check if the first ant last chars are quotation marks */
 void check_string_definition_syntax(char *line, error *err) {
-    int i=0;
+    int i = 0;
+    if(line == NULL){
+        *err = STRING_NOT_EXIST;
+    }
     while(i<strlen(line)-1){
-        if(line[i] == '\"'){
+        if(line[i] == QUOTATION_MARKS){
             break;
         }
         if(line[i] == SEPARATOR){
