@@ -111,6 +111,14 @@ endm: add r2,r3
 sameSymbolLabel: add r1,r2
 sameSymbolLabel: mov r1,r2
 
+    ;DOUBLE_DEFINITION_OF_SYMBOL
+Double: add r1,r2
+.extern Double
+
+    ;DOUBLE_DEFINITION_OF_SYMBOL
+.extern DoubleLabel
+DoubleLabel: add r1,r2
+
     ;TOO_LONG_LINE
 .string " long line long line long line long line long line long line long line long line long line long line long line long line"
 

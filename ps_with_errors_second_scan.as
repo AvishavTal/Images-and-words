@@ -14,7 +14,3 @@ add label,r1
 .extern symbol
 .entry symbol
 
-;.entry
-;.data
-;.extern
-;.string
