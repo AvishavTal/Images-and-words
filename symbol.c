@@ -27,6 +27,13 @@ struct symbol{
 
 };
 
+/**
+ * Updates the name of the received symbol
+ * @param curr_symbol the needed symbol
+ * @param name the wanted name
+ */
+void set_symbol_name(symbol curr_symbol , char *name);
+
 void print_base_required(FILE *dest, symbol to_print);
 
 void print_offset_required(FILE *dest, symbol to_print);
