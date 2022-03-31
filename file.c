@@ -13,7 +13,7 @@
 
 #define EXTENSION_LENGTH 5
 
-struct file{
+struct file {
     char *name;
 
     /* the names of the output files with the proper extension */
