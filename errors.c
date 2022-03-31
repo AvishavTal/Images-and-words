@@ -67,6 +67,9 @@ void print_error(unsigned long line_number,error err_code){
         case SAME_SYMBOL_FOR_ENTRY_AND_EXTERN:
             printf("%lu\t Same symbol for entry and extern\n", line_number);
             break;
+        case MEMORY_OVERFLOW:
+            printf("%lu\t Memory overflow\n", line_number);
+            break;
         default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);
             break;
