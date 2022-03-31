@@ -152,7 +152,7 @@ void encode_extern_definition_line(symbol_table symbols, char *line, char *first
     int first_word_length;
     first_word_length = strlen(first_word_in_line);
     check_extern_definition_syntax(line, err);
-    if (*err == NOT_ERROR) {
+    if (*err == NOT_ERROR && strcmp(first_word_in_line,line)) {/*valid syntax and the line contains more than one word*/
         add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
     }
 }
