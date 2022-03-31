@@ -9,8 +9,6 @@
 #include "linked_list.h"
 #include "string_manipulations.h"
 
-#define MEM_SIZE 8192
-
 struct macro{
     char *name;
     macro_body body;

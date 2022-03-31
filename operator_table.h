@@ -53,13 +53,4 @@ unsigned int is_legal_source_addressing_mode(operator op,addressing_mode mode);
  */
 unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode);
 
-/**
- * check  opname is name of legal operand, if true then funct and opcode get the address of the opname
- * @param opname
- * @param funct
- * @param opcode
- * @return 1 if the marcos is_legal_operator the opname, 0 otherwise
- */
-int is_legal_operator(const char *opname, int *funct, int *opcode);
-
 #endif

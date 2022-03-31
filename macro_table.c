@@ -14,16 +14,17 @@ struct macro_table{
 
 macro get_macro_by_name(macro_table macros, char *name) {
     node current_node= get_head(macros->table);
-    macro current_macro;
-    while (current_node){
+    macro current_macro,result=NULL;
+    while (current_node!=NULL && result==NULL){
         current_macro= get_node_data(current_node);
         if(!strcmp(name, get_macro_name(current_macro))){
-            return current_macro;
+            result=current_macro;
         }
         current_node= get_next_node(current_node);
     }
-    return NULL;
+    return result;
 }
+
 void push_macro(macro_table table, macro new_macro) {
     add_to_tail(table->table,new_macro);
 }
