@@ -38,4 +38,5 @@ char is_zero(char *str);
 
 boolean is_alpha_numeric_word(char *word);
 char *str_tok(char *src,const char *delim);
+unsigned long number_of_not_spaces_chars(char *string);
 #endif
