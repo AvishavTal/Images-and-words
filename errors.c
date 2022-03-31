@@ -56,16 +56,19 @@ void print_error(unsigned long line_number,error err_code){
             printf("%lu\t Missing comma in line\n", line_number);
             break;
         case BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL:
-            printf("%lu\t Same symbol for entry and extern\n", line_number);
+            printf("%lu\t Both entry and extern for same symbol\n", line_number);
             break;
         case MEMORY_OVERFLOW:
             printf("%lu\t Memory overflow\n", line_number);
             break;
         case STRING_NOT_EXIST:
-            printf("%lu\t string not exist\n", line_number);
+            printf("%lu\t String not exist\n", line_number);
             break;
         case TOO_LONG_LINE:
             printf("%lu\t This line is too long\n", line_number);
+            break;
+        case DATA_NOT_EXIST:
+            printf("%lu\t Data not exist\n", line_number);
             break;
         default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);

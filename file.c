@@ -34,10 +34,9 @@ struct file{
     boolean has_passed_first_scan;
     boolean has_passed_second_scan;
 
-    long ICF;
-    long DCF;
+    long ic_final;
+    long dc_final;
 };
-
 
 /*
  * Set the name of the file to be the accepted name with the .as extension
@@ -45,13 +44,11 @@ struct file{
  */
 void set_name_as(file file);
 
-
 /*
  * Set the name of the file to be the accepted name with the .am extension
  * @param file the needed file
  */
 void set_name_am(file file);
-
 
 /*
  * Set the name of the file to be the accepted name with the .ob extension
@@ -88,8 +85,8 @@ file init_file(char *name){
         result->has_passed_first_scan = true; /* if first scan failed will be changed to false */
         result->has_passed_pre_assembler = true; /* if pre-assembler failed wil be changed to false */
         result->has_passed_second_scan = true;
-        result->ICF=0;
-        result->DCF=0;
+        result->ic_final=0;
+        result->dc_final=0;
     }
     return result;
 }
@@ -210,19 +207,19 @@ void mark_second_scan_failed(file file){
 }
 
 long get_final_ic(file file){
-    return file->ICF;
+    return file->ic_final;
 }
 
 void set_final_ic(file file, long final_ic){
-    file->ICF = final_ic;
+    file->ic_final = final_ic;
 }
 
 long get_final_dc(file file){
-    return file->DCF;
+    return file->dc_final;
 }
 
 void set_final_dc(file file, long final_dc){
-    file->DCF = final_dc;
+    file->dc_final = final_dc;
 }
 
 void tear_down(file to_delete) {
