@@ -114,5 +114,5 @@ mov #49586878597247297439623460,r2
     sameSymbolLabel: add r1,r2
     sameSymbolLabel: mov r1,r2
 
-label:
-;.entry
+;label:
+.entry

@@ -38,7 +38,7 @@ int get_n_words(instruction instruction1);
 void print_instruction(FILE *dest,instruction to_print);
 
 /**
- * delet the geven instruction
+ * delete the given instruction
  * @param to_delete
  */
 void delete_instruction(instruction to_delete);

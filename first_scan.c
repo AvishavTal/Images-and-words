@@ -83,7 +83,11 @@ void first_scan(file source) {
 }
 
 void memory_check(file source) {
-    if (get_final_dc(source)+get_final_ic(source)>MEMORY_SIZE){
+    unsigned long ic,dc,total;
+    ic=get_final_ic(source);
+    dc=get_final_dc(source);
+    total=ic+dc;
+    if (total>MEMORY_SIZE){
         print_error(0,MEMORY_OVERFLOW);
         mark_first_scan_failed(source);
     }

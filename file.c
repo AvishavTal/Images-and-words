@@ -88,6 +88,8 @@ file init_file(char *name){
         result->has_passed_first_scan = true; /* if first scan failed will be changed to false */
         result->has_passed_pre_assembler = true; /* if pre-assembler failed wil be changed to false */
         result->has_passed_second_scan = true;
+        result->ICF=0;
+        result->DCF=0;
     }
     return result;
 }
