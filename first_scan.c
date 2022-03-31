@@ -114,14 +114,16 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
                     temp_line = temp_line + strlen(symbol_name) + 1;
                     temp_line = trim_whitespace(temp_line);
                 }
-                if (is_entry_def(first_word_in_line)) {
-                    check_entry_definition_syntax(line, &err);
-                } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
-                    encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, dc, &err, temp_line);
-                } else if ((is_extern_def(first_word_in_line))) {
-                    encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
-                } else { /*this line is an instruction.*/
-                    encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, ic, &err);
+                if (first_word_in_line!=NULL){
+                    if (is_entry_def(first_word_in_line)) {
+                        check_entry_definition_syntax(line, &err);
+                    } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
+                        encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, dc, &err, temp_line);
+                    } else if ((is_extern_def(first_word_in_line))) {
+                        encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
+                    } else { /*this line is an instruction.*/
+                        encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, ic, &err);
+                    }
                 }
             }
         }
