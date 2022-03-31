@@ -45,63 +45,69 @@ void encode_extern_definition_line(symbol_table symbols, char *line, char *first
 void
 encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
 
+void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc);
+
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
     data_image image;
     FILE *src;
-    error err;
     long ic, dc;
-    unsigned long line_num;
-    char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
-    boolean is_symbol;
 
     /*set variables */
     ic = MIN_IC;
     dc = MIN_DC;
-    line_num = 0;
     symbols = get_symbol_table(source);
     image=get_data_image(source);
     src = fopen(get_name_am(source), "r");
     if (!is_open_file_succeeded(src,false, get_name_am(source))){
         mark_first_scan_failed(source);
     } else{
-        while ((fgets(line, LINE_LENGTH, src)) != NULL) {
-            is_symbol=false;
-            err = NOT_ERROR;
-            line_num ++;
-            temp_line= trim_whitespace(line);
-            if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
-                if(check_if_syntax_correct(temp_line, &err)) { /* if this line not starts or ends with separator */
-                    first_word_in_line = str_tok(temp_line, " \t");
-                    if (is_symbol_def(first_word_in_line)) { /* if this line starts with symbol */
-                        is_symbol = true;
-                        pull_symbol_name(first_word_in_line, symbol_name);
-                        first_word_in_line = str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
-                        temp_line = temp_line + strlen(symbol_name) + 1;
-                        temp_line = trim_whitespace(temp_line);
-                    }
-                    if (is_entry_def(first_word_in_line)) {
-                        check_entry_definition_syntax(line, &err);
-                    } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
-                        encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, &dc, &err, temp_line);
-                    } else if ((is_extern_def(first_word_in_line))) {
-                        encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
-                    } else { /*this line is an instruction.*/
-                        encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, &ic, &err);
-                        }
-                    }
-                }
-            if(err != NOT_ERROR){
-                mark_first_scan_failed(source);
-                print_error(line_num, err);
-            }
-        }
+        scan(source, src, symbols, image, &ic, &dc);
         set_final_dc(source,dc);
         set_final_ic(source,ic-MIN_IC);
         update_addresses(image,ic);
         update_addresses_of_data_symbols(symbols,ic);
         fclose(src);
+    }
+}
+
+void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc) {
+    char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
+    unsigned long line_num;
+    boolean is_symbol;
+    error err;
+    line_num = 0;
+    while ((fgets(line, LINE_LENGTH, src)) != NULL) {
+        is_symbol=false;
+        err = NOT_ERROR;
+        line_num ++;
+        temp_line= trim_whitespace(line);
+        if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
+            if(check_if_syntax_correct(temp_line, &err)) { /* if this line not starts or ends with separator */
+                first_word_in_line = str_tok(temp_line, " \t");
+                if (is_symbol_def(first_word_in_line)) { /* if this line starts with symbol */
+                    is_symbol = true;
+                    pull_symbol_name(first_word_in_line, symbol_name);
+                    first_word_in_line = str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
+                    temp_line = temp_line + strlen(symbol_name) + 1;
+                    temp_line = trim_whitespace(temp_line);
+                }
+                if (is_entry_def(first_word_in_line)) {
+                    check_entry_definition_syntax(line, &err);
+                } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
+                    encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, dc, &err, temp_line);
+                } else if ((is_extern_def(first_word_in_line))) {
+                    encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
+                } else { /*this line is an instruction.*/
+                    encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, ic, &err);
+                }
+            }
+        }
+        if(err != NOT_ERROR){
+            mark_first_scan_failed(source);
+            print_error(line_num, err);
+        }
     }
 }
 
