@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "errors.h"
 
+
 /**
  * representation of data image
  */
