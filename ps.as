@@ -1,3 +1,7 @@
+label: .extern M
+add label,r1
+
+
 .entry LIST
 .extern W
 
