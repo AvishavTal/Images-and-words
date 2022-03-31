@@ -118,3 +118,20 @@ char *str_tok(char *src,const char *delim){
     }
     return strtok(src, delim);
 }
+
+/**
+ * count the non spaces chars
+ * @param string
+ * @return the number of non spaces chars in string
+ */
+unsigned long number_of_not_spaces_chars(char *string){
+    unsigned long result=0,string_len;
+    string_len= strlen(string);
+    while (string_len>0){
+        string_len--;
+        if(!isspace(string[string_len])){
+            result++;
+        }
+    }
+    return result;
+}

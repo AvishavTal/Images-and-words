@@ -16,6 +16,8 @@
 #define SEPARATOR ','
 #define QUOTATION_MARKS '"'
 
+#define MAX_LINE_LENGTH 80
+
 boolean check_if_syntax_correct(char* line, error *err);
 
 void pull_symbol_name(char *first_word, char *dest);
@@ -30,101 +32,44 @@ void check_string_definition_syntax(char *line, error *err);
 
 void check_extern_definition_syntax(char *line, error *err);
 
-void check_instrucion_line_syntax(char *line, error *err);
+void check_instruction_line_syntax(char *line, error *err);
 
 void check_commas(char *line, error *err);
 
 boolean check_for_comma_in_line(char *line);
+
+void
+encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
+                       char *first_word_in_line, long *dc, error *err, char *line);
+
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err);
+
+void
+encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
+
+void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc);
+
+void check_not_start_with_comma(const char *line, error *err);
+
+void check_not_too_long(char *line, error *err);
 
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
     data_image image;
     FILE *src;
-    error err;
     long ic, dc;
-    unsigned long line_num;
-    char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
-    boolean is_symbol;
 
     /*set variables */
     ic = MIN_IC;
     dc = MIN_DC;
-    line_num = 0;
     symbols = get_symbol_table(source);
     image=get_data_image(source);
     src = fopen(get_name_am(source), "r");
     if (!is_open_file_succeeded(src,false, get_name_am(source))){
         mark_first_scan_failed(source);
     } else{
-        while ((fgets(line, LINE_LENGTH, src)) != NULL) {
-            is_symbol=false;
-            err = NOT_ERROR;
-            line_num ++;
-            temp_line= trim_whitespace(line);
-
-            if (!(is_comment(line) || is_empty(line))) { /* if this line is not a blank line or a comment line */
-                if(check_if_syntax_correct(temp_line, &err)) { /* if this line not starts or ends with separator */
-                    //todo move entry checking after symbol checking
-                    first_word_in_line = str_tok(temp_line, " \t");
-                    if (is_entry_def(first_word_in_line)) {
-                        check_entry_definition_syntax(line,&err);
-                    } else {
-                        if (is_symbol_def(first_word_in_line)) { /* if this line starts with symbol */
-                            is_symbol = true;
-                            pull_symbol_name(first_word_in_line, symbol_name);
-                            first_word_in_line = str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
-                            temp_line = temp_line + strlen(symbol_name) + 1;
-                            temp_line = trim_whitespace(temp_line);
-                        }
-                        if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
-                            int words_num = 0;
-                            long first_word_length;
-                            first_word_length = strlen(first_word_in_line);
-                            if (is_symbol) {
-                                add_symbol(symbols, symbol_name, dc, false, false, true, false, &err);
-                            }
-                            if (is_data_def(first_word_in_line) && err == NOT_ERROR) {
-                                check_data_definition_syntax(temp_line, &err);
-                                if (err == NOT_ERROR) {
-                                    add_data_line(image, dc, temp_line + first_word_length + 1, &words_num, &err);
-                                }
-                            } else if (is_string_def(first_word_in_line) && err == NOT_ERROR) {
-                                check_string_definition_syntax(temp_line, &err);
-                                if (err == NOT_ERROR) {
-                                    add_string(image, dc, temp_line + first_word_length + 1, &words_num, &err);
-                                }
-                            }
-                            dc += words_num;
-                        } else if ((is_extern_def(first_word_in_line))) {
-                            int first_word_length;
-                            first_word_length = strlen(first_word_in_line);
-                            check_extern_definition_syntax(temp_line, &err);
-                            if (err == NOT_ERROR) {
-                                add_symbol(symbols, temp_line + first_word_length + 1, 0, false, true, false, false,
-                                           &err);
-                            }
-                        } else { /*this line is an instruction.*/
-                            instruction temp_instruction;
-                            check_instrucion_line_syntax(temp_line, &err);
-                            if (err == NOT_ERROR) {
-                                if (is_symbol) {
-                                    add_symbol(symbols, symbol_name, ic, false, false, false, true, &err);
-                                }
-                                temp_instruction = init_instruction(temp_line, NULL, ic, &err);
-                                ic += get_n_words(temp_instruction);
-                                delete_instruction(temp_instruction);
-                            }
-                        }
-                    }
-                }
-            }
-            if(err != NOT_ERROR){
-                mark_first_scan_failed(source);
-                print_error(line_num, err);
-            }
-        }
-
+        scan(source, src, symbols, image, &ic, &dc);
         set_final_dc(source,dc);
         set_final_ic(source,ic-MIN_IC);
         update_addresses(image,ic);
@@ -133,16 +78,114 @@ void first_scan(file source) {
     }
 }
 
+void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc) {
+    char line[LINE_LENGTH],*temp_line, *first_word_in_line, symbol_name[LINE_LENGTH];
+    unsigned long line_num;
+    boolean is_symbol;
+    error err;
+    line_num = 0;
+    while ((fgets(line, LINE_LENGTH, src)) != NULL) {
+        is_symbol=false;
+        err = NOT_ERROR;
+        line_num ++;
+        temp_line= trim_whitespace(line);
+        if (!(is_comment(line) || is_empty(line))) {
+            if(check_if_syntax_correct(temp_line, &err)) {
+                first_word_in_line = str_tok(temp_line, " \t");
+                if (is_symbol_def(first_word_in_line)) {
+                    is_symbol = true;
+                    pull_symbol_name(first_word_in_line, symbol_name);
+                    first_word_in_line = str_tok(NULL," \t");/*first_word_in_line is the first after the symbol definition*/
+                    temp_line = temp_line + strlen(symbol_name) + 1;
+                    temp_line = trim_whitespace(temp_line);
+                }
+                if (is_entry_def(first_word_in_line)) {
+                    check_entry_definition_syntax(line, &err);
+                } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
+                    encode_data_image_line(image, symbols, is_symbol, symbol_name, first_word_in_line, dc, &err, temp_line);
+                } else if ((is_extern_def(first_word_in_line))) {
+                    encode_extern_definition_line(symbols,temp_line,first_word_in_line,&err);
+                } else { /*this line is an instruction.*/
+                    encode_instruction_line(symbols, symbol_name, is_symbol, temp_line, ic, &err);
+                }
+            }
+        }
+        if(err != NOT_ERROR){
+            mark_first_scan_failed(source);
+            print_error(line_num, err);
+        }
+    }
+}
+
+void
+encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err) {
+    instruction temp_instruction;
+    check_instruction_line_syntax(line, err);
+    if (*err == NOT_ERROR) {
+        if (is_symbol) {
+            add_symbol(symbols, symbol_name, *ic, false, false, false, true, err);
+        }
+        temp_instruction = init_instruction(line,NULL,*ic,err);
+        (*ic) += get_n_words(temp_instruction);
+        delete_instruction(temp_instruction);
+    }
+}
+
+void encode_extern_definition_line(symbol_table symbols, char *line, char *first_word_in_line, error *err) {
+    int first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    check_extern_definition_syntax(line, err);
+    if (*err == NOT_ERROR) {
+        add_symbol(symbols, line + first_word_length + 1, 0, false, true, false, false,err);
+    }
+}
+
+void
+encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol, char *symbol_name,
+                       char *first_word_in_line, long *dc, error *err, char *line) {
+    int words_num = 0;
+    long first_word_length;
+    first_word_length = strlen(first_word_in_line);
+    if (is_symbol) {
+        add_symbol(symbols, symbol_name, *dc, false, false, true, false, err);
+    }
+    if (is_data_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_data_definition_syntax(line, err);
+        if (*err == NOT_ERROR) {
+            add_data_line(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    } else if (is_string_def(first_word_in_line) && *err == NOT_ERROR) {
+        check_string_definition_syntax(line, err);
+        if (*err == NOT_ERROR) {
+            add_string(image, *dc, line + first_word_length + 1, &words_num, err);
+        }
+    }
+    (*dc) += words_num;
+}
+
+
 boolean check_if_syntax_correct(char* line, error *err){
     boolean result;
     result = true;
-
     line = trim_whitespace(line);
-    if(line[0] == SEPARATOR){ /* || ((line[strlen(line)]-1) == SEPARATOR)){*/
-        *err = ILLEGAL_COMMA;
-        result = false;
+    check_not_too_long(line,err);
+    check_not_start_with_comma(line,err);
+    if (*err!=NOT_ERROR){
+        result=false;
     }
     return result;
+}
+
+void check_not_too_long(char *line, error *err) {
+    if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH){
+        *err=TOO_LONG_LINE;
+    }
+}
+
+void check_not_start_with_comma(const char *line, error *err) {
+    if(line[0] == SEPARATOR){
+        *err = ILLEGAL_COMMA;
+    }
 }
 
 void pull_symbol_name(char *first_word, char *dest) {
@@ -151,7 +194,7 @@ void pull_symbol_name(char *first_word, char *dest) {
 }
 
 
-void check_instrucion_line_syntax(char *line, error *err) {
+void check_instruction_line_syntax(char *line, error *err) {
     check_commas(line, err);
 }
 
