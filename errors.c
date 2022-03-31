@@ -31,9 +31,6 @@ void print_error(unsigned long line_number,error err_code){
         case NOT_INT:
             printf("%lu\t Not int.\n", line_number);
             break;
-        case NOT_IN_RANGE_IMMEDIATE:
-            printf("%lu\t Not in range for immediate addressing.\n", line_number);
-            break;
         case UNDEFINED_SYMBOL:
             printf("%lu\t Undefined symbol.\n", line_number);
             break;
@@ -69,6 +66,12 @@ void print_error(unsigned long line_number,error err_code){
             break;
         case MEMORY_OVERFLOW:
             printf("%lu\t Memory overflow\n", line_number);
+            break;
+        case STRING_NOT_EXIST:
+            printf("%lu\t string not exist\n", line_number);
+            break;
+        case TOO_LONG_LINE:
+            printf("%lu\t This line is too long\n", line_number);
             break;
         default:
             printf("%lu\t Im in the default case - we have a problem.\n", line_number);
