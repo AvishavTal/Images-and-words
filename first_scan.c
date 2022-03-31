@@ -54,11 +54,11 @@ void first_scan(file source) {
     ic = MIN_IC;
     dc = MIN_DC;
     symbols = get_symbol_table(source);
-    image=get_data_image(source);
+    image = get_data_image(source);
     src = fopen(get_name_am(source), "r");
-    if (!is_open_file_succeeded(src,false, get_name_am(source))){
+    if (!is_open_file_succeeded(src,false, get_name_am(source))) {
         mark_first_scan_failed(source);
-    } else{
+    } else {
         scan(source, src, symbols, image, &ic, &dc);
         set_final_dc(source,dc);
         set_final_ic(source,ic-MIN_IC);
@@ -86,12 +86,12 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
     error err;
     line_num = 0;
     while ((fgets(line, LINE_LENGTH, src)) != NULL) {
-        is_symbol=false;
+        is_symbol = false;
         err = NOT_ERROR;
-        line_num ++;
-        temp_line= trim_whitespace(line);
+        line_num++;
+        temp_line = trim_whitespace(line);
         if (!(is_comment(line) || is_empty(line))) {
-            if(check_if_syntax_correct(temp_line, &err)) {
+            if (check_if_syntax_correct(temp_line, &err)) {
                 first_word_in_line = str_tok(temp_line, " \t");
                 if (is_symbol_def(first_word_in_line)) {
                     is_symbol = true;
@@ -100,7 +100,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
                     temp_line = temp_line + strlen(symbol_name) + 1;
                     temp_line = trim_whitespace(temp_line);
                 }
-                if (first_word_in_line!=NULL){ /* if after symbol there is an empty line */
+                if (first_word_in_line!=NULL) { /* if after symbol there is an empty line */
                     if (is_entry_def(first_word_in_line)) {
                         check_entry_definition_format(line, &err);
                     } else if ((is_data_def(first_word_in_line) || is_string_def(first_word_in_line))) {
@@ -113,7 +113,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
                 }
             }
         }
-        if(err != NOT_ERROR){
+        if (err != NOT_ERROR) {
             mark_first_scan_failed(source);
             print_error(line_num, err);
         }
@@ -124,7 +124,7 @@ void scan(file source, FILE *src, symbol_table symbols, data_image image, long *
  * check if the line starts with comma
  */
 void check_not_start_with_comma(const char *line, error *err) {
-    if(line[0] == SEPARATOR){
+    if (line[0] == SEPARATOR) {
         *err = ILLEGAL_COMMA;
     }
 }
@@ -132,14 +132,14 @@ void check_not_start_with_comma(const char *line, error *err) {
 /*
  * check if not starts with comma and the line is not too long
  */
-boolean check_if_syntax_correct(char* line, error *err){
+boolean check_if_syntax_correct(char* line, error *err) {
     boolean result;
     result = true;
     line = trim_whitespace(line);
     check_not_too_long(line,err);
     check_not_start_with_comma(line,err);
-    if (*err!=NOT_ERROR){
-        result=false;
+    if (*err!=NOT_ERROR) {
+        result = false;
     }
     return result;
 }
@@ -148,8 +148,8 @@ boolean check_if_syntax_correct(char* line, error *err){
  * check if the line is not too long - above MAX_LINE_LENGTH
  */
 void check_not_too_long(char *line, error *err) {
-    if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH){
-        *err=TOO_LONG_LINE;
+    if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH) {
+        *err = TOO_LONG_LINE;
     }
 }
 
@@ -157,7 +157,7 @@ void check_not_too_long(char *line, error *err) {
  * check if there is any commas in this line
  */
 void check_entry_definition_format(char *line, error *err) {
-    if(check_for_comma_in_line(line)){
+    if (check_for_comma_in_line(line)) {
         *err = ILLEGAL_COMMA;
     }
 }
@@ -169,7 +169,7 @@ void check_data_definition_format(char *line, error *err) {
     char* temp;
     temp = str_tok(line, " \t");
     temp = str_tok(NULL, " \t");
-    if(temp == NULL){
+    if (temp == NULL) {
         *err = DATA_NOT_EXIST;
     }
     check_commas(line, err);
@@ -193,7 +193,7 @@ void check_string_definition_format(char *line, error *err) {
         if(line[i] == SEPARATOR){
             *err = ILLEGAL_COMMA;
         }
-        i++;
+        ++i;
     }
 }
 
@@ -201,7 +201,7 @@ void check_string_definition_format(char *line, error *err) {
  * check if there is any commas in this line
  */
 void check_extern_definition_format(char *line, error *err) {
-    if(check_for_comma_in_line(line)){
+    if (check_for_comma_in_line(line)) {
         *err = ILLEGAL_COMMA;
     }
 }
@@ -218,77 +218,77 @@ void check_instruction_line_format(char *line, error *err) {
  */
 void check_commas(char *line, error *err) {
     enum state {BEFORE_OP, AFTER_OP, GETTING_OP, BEFORE_ARG, GETTING_ARG, AFTER_ARG};
-    enum state current=BEFORE_OP;
+    enum state current = BEFORE_OP;
     char tmp_char;
     int i;
     unsigned long length;
-    length= strlen(line);
-    i=0;
+    length = strlen(line);
+    i = 0;
 
-    if(line[length-1]==SEPARATOR){ /* if the line ends with separator */
-        *err=ILLEGAL_COMMA;
+    if (line[length-1] == SEPARATOR) { /* if the line ends with separator */
+        *err = ILLEGAL_COMMA;
     }
-    while (*err==NOT_ERROR && i<length){
+    while (*err == NOT_ERROR && i<length) {
         tmp_char = line[i];
-        switch (current){
+        switch (current) {
             case BEFORE_OP:
-                if (tmp_char==SEPARATOR){
-                    *err= ILLEGAL_COMMA;
+                if (tmp_char==SEPARATOR) {
+                    *err = ILLEGAL_COMMA;
                 }
-                if (!isspace(tmp_char)){
+                if (!isspace(tmp_char)) {
                     current = GETTING_OP;
                 }
                 break;
             case GETTING_OP:
-                if (tmp_char==SEPARATOR){
-                    *err= ILLEGAL_COMMA;
+                if (tmp_char == SEPARATOR) {
+                    *err = ILLEGAL_COMMA;
                 }
-                if (isspace(tmp_char)){
-                    current=BEFORE_ARG;
+                if (isspace(tmp_char)) {
+                    current = BEFORE_ARG;
                 }
                 break;
             case BEFORE_ARG:
-                if (tmp_char==SEPARATOR){
-                    *err= ILLEGAL_COMMA;
+                if (tmp_char == SEPARATOR) {
+                    *err = ILLEGAL_COMMA;
                 }
-                if (!isspace(tmp_char)){
-                    current=GETTING_ARG;
+                if (!isspace(tmp_char)) {
+                    current = GETTING_ARG;
                 }
                 break;
             case GETTING_ARG:
-                if (isspace(tmp_char)){
+                if (isspace(tmp_char)) {
                     current = AFTER_ARG;
                 }
-                if (tmp_char==SEPARATOR){
+                if (tmp_char == SEPARATOR) {
                     current = BEFORE_ARG;
                 }
                 break;
             case AFTER_ARG:
-                if (tmp_char==SEPARATOR){
+                if (tmp_char == SEPARATOR) {
                     current = BEFORE_ARG;
                     break;
                 }
-                if (!isspace(tmp_char)){
-                    *err= MISSING_COMMA;
+                if (!isspace(tmp_char)) {
+                    *err = MISSING_COMMA;
                 }
             default:
                 continue;
         }
-        i++;
+        ++i;
     }
 }
 
 /*
  * check if there is any commas in this line
  */
-boolean check_for_comma_in_line(char *line){
+boolean check_for_comma_in_line(char *line) {
     boolean result = false;
-    int i=0;
+    int i = 0;
 
-    while ((!result) && i<strlen(line)){
-        if (line[i]==SEPARATOR)
+    while ((!result) && i<strlen(line)) {
+        if (line[i] == SEPARATOR)
             result = true;
-        i++;
+        ++i;
     }
     return result;
 }
@@ -298,7 +298,7 @@ boolean check_for_comma_in_line(char *line){
  */
 void pull_symbol_name(char *first_word, char *dest) {
     strcpy(dest,first_word);
-    dest[strlen(first_word)-1]='\0';
+    dest[strlen(first_word)-1] = '\0';
 }
 
 /*
@@ -359,10 +359,10 @@ void encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is
  */
 void memory_check(file source) {
     unsigned long ic,dc,total;
-    ic=get_final_ic(source);
-    dc=get_final_dc(source);
-    total=ic+dc;
-    if (total>MEMORY_SIZE){
+    ic = get_final_ic(source);
+    dc = get_final_dc(source);
+    total = ic+dc;
+    if (total>MEMORY_SIZE) {
         print_error(0,MEMORY_OVERFLOW);
         mark_first_scan_failed(source);
     }
