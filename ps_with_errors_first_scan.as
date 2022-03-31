@@ -23,10 +23,10 @@ E: mov r1,r2,,
 .string some error string"
 .string some error string
 
-    ; Missing comma
+    ; MISSING_COMMA
 .data 6 5
 
-    ; not int
+    ; NOT_INT
 L: .data 6,a
 .data ^
 .data 5.9
@@ -40,7 +40,7 @@ mov L[1],r2
 mov L[r16],r4
 mov L[[r18]],r2
 
-    ;illegal addressing
+    ;ILLEGAL_ADDRESSING
 mov r2, #-1
 add 2,#3
 sub r8 , #-9
@@ -59,7 +59,7 @@ jsr #1
 jsr r3
 red #1
 
-    ;too many operand
+    ;TOO_MANY_ARGS
 mov a1,a2,a3
 cmp r1,r2,r3
 add r1,r2,r3
@@ -77,7 +77,7 @@ prn r1,r2
 rts r1
 stop r1
 
-    ; Too few operands.
+    ; TOO_FEW_ARGS
 mov a1
 cmp r1
 add r1
