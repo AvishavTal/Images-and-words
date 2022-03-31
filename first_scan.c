@@ -16,6 +16,8 @@
 #define SEPARATOR ','
 #define QUOTATION_MARKS '"'
 
+#define MAX_LINE_LENGTH 80
+
 boolean check_if_syntax_correct(char* line, error *err);
 
 void pull_symbol_name(char *first_word, char *dest);
@@ -46,6 +48,10 @@ void
 encode_instruction_line(symbol_table symbols, char *symbol_name, boolean is_symbol, char *line, long *ic, error *err);
 
 void scan(file source, FILE *src, symbol_table symbols, data_image image, long *ic, long *dc);
+
+void check_not_start_with_comma(const char *line, error *err);
+
+void check_not_too_long(char *line, error *err);
 
 void first_scan(file source) {
     /* variables declaration */
@@ -161,13 +167,25 @@ encode_data_image_line(data_image image, symbol_table symbols, boolean is_symbol
 boolean check_if_syntax_correct(char* line, error *err){
     boolean result;
     result = true;
-
     line = trim_whitespace(line);
-    if(line[0] == SEPARATOR){ /* || ((line[strlen(line)]-1) == SEPARATOR)){*/
-        *err = ILLEGAL_COMMA;
-        result = false;
+    check_not_too_long(line,err);
+    check_not_start_with_comma(line,err);
+    if (*err!=NOT_ERROR){
+        result=false;
     }
     return result;
+}
+
+void check_not_too_long(char *line, error *err) {
+    if (number_of_not_spaces_chars(line)>MAX_LINE_LENGTH){
+        *err=TOO_LONG_LINE;
+    }
+}
+
+void check_not_start_with_comma(const char *line, error *err) {
+    if(line[0] == SEPARATOR){
+        *err = ILLEGAL_COMMA;
+    }
 }
 
 void pull_symbol_name(char *first_word, char *dest) {
