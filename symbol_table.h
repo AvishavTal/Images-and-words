@@ -1,5 +1,5 @@
 /*
-* Created by Avishav & Sapir on March 7,2022
+* Created by Avishav & Sapir on March 7, 2022
 */
 
 #ifndef EX14_SYMBOL_TABLE_H

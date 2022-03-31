@@ -1,6 +1,7 @@
 /*
-* Created by avishav on 28.2.2022.
+* Created by Avishav & Sapir on March 1, 2022
 */
+
 #include <stdio.h>
 #include <string.h>
 #include "second_scan.h"
@@ -12,7 +13,6 @@
 #include "first_and_second_scan_constants.h"
 #include "errors.h"
 #include "system_errors.h"
-
 
 void clean_up(file to_clean);
 
@@ -154,4 +154,3 @@ void clean_up(file to_clean) {
     }
 
 }
-

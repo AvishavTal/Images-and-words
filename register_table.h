@@ -1,5 +1,5 @@
 /*
-** Created by Avishav & Sapir on March 10,2022
+* Created by Avishav & Sapir on March 10, 2022
 */
 
 #ifndef EX14_REGISTER_TABLE_H

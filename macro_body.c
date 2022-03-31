@@ -1,6 +1,7 @@
 /*
- * Created by avishav on 10.3.2022.
+* Created by Avishav & Sapir on March 10, 2022
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +12,7 @@
 struct body{
     list lines;
 };
+
 macro_body init_body(){
     macro_body result;
     result = (macro_body) malloc(sizeof(struct body));

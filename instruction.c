@@ -1,16 +1,16 @@
 /*
- Created by avishav on 28.2.2022.
+* Created by Avishav & Sapir on March 1, 2022
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "instruction.h"
 #include "word.h"
-#include <stdlib.h>
 #include "operator_table.h"
 #include "string_manipulations.h"
 #include "errors.h"
 #include "ARE.h"
 #include "register_table.h"
-#include <stdio.h>
 #include "system_errors.h"
 #include "symbol.h"
 #include "register_table.h"
@@ -25,24 +25,19 @@
 #define DEST_ADDRESS_WORD_INDEX 4
 #define DEST_OFFSET_WORD_INDEX 5
 
-
 /*Indexes in the arguments list*/
 #define DEST_ARG_INDEX 1
 #define SOURCE_ARG_INDEX 0
-
 
 /*number of arguments required*/
 #define REQUIRED_TWO 2
 #define REQUIRED_ONE 1
 #define NO_ARGS_REQUIRED 0
 
-
 #define IMMEDIATE_SIGN '#'
-
 
 #define LEFT_BRAKET '['
 #define RIGHT_BRAKET ']'
-
 
 #define MAX_IMMEDIATE 32767
 #define MIN_IMMEDIATE -32768

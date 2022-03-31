@@ -1,5 +1,5 @@
 /*
-* Created by Avishav & Sapir on March 10,2022
+* Created by Avishav & Sapir on March 10, 2022
 */
 
 #ifndef EX14_PARSER_H
@@ -7,6 +7,7 @@
 
 #include "boolean.h"
 #include "errors.h"
+
 /**
  * check if the given line is the word to end macro definition
  * @param line to check

@@ -1,12 +1,16 @@
+/*
+* Created by Avishav & Sapir on March 9, 2022
+*/
 
-
+#include <stdlib.h>
 #include "macro.h"
 #include "macro_body.h"
 #include "system_errors.h"
 #include "linked_list.h"
-#include <stdlib.h>
 #include "string_manipulations.h"
+
 #define MEM_SIZE 8192
+
 struct macro{
     char *name;
     macro_body body;

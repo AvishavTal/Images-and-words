@@ -1,3 +1,6 @@
+/*
+* Created by Avishav & Sapir on March 2, 2022
+*/
 
 #include <string.h>
 #include "operator_table.h"

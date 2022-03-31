@@ -1,5 +1,5 @@
 /*
-** Created by Avishav & Sapir on March 4,2022
+* Created by Avishav & Sapir on March 4, 2022
 */
 
 #ifndef EX14_FILE_H
@@ -154,6 +154,5 @@ void make_ext_file(file source);
 void make_ent_file(file source);
 
 void tear_down(file to_delete);
-
 
 #endif

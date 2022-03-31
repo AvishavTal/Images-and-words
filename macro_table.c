@@ -1,6 +1,7 @@
 /*
-* Created by avishav on 2.3.2022.
+* Created by Avishav & Sapir on March 2, 2022
 */
+
 #include <stdlib.h>
 #include <string.h>
 #include "macro_table.h"

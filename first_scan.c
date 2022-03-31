@@ -1,9 +1,10 @@
 /*
-* Created by Sapir on 10.3.2022.
+* Created by Avishav & Sapir on March 9, 2022
 */
+
+#include <string.h>
 #include "first_scan.h"
 #include "data_image.h"
-#include <string.h>
 #include "symbol_table.h"
 #include "string_manipulations.h"
 #include "instruction.h"
@@ -15,9 +16,7 @@
 #define MIN_DC 0
 #define SEPARATOR ','
 #define QUOTATION_MARKS '"'
-
 #define MAX_LINE_LENGTH 80
-
 #define MEMORY_SIZE 8192
 
 boolean check_if_syntax_correct(char* line, error *err);

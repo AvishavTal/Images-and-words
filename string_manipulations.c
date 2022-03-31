@@ -1,5 +1,5 @@
 /*
-* Created by avishav on 2.3.2022.
+* Created by Avishav & Sapir on March 2, 2022
 */
 
 #include "string_manipulations.h"
@@ -94,7 +94,6 @@ int str_to_int(char *str,int *dest){
     }
     return result;
 }
-
 
 boolean is_alpha_numeric_word(char *word){
     unsigned long len;

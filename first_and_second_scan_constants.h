@@ -1,5 +1,5 @@
 /*
-* Created by Avishav & Sapir on March 14,2022
+* Created by Avishav & Sapir on March 14, 2022
 */
 
 #ifndef EX14_FIRST_AND_SECOND_SCAN_CONSTANTS_H

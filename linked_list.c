@@ -1,6 +1,7 @@
 /*
- Created by Sapir on 28.2.2022.
+* Created by Avishav & Sapir on March 1, 2022
 */
+
 #include<stdio.h>
 #include<stdlib.h>
 #include "system_errors.h"

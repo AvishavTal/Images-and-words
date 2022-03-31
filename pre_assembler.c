@@ -1,6 +1,7 @@
 /*
- Created by avishav on 2.3.2022.
+* Created by Avishav & Sapir on March 2, 2022
 */
+
 #include <stdio.h>
 #include <string.h>
 #include "system_errors.h"
@@ -10,7 +11,6 @@
 #include "parser.h"
 
 #define LINE_SIZE 81
-
 
 void write_line(FILE *dest, char *line);
 

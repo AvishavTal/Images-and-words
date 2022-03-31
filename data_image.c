@@ -1,20 +1,20 @@
 /*
- Created by avishav on 10.3.2022.
+* Created by Avishav & Sapir on March 10, 2022
 */
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "data_image.h"
 #include "word.h"
 #include "linked_list.h"
 #include "parser.h"
-#include <ctype.h>
 #include "string_manipulations.h"
 #include "system_errors.h"
 
 struct image{
     list words;
 };
-
 
 data_image init_data_image(){
     data_image result;
@@ -37,7 +37,6 @@ void add_data(data_image image, unsigned long address, unsigned long new_data){
     add_to_tail(image->words,new_word);
 }
 
-
 void print_data(FILE *dest,data_image image){
     node current_node;
     current_node=get_head(image->words);
@@ -46,7 +45,6 @@ void print_data(FILE *dest,data_image image){
         current_node=get_next_node(current_node);
     }
 }
-
 
 void delete_data(data_image to_delete){
     node current_node;
@@ -58,6 +56,7 @@ void delete_data(data_image to_delete){
     free_list(to_delete->words);
     free(to_delete);
 }
+
 void update_addresses(data_image image,long final_ic){
     node current_node;
     current_node=get_head(image->words);

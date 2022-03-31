@@ -1,9 +1,10 @@
 /*
-Created by Sapir on 28.2.2022.
+* Created by Avishav & Sapir on March 1, 2022
 */
 
 #ifndef EX14_LINKED_LIST_H
 #define EX14_LINKED_LIST_H
+
 typedef struct node *node;
 typedef struct list *list;
 void* get_head(list list);

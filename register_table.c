@@ -1,5 +1,5 @@
 /*
-** Created by Avishav & Sapir on March 10,2022
+* Created by Avishav & Sapir on March 10, 2022
 */
 
 #include <string.h>
@@ -52,4 +52,3 @@ int get_reg_code(regyster reg){
 boolean is_valid_index(regyster reg){
     return reg->valid_index;
 }
-

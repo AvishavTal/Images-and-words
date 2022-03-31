@@ -1,14 +1,16 @@
+/*
+* Created by Avishav & Sapir on March 9, 2022
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-
-#define LINE_LENGTH 81
-
-
 #include "file.h"
 #include "pre_assembler.h"
 #include "first_scan.h"
 #include "second_scan.h"
 #include "system_errors.h"
+
+#define LINE_LENGTH 81
 
 /**
  * init the file objects of the program
@@ -23,7 +25,6 @@ file *init_files(file *files, int n_files, char **names);
  * do the actual work
  */
 void run_assembler(file *files, int n_files);
-
 
 int main(int argc, char **argv){
     file *files=NULL;

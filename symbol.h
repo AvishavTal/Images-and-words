@@ -1,15 +1,14 @@
 /*
-** Created by Avishav & Sapir on March 1,2022
+* Created by Avishav & Sapir on March 1, 2022
 */
 
 #ifndef EX14_SYMBOL_H
 #define EX14_SYMBOL_H
 
-#include "boolean.h"
 #include <stdio.h>
+#include "boolean.h"
 
 typedef struct symbol *symbol;
-
 
 /**
  * Returns new symbol with the wanted values
@@ -22,7 +21,6 @@ typedef struct symbol *symbol;
  * @return new symbol with the wanted values
  */
 symbol init_symbol_with_values(char *name, unsigned long address, boolean is_entry, boolean is_extern, boolean is_data, boolean is_code);
-
 
 /**
  * Returns the name of the symbol

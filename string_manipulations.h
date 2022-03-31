@@ -1,11 +1,15 @@
-
+/*
+* Created by Avishav & Sapir on March 2, 2022
+*/
 
 #ifndef EX14_STRING_MANIPULATIONS_H
 #define EX14_STRING_MANIPULATIONS_H
+
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include "boolean.h"
+
 /**
  * trim the whitespaces from the edges of the given string
  * @param str
@@ -20,7 +24,6 @@ char *trim_whitespace(char *str);
  * @return the number of strings
  */
 int split(char *src, char ***dest, const char *delimiter);
-
 
 /**
  * convert string to int
@@ -39,4 +42,5 @@ char is_zero(char *str);
 boolean is_alpha_numeric_word(char *word);
 char *str_tok(char *src,const char *delim);
 unsigned long number_of_not_spaces_chars(char *string);
+
 #endif

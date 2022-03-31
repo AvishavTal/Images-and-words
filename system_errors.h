@@ -1,12 +1,12 @@
 /*
-* Created by Avishav & Sapir on March 15,2022
+* Created by Avishav & Sapir on March 15, 2022
 */
 
 #ifndef EX14_SYSTEM_ERRORS_H
 #define EX14_SYSTEM_ERRORS_H
 
-#include "boolean.h"
 #include <stdio.h>
+#include "boolean.h"
 
 /**
  * This function gets pointer and check if the allocation succeeded

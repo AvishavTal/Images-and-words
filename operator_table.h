@@ -1,5 +1,5 @@
 /*
-* Created by Avishav & Sapir on March 2,2022
+* Created by Avishav & Sapir on March 2, 2022
 */
 
 #ifndef EX14_OPERATOR_TABLE_H

@@ -1,5 +1,5 @@
 /*
-* Created by avishav on 8.3.2022.
+* Created by Avishav & Sapir on March 8, 2022
 */
 
 #ifndef EX14_WORD_H
@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include "ARE.h"
 #include "addressing_mode.h"
-
 
 /**
  * representation of machine word
@@ -84,4 +83,5 @@ void set_src_addressing(word to_set, addressing_mode src_addressing);
  * @param immediate
  */
 void set_immediate(word to_set, unsigned int immediate);
+
 #endif
