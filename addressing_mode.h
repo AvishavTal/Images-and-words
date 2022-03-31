@@ -4,6 +4,7 @@
 
 #ifndef EX14_ADDRESSING_MODE_H
 #define EX14_ADDRESSING_MODE_H
+
 /**
  * the addressing modes allowed in our assembly
  */

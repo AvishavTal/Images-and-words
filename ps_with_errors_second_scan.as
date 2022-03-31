@@ -1,12 +1,20 @@
     ;UNDEFINED_SYMBOL
-.entry M
-.entry O
+label:
+add label,r2
+    ;UNDEFINED_SYMBOL
+.entry A
+.entry 82
 mov A, r2
 
     ;UNDEFINED_SYMBOL
 label: .extern M
 add label,r1
 
-    ;SAME_SYMBOL_FOR_ENTRY_AND_EXTERN
-.extern mashu
-.entry mashu
+    ;BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL
+.extern symbol
+.entry symbol
+
+;.entry
+;.data
+;.extern
+;.string
