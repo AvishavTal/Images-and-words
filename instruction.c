@@ -13,7 +13,6 @@
 #include "register_table.h"
 #include "system_errors.h"
 #include "symbol.h"
-#include "register_table.h"
 
 #define MAX_N_WORDS 6
 
