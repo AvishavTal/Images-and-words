@@ -11,7 +11,7 @@
 struct reg {
     char *name;
     int reg_code;
-    unsigned int valid_index :1; /*true if this register can be an index, false otherwise*/
+    boolean valid_index; /*true if this register can be an index, false otherwise*/
 };
 
 regyster get_register_by_name(char *name){
