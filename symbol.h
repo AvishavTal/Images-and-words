@@ -29,12 +29,6 @@ symbol init_symbol_with_values(char *name, unsigned long address, boolean is_ent
  */
 char* get_symbol_name(symbol curr_symbol);
 
-/**
- * Updates the name of the received symbol
- * @param curr_symbol the needed symbol
- * @param name the wanted name
- */
-void set_symbol_name(symbol curr_symbol , char *name);
 
 /**
  * Return the address of received symbol
