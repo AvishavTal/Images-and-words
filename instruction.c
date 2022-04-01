@@ -73,7 +73,6 @@ void break_to_symbol_and_reg(char *operand_str, char **label, char **reg_name, e
 
 
 /* public functions implementation */
-
 instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err) {
     instruction result;
     char *opname;
@@ -122,14 +121,11 @@ void delete_instruction(instruction to_delete) {
     free(to_delete->words);
     free(to_delete);
 }
-
 /* end of public functions implementation */
 
 
 
-
 /* private functions implementation */
-
 /*
  * This function creates new words for instruction
  */
@@ -445,5 +441,4 @@ void break_to_symbol_and_reg(char *operand_str, char **label, char **reg_name, e
         *err = ILLEGAL_OPERAND;
     }
 }
-
 /* end of private functions implementation */
