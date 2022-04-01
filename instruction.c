@@ -66,7 +66,7 @@ void set_register_direct_operand(instruction to_set, char *operand, int is_dest,
 int is_immediate_addressing(char *operand);
 int is_index_addressing(char *operand);
 int is_register_direct_addressing(char *operand);
-void break_to_symbol_and_reg(char *operand_str, char **label, char **reg_name, error *err);
+void break_to_symbol_and_reg(char *operand_str, char **symbol_name, char **reg_name, error *err);
 /* end of private function declaration */
 
 
@@ -223,7 +223,7 @@ void build_second_word(instruction to_set, symbol_table symbols, char *source, c
 }
 
 /*
- * todo
+ * set the corresponding words according to the addressing mode and the string representation operand_str of the operand
  */
 void build_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
     if (operand_str) {
@@ -359,13 +359,12 @@ void set_direct_operand(instruction to_set, symbol_table symbols, char *operand_
 
 /*
  * get index operand, check if valid index, create needed words and update ic
- *  todo change the label name - im not sure that you meant symbol here
  */
 void set_index_operand(instruction to_set, symbol_table symbols, char *operand_str, int is_dest, unsigned long *ic, error *err) {
-    char *label,*reg_name;
+    char *symbol_name,*reg_name;
     regyster regi;
-    break_to_symbol_and_reg(operand_str, &label, &reg_name, err);
-    set_direct_operand(to_set, symbols, label, is_dest, ic, err);
+    break_to_symbol_and_reg(operand_str, &symbol_name, &reg_name, err);
+    set_direct_operand(to_set, symbols, symbol_name, is_dest, ic, err);
     set_register_direct_operand(to_set,reg_name,is_dest,err);
     if ((regi=get_register_by_name(reg_name)) != NULL) {
         if (!is_valid_index(regi)) {
@@ -428,13 +427,12 @@ int is_register_direct_addressing(char *operand) {
 }
 
 /*
- * split the line to label and register
- * todo change the label name - im not sure that you meant symbol here
+ * split the line to symbol_name and register
  */
-void break_to_symbol_and_reg(char *operand_str, char **label, char **reg_name, error *err) {
+void break_to_symbol_and_reg(char *operand_str, char **symbol_name, char **reg_name, error *err) {
     char *end;
     operand_str = trim_whitespace(operand_str);
-    *label = strtok(operand_str, "[");
+    *symbol_name = strtok(operand_str, "[");
     *reg_name = strtok(NULL,"]");
     end = strtok(NULL," \t");
     if (end) {

@@ -18,7 +18,7 @@ struct symbol {
         unsigned int is_entry :1;
         unsigned int is_extern :1;
         unsigned int is_data :1;
-        unsigned int is_code :1; /* todo - if not in use why not to delete */
+        unsigned int is_code :1;
     } attribute;
 
     /*addresses of words requires the base address of the offset of this symbol and the sizes of those arrays*/
@@ -105,7 +105,7 @@ void print_entry_symbol(FILE *dest, symbol to_print) {
     name = get_symbol_name(to_print);
     address = get_symbol_base_address(to_print);
     offset = get_symbol_offset(to_print);
-    fprintf(dest,"%s,%04ld,%04ld\n",name,address,offset);
+    fprintf(dest,"%s,%4ld,%4ld\n",name,address,offset);
 }
 
 void print_extern_symbol(FILE *dest, symbol to_print) {
@@ -146,7 +146,7 @@ void print_base_required(FILE *dest, symbol to_print) {
     base_required_size = get_size(to_print->base_required);
     get_next_val(to_print->base_required,&address);
     for (i = 0 ; i < base_required_size ; ++i) {
-        fprintf(dest,"%s BASE %04lu\n",to_print->name,address);
+        fprintf(dest,"%s BASE %4lu\n",to_print->name,address);
         get_next_val(NULL,&address);
     }
 }
@@ -159,7 +159,7 @@ void print_offset_required(FILE *dest, symbol to_print) {
     offset_required_size = get_size(to_print->offset_required);
     get_next_val(to_print->offset_required,&address);
     for (i = 0 ; i < offset_required_size ; ++i) {
-        fprintf(dest,"%s OFFSET %04lu\n",to_print->name,address);
+        fprintf(dest,"%s OFFSET %4lu\n",to_print->name,address);
         get_next_val(NULL,&address);
     }
 }
