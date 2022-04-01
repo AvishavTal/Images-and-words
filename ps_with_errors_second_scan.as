@@ -13,4 +13,3 @@ add label,r1
     ;BOTH_ENTRY_AND_EXTERN_FOR_SAME_SYMBOL
 .extern symbol
 .entry symbol
-
