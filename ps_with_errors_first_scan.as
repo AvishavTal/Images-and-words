@@ -121,6 +121,7 @@ DoubleLabel: add r1,r2
 
     ;TOO_LONG_LINE
 .string " long line long line long line long line long line long line long line long line long line long line long line long line"
+                                                                                                                  .string "dfdskja"
 
     ;STRING_NOT_EXIST
 .string
