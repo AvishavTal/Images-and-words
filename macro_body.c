@@ -13,8 +13,8 @@ struct body {
     list lines;
 };
 
-/* public functions implementation */
 
+/* public functions implementation */
 macro_body init_body() {
     macro_body result;
     result = (macro_body)malloc(sizeof(struct body));
@@ -54,5 +54,4 @@ void print_body(FILE *dest, macro_body to_print) {
         current = get_next_node(current);
     }
 }
-
 /* end of public functions implementation */
