@@ -10,7 +10,6 @@
 #include "boolean.h"
 #include "errors.h"
 
-
 typedef struct symbol_table *symbol_table;
 
 /**
