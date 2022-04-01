@@ -7,6 +7,9 @@
 
 #include "boolean.h"
 
+/**
+ * Representation of register
+ */
 typedef struct reg *regyster;
 
 /**
