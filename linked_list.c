@@ -19,7 +19,6 @@ struct node {
 
 
 /* public functions implementation */
-
 void* get_head(list list) {
     return list->head;
 }
@@ -73,5 +72,4 @@ void free_list(list to_free) {
     }
     free(to_free);
 }
-
 /* end of public functions implementation */
