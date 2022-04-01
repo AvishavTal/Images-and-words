@@ -18,7 +18,7 @@ struct symbol {
         unsigned int is_entry :1;
         unsigned int is_extern :1;
         unsigned int is_data :1;
-        unsigned int is_code :1;
+        unsigned int is_code :1; /* todo - if not in use why not to delete */
     } attribute;
 
     /*addresses of words requires the base address of the offset of this symbol and the sizes of those arrays*/
