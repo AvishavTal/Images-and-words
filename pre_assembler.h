@@ -7,6 +7,10 @@
 
 #include "file.h"
 
+/**
+ * In the pre assembler we create files that spread macros
+ * @param source information about file in the program
+ */
 void pre_assembler(file source);
 
 #endif
