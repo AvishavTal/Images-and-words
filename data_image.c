@@ -22,9 +22,7 @@ void add_data(data_image image, unsigned long address, unsigned long new_data);
 
 
 
-
 /* public functions implementation */
-
 data_image init_data_image() {
     data_image result;
     result = (data_image)malloc(sizeof(struct image));
@@ -103,15 +101,11 @@ void add_data_line(data_image image, unsigned long address, char *line, int *n_w
         temp_str = strtok(NULL," , \t");
     }
 }
-
 /* end of public functions implementation */
 
 
 
-
-
 /* private functions implementation */
-
 /*
  * Internal function - this function add any data type to the data image
  */
@@ -123,5 +117,4 @@ void add_data(data_image image, unsigned long address, unsigned long new_data){
     set_are(new_word,ABSOLUTE);
     add_to_tail(image->words,new_word);
 }
-
 /* end of private functions implementation */
