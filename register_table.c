@@ -14,10 +14,12 @@ struct reg {
     boolean valid_index; /*true if this register can be an index, false otherwise*/
 };
 
-regyster get_register_by_name(char *name){
-    int i=0;
-    regyster result=NULL;
-    static struct reg registers[]={
+
+/* public functions implementation */
+regyster get_register_by_name(char *name) {
+    int i = 0;
+    regyster result = NULL;
+    static struct reg registers[]= {
             {"r0",0,false},
             {"r1",1,false},
             {"r2",2,false},
@@ -35,20 +37,21 @@ regyster get_register_by_name(char *name){
             {"r14",14,true},
             {"r15",15,true}
     };
-    name=trim_whitespace(name);
-    while ((i<REG_TABLE_SIZE)&&(result==NULL)){
-        if(!strcmp(registers[i].name,name)){
-            result= registers+i;
+    name = trim_whitespace(name);
+    while ((i < REG_TABLE_SIZE) && (result == NULL)) {
+        if (!strcmp(registers[i].name,name)) {
+            result = registers+i;
         }
         i++;
     }
     return result;
 }
 
-int get_reg_code(regyster reg){
+int get_reg_code(regyster reg) {
     return reg->reg_code;
 }
 
-boolean is_valid_index(regyster reg){
+boolean is_valid_index(regyster reg) {
     return reg->valid_index;
 }
+/* end of public functions implementation */
