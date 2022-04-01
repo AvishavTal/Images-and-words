@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include "boolean.h"
 
+/**
+ * Representation of symbol
+ */
 typedef struct symbol *symbol;
 
 /**
@@ -28,7 +31,6 @@ symbol init_symbol_with_values(char *name, unsigned long address, boolean is_ent
  * @return the name of the symbol
  */
 char* get_symbol_name(symbol curr_symbol);
-
 
 /**
  * Return the address of received symbol
@@ -91,9 +93,32 @@ boolean is_data_symbol(symbol curr_symbol);
   */
 void delete_symbol(symbol to_delete);
 
+/**
+ * print symbol name, symbol address and symbol offset to file
+ * @param dest file to print into
+ * @param to_print symbol to print
+ */
 void print_entry_symbol(FILE *dest,symbol to_print);
+
+/**
+ * print symbol name, symbol address and symbol offset to file
+ * @param dest file to print into
+ * @param to_print symbol to print
+ */
 void print_extern_symbol(FILE *dest,symbol to_print);
+
+/**
+ * add base address to list
+ * @param to_update symbol to update
+ * @param address needed address
+ */
 void add_to_base_required(symbol to_update,unsigned long address);
+
+/**
+ * add offset address to list
+ * @param to_update symbol to update
+ * @param address needed address
+ */
 void add_to_offset_required(symbol to_update,unsigned long address);
 
 #endif
