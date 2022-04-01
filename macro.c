@@ -13,8 +13,8 @@ struct macro {
     macro_body body;
 };
 
-/* public functions implementation */
 
+/* public functions implementation */
 macro init_macro() {
     macro new_macro;
     new_macro = (macro)malloc(sizeof(struct macro));
@@ -50,5 +50,4 @@ void delete_macro(macro to_delete) {
 void macro_call(FILE *dest,macro to_print) {
     print_body(dest,to_print->body);
 }
-
 /* end of public functions implementation */
