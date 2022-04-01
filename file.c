@@ -48,9 +48,7 @@ void set_name_ext(file file);
 
 
 
-
 /* public functions implementation */
-
 file init_file(char *name) {
     file result;
     result = (file)malloc(sizeof(struct file));
@@ -178,14 +176,12 @@ void make_ext_file(file source) {
         fclose(dest);
     }
 }
-
 /* end of public functions implementation */
 
 
 
 
 /* private functions implementation */
-
 /*
  * Set the name of the file to be the accepted name with the .as extension
  */
@@ -255,5 +251,4 @@ void set_name_ext(file file) {
         strcat(file->name_ext, ".ext");
     }
 }
-
 /* end of private functions implementation */
