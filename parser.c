@@ -13,62 +13,65 @@
 #define START_OF_COMMENT ';'
 #define STRING_BOUNDARY '\"'
 
+
+/* public functions implementation */
 boolean end_of_macro_definition(char *line) {
-    return !strcmp(line,"endm");
+    return (!strcmp(line,"endm"));
 }
 
 boolean start_of_macro_definition(char *first_word) {
-    return !strcmp(first_word,"macro");
+    return (!strcmp(first_word,"macro"));
 }
 
 boolean is_entry_def(char *word) {
-    word=trim_whitespace(word);
-    return !strcmp(word,".entry");
+    word = trim_whitespace(word);
+    return (!strcmp(word,".entry"));
 }
 
 boolean is_data_def(char *word) {
-    word=trim_whitespace(word);
-    return !strcmp(word,".data");
+    word = trim_whitespace(word);
+    return (!strcmp(word,".data"));
 }
 
 boolean is_string_def(char *word) {
-    word=trim_whitespace(word);
-    return !strcmp(word,".string");
+    word = trim_whitespace(word);
+    return (!strcmp(word,".string"));
 }
 
 boolean is_extern_def(char *word) {
-    word=trim_whitespace(word);
-    return !strcmp(word,".extern");
+    word = trim_whitespace(word);
+    return (!strcmp(word,".extern"));
 }
 
 boolean is_symbol_def(char *word) {
-    word=trim_whitespace(word);
-    return *(word+ strlen(word)-1) == END_OF_SYMBOL_SIGN;
+    word = trim_whitespace(word);
+    return (*(word+ strlen(word)-1) == END_OF_SYMBOL_SIGN);
 }
 
 boolean is_comment(char *line){
-    line=trim_whitespace(line);
-    return *line==START_OF_COMMENT;
+    line = trim_whitespace(line);
+    return (*line == START_OF_COMMENT);
 }
 
 boolean is_empty(char *line){
     unsigned long len;
-    line= trim_whitespace(line);
-    len= strlen(line);
-    if(len>0){
+    line = trim_whitespace(line);
+    len = strlen(line);
+    if (len > 0) {
         return false;
     }
     return true;
 }
 
-boolean is_string(char *line){
-    line=trim_whitespace(line);
-    return line[0]==STRING_BOUNDARY&&line[strlen(line)-1]==STRING_BOUNDARY;
+boolean is_string(char *line) {
+    line = trim_whitespace( line);
+    return ((line[0] == STRING_BOUNDARY) && (line[strlen(line)-1] == STRING_BOUNDARY));
 }
 
-boolean is_reserved_word(char *word){
-    word= trim_whitespace(word);
+boolean is_reserved_word(char *word) {
+    word = trim_whitespace(word);
     return ((get_register_by_name(word)!=NULL) || (get_operator_by_name(word) != NULL) || is_entry_def(word) ||
             is_data_def(word) || is_extern_def(word) || is_string_def(word)|| end_of_macro_definition(word)||
             start_of_macro_definition(word));
 }
+/* end of public functions implementation */
