@@ -15,7 +15,8 @@
  * @param str
  * @return
  */
-char *trim_whitespace(char *str);
+char* trim_whitespace(char *str);
+
 /**
  * split the given string to several strings
  * @param src the string to split
@@ -26,6 +27,13 @@ char *trim_whitespace(char *str);
 int split(char *src, char ***dest, const char *delimiter);
 
 /**
+ * check if given string represent the number zero.
+ * @param str
+ * @return 0 iff str is not representation of 0.
+ */
+char is_zero(char *str);
+
+/**
  * convert string to int
  * @param str string to convert
  * @return 0 iff the string contains non numeric chars
@@ -33,14 +41,24 @@ int split(char *src, char ***dest, const char *delimiter);
 int str_to_int(char *str,int *dest);
 
 /**
- * check if given string represent the number zero.
- * @param str
- * @return 0 iff str is not representation of 0.
+ * gets word and check if all the characters is alphanumeric
+ * @param word word to check
+ * @return true if all the characters is alphanumeric, false otherwise
  */
-char is_zero(char *str);
-
 boolean is_alpha_numeric_word(char *word);
-char *str_tok(char *src,const char *delim);
+
+/**
+ * count the non spaces chars
+ * @param string
+ * @return the number of non spaces chars in string
+ */
+char* str_tok(char *src,const char *delim);
+
+/**
+ * count the non spaces chars
+ * @param string
+ * @return the number of non spaces chars in string
+ */
 unsigned long number_of_not_spaces_chars(char *string);
 
 #endif
