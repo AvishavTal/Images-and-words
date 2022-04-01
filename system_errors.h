@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include "boolean.h"
 
-
 /**
  * This function gets pointer and check if the allocation succeeded
  * @param pointer the allocated pointer
