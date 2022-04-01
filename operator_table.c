@@ -30,8 +30,8 @@ unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing
 /* end of private function declaration */
 
 
-/* public functions implementation */
 
+/* public functions implementation */
 operator get_operator_by_name(char *name) {
     int i = 0;
     operator result = NULL;
@@ -82,13 +82,11 @@ unsigned int is_legal_source_addressing_mode(operator op,addressing_mode mode) {
 unsigned int is_legal_dest_addressing_mode(operator op,addressing_mode mode) {
     return is_allowed_addressing(op->dest,mode);
 }
-
 /* end of public functions implementation */
 
 
 
 /* private functions implementation */
-
 /*
  * Gets mode and check if this mode is allowed addressing
  */
@@ -110,5 +108,4 @@ unsigned int is_allowed_addressing(struct allowed_addressing allowed, addressing
     }
     return result;
 }
-
 /* end of private functions implementation */
