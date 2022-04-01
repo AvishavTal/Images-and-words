@@ -1,5 +1,4 @@
 
-
 .entry LIST
 .extern W
 
@@ -8,12 +7,13 @@ LOOP:   prn     #48
         macro m1
         inc r6
         mov r3,W
-        endm
+endm
         lea     STR,r6
         m1
+
         sub     r1,r4
         bne     END
-        cmp     vall,#-6
+cmp     vall,#-6
         bne     END[r15]
         dec     K
 .entry MAIN

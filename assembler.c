@@ -21,6 +21,8 @@ int main(int argc, char **argv);
 
 /* private functions implementation */
 
+void print_title(file file_ptr);
+
 /*
  * This is the program main function
  */
@@ -40,6 +42,7 @@ void run_assembler(file *files, int n_files) {
     int i;
     for (i = 0 ; i < n_files ; ++i) {
         if (files[i]) {
+            printf("\nfile:\t %s:\n",get_name_as(files[i]));
             pre_assembler(files[i]);
             if (has_passed_pre_assembler(files[i])) {
                 first_scan(files[i]);
@@ -51,10 +54,12 @@ void run_assembler(file *files, int n_files) {
                     }
                 }
             }
+            printf("Done\n");
         }
         tear_down(files[i]);
     }
 }
+
 
 /*
  * init the file objects of the program
