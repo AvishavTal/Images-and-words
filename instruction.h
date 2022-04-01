@@ -25,7 +25,8 @@ typedef struct instruction *instruction;
 instruction init_instruction(char *line, symbol_table symbols, unsigned long ic, error *err);
 
 /**
- * @param instruction1
+ * Returns the number of machine words the instruction takes
+ * @param instruction1 wanted instruction
  * @return the number of machine words the instruction takes
  */
 int get_n_words(instruction instruction1);
