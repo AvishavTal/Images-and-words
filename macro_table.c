@@ -12,8 +12,8 @@ struct macro_table {
     list table;
 };
 
-/* public functions implementation */
 
+/* public functions implementation */
 macro_table init_macro_table() {
     macro_table result;
     result = (macro_table) malloc(sizeof(struct macro_table));
@@ -50,5 +50,4 @@ void delete_macro_table(macro_table to_delete) {
     free_list(to_delete->table);
     free(to_delete);
 }
-
 /* end of public functions implementation */
