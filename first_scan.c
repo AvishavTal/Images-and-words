@@ -40,9 +40,7 @@ void memory_check(file source);
 
 
 
-
 /* public functions implementation */
-
 void first_scan(file source) {
     /* variables declaration */
     symbol_table symbols;
@@ -68,14 +66,11 @@ void first_scan(file source) {
         fclose(src);
     }
 }
-
 /* end of public functions implementation */
 
 
 
-
 /* private functions implementation */
-
 /*
  * this function is all the logic of first scan
  */
@@ -367,5 +362,4 @@ void memory_check(file source) {
         mark_first_scan_failed(source);
     }
 }
-
 /* end of private functions implementation */
