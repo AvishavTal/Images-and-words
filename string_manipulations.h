@@ -54,11 +54,4 @@ boolean is_alpha_numeric_word(char *word);
  */
 char* str_tok(char *src,const char *delim);
 
-/**
- * count the non spaces chars
- * @param string
- * @return the number of non spaces chars in string
- */
-unsigned long number_of_not_spaces_chars(char *string);
-
 #endif
